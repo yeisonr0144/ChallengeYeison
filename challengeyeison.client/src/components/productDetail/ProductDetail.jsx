@@ -2,6 +2,17 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 const ProductDetail = ({ product }) => {
+    if (!product) {
+        return (
+            <div className="animate-pulse space-y-6">
+                <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-6 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-12 bg-gray-200 rounded w-1/3"></div>
+                <div className="h-32 bg-gray-200 rounded"></div>
+            </div>
+        );
+    }
+
     // Renderizar estrellas basado en el rating
     const renderStars = (rating) => {
         const stars = [];
@@ -20,27 +31,29 @@ const ProductDetail = ({ product }) => {
             {/* Título y calificaciones */}
             <div className="product-header">
                 <div className="flex items-center gap-2 text-sm text-blue-500 mb-1">
-                    <span>{product.condition}</span>
+                    <span>{product.condition || 'Nuevo'}</span>
                     <span>|</span>
-                    <span>+{product.soldQuantity} vendidos</span>
+                    <span>+{product.soldQuantity || 0} vendidos</span>
                 </div>
                 <h1 className="text-2xl text-gray-800 mb-2">
                     {product.title}
                 </h1>
-                <div className="flex items-center gap-3">
-                    <div className="flex text-lg">
-                        {renderStars(product.rating.average)}
+                {product.rating && (
+                    <div className="flex items-center gap-3">
+                        <div className="flex text-lg">
+                            {renderStars(product.rating.average)}
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <span className="text-lg font-semibold">{product.rating.average}</span>
+                            <span className="text-gray-500">({product.rating.totalReviews} calificaciones)</span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <span className="text-lg font-semibold">{product.rating.average}</span>
-                        <span className="text-gray-500">({product.rating.totalReviews} calificaciones)</span>
-                    </div>
-                </div>
+                )}
             </div>
 
             {/* Precios y descuentos */}
             <div className="product-price space-y-2">
-                {product.discountPercentage > 0 && (
+                {product.discountPercentage > 0 && product.originalPrice && (
                     <div className="flex items-center gap-2">
                         <span className="line-through text-gray-400">$ {product.originalPrice.toLocaleString()}</span>
                         <span className="text-base text-gray-500">{product.discountPercentage}% OFF</span>
@@ -72,49 +85,51 @@ const ProductDetail = ({ product }) => {
             </div>
 
             {/* Variantes del producto */}
-            <div className="product-options space-y-6">
-                {product.variants && product.variants
-                    .reduce((groups, variant) => {
-                        const group = groups.find(g => g.type === variant.type);
-                        if (group) {
-                            group.items.push(variant);
-                        } else {
-                            groups.push({ type: variant.type, items: [variant] });
-                        }
-                        return groups;
-                    }, [])
-                    .map(group => (
-                        <div key={group.type}>
-                            <h3 className="text-gray-700 mb-3 capitalize">{group.type}:</h3>
-                            <div className="flex gap-4">
-                                {group.items.map(variant => (
-                                    <button
-                                        key={variant.value}
-                                        className={`flex flex-col items-center gap-2 ${
-                                            variant.isSelected ? 'opacity-100' : 'opacity-60'
-                                        }`}
-                                    >
-                                        {variant.imageUrl && (
-                                            <div 
-                                                className={`w-12 h-12 rounded-lg border-2 ${
-                                                    variant.isSelected ? 'border-blue-500' : 'border-gray-200'
-                                                }`}
-                                                style={variant.type === 'color' ? {
-                                                    backgroundColor: variant.value,
-                                                } : {
-                                                    backgroundImage: `url(${variant.imageUrl})`,
-                                                    backgroundSize: 'cover'
-                                                }}
-                                            />
-                                        )}
-                                        <span className="text-sm">{variant.name}</span>
-                                    </button>
-                                ))}
+            {product.variants && product.variants.length > 0 && (
+                <div className="product-options space-y-6">
+                    {product.variants
+                        .reduce((groups, variant) => {
+                            const group = groups.find(g => g.type === variant.type);
+                            if (group) {
+                                group.items.push(variant);
+                            } else {
+                                groups.push({ type: variant.type, items: [variant] });
+                            }
+                            return groups;
+                        }, [])
+                        .map(group => (
+                            <div key={group.type}>
+                                <h3 className="text-gray-700 mb-3 capitalize">{group.type}:</h3>
+                                <div className="flex gap-4">
+                                    {group.items.map(variant => (
+                                        <button
+                                            key={variant.value}
+                                            className={`flex flex-col items-center gap-2 ${
+                                                variant.isSelected ? 'opacity-100' : 'opacity-60'
+                                            }`}
+                                        >
+                                            {variant.imageUrl && (
+                                                <div 
+                                                    className={`w-12 h-12 rounded-lg border-2 ${
+                                                        variant.isSelected ? 'border-blue-500' : 'border-gray-200'
+                                                    }`}
+                                                    style={variant.type === 'color' ? {
+                                                        backgroundColor: variant.value,
+                                                    } : {
+                                                        backgroundImage: `url(${variant.imageUrl})`,
+                                                        backgroundSize: 'cover'
+                                                    }}
+                                                />
+                                            )}
+                                            <span className="text-sm">{variant.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))
-                }
-            </div>
+                        ))
+                    }
+                </div>
+            )}
 
             {/* Especificaciones técnicas */}
             <div className="product-specs mt-8">
@@ -124,7 +139,7 @@ const ProductDetail = ({ product }) => {
                         <div className="grid grid-cols-2 gap-4">
                             {/* Especificaciones principales */}
                             {product.specifications && Object.entries(product.specifications)
-                                .filter(([key]) => key !== 'additionalSpecs')
+                                .filter(([key]) => key !== 'additionalSpecs' && Boolean(key))
                                 .map(([key, value]) => value && (
                                     <div key={key}>
                                         <h4 className="text-gray-500 capitalize">{key}</h4>
@@ -145,21 +160,25 @@ const ProductDetail = ({ product }) => {
                             }
 
                             {/* Información del vendedor */}
-                            <div>
-                                <h4 className="text-gray-500">Vendedor</h4>
-                                <p className="text-gray-700">{product.seller.name}</p>
-                            </div>
-                            <div>
-                                <h4 className="text-gray-500">Ubicación</h4>
-                                <p className="text-gray-700">{product.seller.location}</p>
-                            </div>
-                            <div>
-                                <h4 className="text-gray-500">Reputación</h4>
-                                <p className="text-gray-700">{product.seller.reputation}</p>
-                            </div>
+                            {product.seller && (
+                                <>
+                                    <div>
+                                        <h4 className="text-gray-500">Vendedor</h4>
+                                        <p className="text-gray-700">{product.seller.name}</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-gray-500">Ubicación</h4>
+                                        <p className="text-gray-700">{product.seller.location}</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-gray-500">Reputación</h4>
+                                        <p className="text-gray-700">{product.seller.reputation}</p>
+                                    </div>
+                                </>
+                            )}
                             <div>
                                 <h4 className="text-gray-500">Stock disponible</h4>
-                                <p className="text-gray-700">{product.stock} unidades</p>
+                                <p className="text-gray-700">{product.stock || 0} unidades</p>
                             </div>
                         </div>
                     </div>
@@ -171,28 +190,28 @@ const ProductDetail = ({ product }) => {
 
 ProductDetail.propTypes = {
     product: PropTypes.shape({
-        condition: PropTypes.string.isRequired,
-        soldQuantity: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
+        condition: PropTypes.string,
+        soldQuantity: PropTypes.number,
+        title: PropTypes.string,
         rating: PropTypes.shape({
-            average: PropTypes.number.isRequired,
-            totalReviews: PropTypes.number.isRequired,
-        }).isRequired,
-        price: PropTypes.number.isRequired,
+            average: PropTypes.number,
+            totalReviews: PropTypes.number,
+        }),
+        price: PropTypes.number,
         originalPrice: PropTypes.number,
         discountPercentage: PropTypes.number,
         payment: PropTypes.arrayOf(
             PropTypes.shape({
-                installments: PropTypes.number.isRequired,
-                amount: PropTypes.number.isRequired,
+                installments: PropTypes.number,
+                amount: PropTypes.number,
             })
         ),
         variants: PropTypes.arrayOf(
             PropTypes.shape({
-                type: PropTypes.string.isRequired,
-                name: PropTypes.string.isRequired,
-                value: PropTypes.string.isRequired,
-                isSelected: PropTypes.bool.isRequired,
+                type: PropTypes.string,
+                name: PropTypes.string,
+                value: PropTypes.string,
+                isSelected: PropTypes.bool,
                 imageUrl: PropTypes.string,
             })
         ),
@@ -200,12 +219,12 @@ ProductDetail.propTypes = {
             additionalSpecs: PropTypes.object,
         }),
         seller: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            location: PropTypes.string.isRequired,
-            reputation: PropTypes.string.isRequired,
-        }).isRequired,
-        stock: PropTypes.number.isRequired,
-    }).isRequired,
+            name: PropTypes.string,
+            location: PropTypes.string,
+            reputation: PropTypes.string,
+        }),
+        stock: PropTypes.number,
+    })
 };
 
 export default ProductDetail;
