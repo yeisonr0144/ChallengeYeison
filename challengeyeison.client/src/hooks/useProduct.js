@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getProductById } from "../api/axiosInstance";
 
-export default function useProduct(productId) {
+export const useProduct = (productId) => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -98,7 +98,7 @@ export default function useProduct(productId) {
     }, [productId, product, loading, error]);
 
     return { product, loading, error };
-}
+};
 
 export function useProducts() {
     const [products, setProducts] = useState([]);
