@@ -17,17 +17,20 @@ export const BodyLayout = ({ product, loading, error }) => {
         if (loading) {
             console.log('⌛ BodyLayout - Mostrando loader');
             return (
-                <div className="max-w-[1200px] mx-auto p-4">
+                <div className="w-full max-w-[1200px] mx-auto px-4">
+                    <div className="mb-4">
+                        <div className="h-4 bg-gray-200 rounded w-24"></div>
+                    </div>
                     <div className="animate-pulse grid grid-cols-1 md:grid-cols-12 gap-6">
-                        <div className="md:col-span-3">
-                            <div className="bg-gray-200 h-96 rounded-lg"></div>
-                        </div>
                         <div className="md:col-span-6">
-                            <div className="bg-gray-200 h-96 rounded-lg"></div>
+                            <div className="bg-gray-200 h-[500px] rounded-lg"></div>
+                        </div>
+                        <div className="md:col-span-3">
+                            <div className="bg-gray-200 h-[500px] rounded-lg"></div>
                         </div>
                         <div className="md:col-span-3 space-y-4">
-                            <div className="bg-gray-200 h-48 rounded-lg"></div>
-                            <div className="bg-gray-200 h-48 rounded-lg"></div>
+                            <div className="bg-gray-200 h-64 rounded-lg"></div>
+                            <div className="bg-gray-200 h-64 rounded-lg"></div>
                         </div>
                     </div>
                 </div>
@@ -37,7 +40,7 @@ export const BodyLayout = ({ product, loading, error }) => {
         if (error || !product) {
             console.log('⚠️ BodyLayout - Error o sin producto:', { error, product });
             return (
-                <div className="max-w-[1200px] mx-auto p-4">
+                <div className="w-full max-w-[1200px] mx-auto px-4">
                     <div className="bg-white p-4 rounded-lg shadow-sm">
                         <p className="text-red-500 text-lg">
                             {error || "Producto no encontrado"}
@@ -52,7 +55,7 @@ export const BodyLayout = ({ product, loading, error }) => {
     };
 
     return (
-        <main className="min-h-screen bg-[#ededed] py-6">
+        <main className="min-h-screen bg-[#ededed] py-6 w-full">
             {renderContent()}
         </main>
     );
