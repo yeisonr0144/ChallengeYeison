@@ -1,18 +1,52 @@
-export default function ImageGallery({ images }) {
+import { useState } from 'react';
+
+export default function ImageGallery({ images = [] }) {
+    const [selectedImage, setSelectedImage] = useState(0);
+    const [hoveredImage, setHoveredImage] = useState(null);
+
+    // Si no hay imágenes, mostrar placeholder
+    if (!images || images.length === 0) {
+        return (
+            <div className="bg-white p-4">
+                <p className="text-gray-600">No hay imágenes disponibles</p>
+            </div>
+        );
+    }
+
     return (
-        <div className="bg-gray-100 p-4">
-            {images && images.length > 0 ? (
+        <div className="flex gap-4 bg-white p-4">
+            {/* Grid de miniaturas */}
+            <div className="flex flex-col gap-2 w-20">
+                {images.map((image, index) => (
+                    <div
+                        key={index}
+                        className={`
+                            relative cursor-pointer border-2 rounded
+                            ${(hoveredImage === index || selectedImage === index) 
+                              ? 'border-blue-500' 
+                              : 'border-transparent'}
+                        `}
+                        onMouseEnter={() => setHoveredImage(index)}
+                        onMouseLeave={() => setHoveredImage(null)}
+                        onClick={() => setSelectedImage(index)}
+                    >
+                        <img
+                            src={image}
+                            alt={`Miniatura ${index + 1}`}
+                            className="w-full h-full object-cover rounded"
+                        />
+                    </div>
+                ))}
+            </div>
+
+            {/* Imagen principal */}
+            <div className="flex-1">
                 <img
-                    //src={images[0]}
-                    src="https://cdn.pixabay.com/photo/2024/06/28/14/22/jesus-8859597_1280.jpg"
-                    alt="Imagen del producto"
-                    className="w-full rounded border"
+                    src={images[hoveredImage !== null ? hoveredImage : selectedImage]}
+                    alt="Imagen principal del producto"
+                    className="w-full h-auto object-contain rounded"
                 />
-            ) : (
-                <p className="text-gray-600">No hay im�genes disponibles</p>
-            )}
-            {console.log("Images:", images)}
-            <p className="text-red-600 font-bold">Componente cargado</p>
+            </div>
         </div>
     );
 }
