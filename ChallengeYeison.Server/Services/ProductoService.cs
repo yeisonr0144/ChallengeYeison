@@ -16,7 +16,7 @@ namespace ChallengeYeison.Server.Services
 
         public Producto? GetById(string id)
         {
-            return GetAll().FirstOrDefault(p => p.Id == id);
+            return GetAll().FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
