@@ -1,28 +1,7 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import useProduct from "../../hooks/useProduct";
+import PropTypes from 'prop-types';
 
-const ProductDetail = () => {
-    const { id } = useParams();
-    const { product, loading, error } = useProduct(id);
-
-    if (loading) return (
-        <div className="animate-pulse space-y-6">
-            <div className="h-8 bg-gray-200 rounded w-3/4"></div>
-            <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-            <div className="h-12 bg-gray-200 rounded w-1/3"></div>
-            <div className="h-32 bg-gray-200 rounded"></div>
-        </div>
-    );
-
-    if (error) return (
-        <div className="text-red-500">
-            Error al cargar el producto: {error}
-        </div>
-    );
-
-    if (!product) return null;
-
+const ProductDetail = ({ product }) => {
     // Renderizar estrellas basado en el rating
     const renderStars = (rating) => {
         const stars = [];
@@ -188,6 +167,45 @@ const ProductDetail = () => {
             </div>
         </div>
     );
+};
+
+ProductDetail.propTypes = {
+    product: PropTypes.shape({
+        condition: PropTypes.string.isRequired,
+        soldQuantity: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        rating: PropTypes.shape({
+            average: PropTypes.number.isRequired,
+            totalReviews: PropTypes.number.isRequired,
+        }).isRequired,
+        price: PropTypes.number.isRequired,
+        originalPrice: PropTypes.number,
+        discountPercentage: PropTypes.number,
+        payment: PropTypes.arrayOf(
+            PropTypes.shape({
+                installments: PropTypes.number.isRequired,
+                amount: PropTypes.number.isRequired,
+            })
+        ),
+        variants: PropTypes.arrayOf(
+            PropTypes.shape({
+                type: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+                value: PropTypes.string.isRequired,
+                isSelected: PropTypes.bool.isRequired,
+                imageUrl: PropTypes.string,
+            })
+        ),
+        specifications: PropTypes.shape({
+            additionalSpecs: PropTypes.object,
+        }),
+        seller: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            location: PropTypes.string.isRequired,
+            reputation: PropTypes.string.isRequired,
+        }).isRequired,
+        stock: PropTypes.number.isRequired,
+    }).isRequired,
 };
 
 export default ProductDetail;
