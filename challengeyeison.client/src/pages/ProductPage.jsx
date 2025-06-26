@@ -1,14 +1,25 @@
 import { useParams } from "react-router-dom";
 import { useProduct } from "../hooks/useProduct";
-import ProductDetail from "../components/productDetail/ProductDetail";
-import Loader from "../components/common/Loader";
+import { BodyLayout } from "../components/common/BodyLayout";
 
 export default function ProductPage() {
     const { id } = useParams();
+    console.log('🎯 ProductPage - ID from params:', id);
+
     const { product, loading, error } = useProduct(id);
+    console.log('📱 ProductPage - Estado actual:', {
+        hasProduct: !!product,
+        productData: product,
+        loading,
+        error,
+        id
+    });
 
-    if (loading) return <Loader />;
-    if (error || !product) return <div className="p-4 text-red-500">Producto no encontrado</div>;
-
-    return <ProductDetail product={product} />;
+    return (
+        <BodyLayout 
+            product={product}
+            loading={loading}
+            error={error}
+        />
+    );
 }
