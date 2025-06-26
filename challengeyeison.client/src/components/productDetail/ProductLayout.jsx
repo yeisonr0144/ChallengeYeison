@@ -1,12 +1,34 @@
 import React from "react";
 import "../../styles/meli.css";
-import ImageGallery from "../productDetail/ImageGallery";
-import PriceInfo from "../productDetail/PriceInfo";
-import PaymentOptions from "../productDetail/PaymentOptions";
-import SellerInfo from "../productDetail/SellerInfo";
+import ImageGallery from "./ImageGallery";
+import PriceInfo from "./PriceInfo";
+import PaymentOptions from "./PaymentOptions";
+import SellerInfo from "./SellerInfo";
 
-export default function BodyLayout({ product }) {
-    if (!product) return null;
+// Componente de presentación puro
+export default function ProductLayout({ 
+    product,
+    loading,
+    error
+}) {
+    if (loading) return (
+        <div className="max-w-[1200px] mx-auto p-4">
+            <div className="animate-pulse bg-gray-200 h-8 w-48 mb-4"></div>
+            <div className="animate-pulse bg-gray-200 h-96 w-full"></div>
+        </div>
+    );
+
+    if (error) return (
+        <div className="max-w-[1200px] mx-auto p-4">
+            <p className="text-red-500 text-lg">{error}</p>
+        </div>
+    );
+
+    if (!product) return (
+        <div className="max-w-[1200px] mx-auto p-4">
+            <p className="text-gray-500 text-lg">Producto no encontrado</p>
+        </div>
+    );
 
     return (
         <div className="body-wrapper">
@@ -42,4 +64,4 @@ export default function BodyLayout({ product }) {
             </div>
         </div>
     );
-}
+} 
