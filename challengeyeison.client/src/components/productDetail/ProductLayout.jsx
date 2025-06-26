@@ -1,67 +1,67 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "../../styles/meli.css";
 import ImageGallery from "./ImageGallery";
+import ProductDetail from "./ProductDetail";
 import PriceInfo from "./PriceInfo";
 import PaymentOptions from "./PaymentOptions";
 import SellerInfo from "./SellerInfo";
+import SellerCard from "./SellerCard";
 
 // Componente de presentación puro
-export default function ProductLayout({ 
-    product,
-    loading,
-    error
-}) {
-    if (loading) return (
-        <div className="max-w-[1200px] mx-auto p-4">
-            <div className="animate-pulse bg-gray-200 h-8 w-48 mb-4"></div>
-            <div className="animate-pulse bg-gray-200 h-96 w-full"></div>
-        </div>
-    );
-
-    if (error) return (
-        <div className="max-w-[1200px] mx-auto p-4">
-            <p className="text-red-500 text-lg">{error}</p>
-        </div>
-    );
-
-    if (!product) return (
-        <div className="max-w-[1200px] mx-auto p-4">
-            <p className="text-gray-500 text-lg">Producto no encontrado</p>
-        </div>
-    );
-
+const ProductLayout = ({ product }) => {
     return (
-        <div className="body-wrapper">
+        <div className="w-full max-w-[1200px] mx-auto">
             {/* Breadcrumb */}
-            <div className="max-w-[1200px] mx-auto p-4">
-                <span className="text-sm text-gray-500">
+            <div className="mb-4">
+                <span className="text-sm text-gray-500 hover:text-blue-500 cursor-pointer">
                     Volver al listado
                 </span>
             </div>
 
-            <div className="body-container">
-                {/* Columna principal - Galería e información */}
-                <div className="body-main">
-                    <ImageGallery images={product.images} />
-                    <div className="mt-8">
-                        <h1 className="text-2xl font-normal mb-4">{product.title}</h1>
-                        {/* Aquí puedes agregar más detalles del producto */}
+            {/* Grid principal */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                {/* Columna izquierda - Galería */}
+                <div className="md:col-span-3">
+                    <div className="bg-white rounded-lg shadow-sm p-4">
+                        <ImageGallery images={product.images} />
                     </div>
                 </div>
 
-                {/* Columna lateral - Precio y acciones */}
-                <div className="body-sidebar">
-                    <div className="sticky top-4">
-                        <PriceInfo
-                            title={product.title}
-                            price={product.price}
-                            stock={product.stock}
-                        />
-                        <PaymentOptions options={product.payment} />
-                        <SellerInfo seller={product.seller} />
+                {/* Columna central - Información del producto */}
+                <div className="md:col-span-6">
+                    <div className="bg-white rounded-lg shadow-sm p-4">
+                        <ProductDetail product={product} />
+                    </div>
+                </div>
+
+                {/* Columna derecha - Información de compra y vendedor */}
+                <div className="md:col-span-3 space-y-4">
+                    {/* Sección de precios y compra */}
+                    <div className="bg-white rounded-lg shadow-sm p-4">
+                        <div className="space-y-4">
+                            <PriceInfo product={product} />
+                            <PaymentOptions payment={product.payment} />
+                            <SellerInfo seller={product.seller} />
+                        </div>
+                    </div>
+
+                    {/* Tarjeta del vendedor */}
+                    <div className="bg-white rounded-lg shadow-sm p-4">
+                        <SellerCard seller={product.seller} />
                     </div>
                 </div>
             </div>
         </div>
     );
-} 
+};
+
+ProductLayout.propTypes = {
+    product: PropTypes.shape({
+        images: PropTypes.array,
+        payment: PropTypes.array,
+        seller: PropTypes.object
+    }).isRequired
+};
+
+export default ProductLayout; 
