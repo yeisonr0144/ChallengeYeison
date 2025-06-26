@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-//import axios from "../api/axiosInstance";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function useProduct(productId) {
     const [product, setProduct] = useState(null);
@@ -10,21 +9,22 @@ export default function useProduct(productId) {
     useEffect(() => {
         if (!productId) return;
 
-        setLoading(true);
-        axios
-            .get(`/api/Producto/${productId}`)
-            .then((res) => {
-                setProduct(res.data);
+        const fetchProduct = async () => {
+            try {
+                setLoading(true);
+                const response = await axiosInstance.get(`Producto/${productId}`);
+                setProduct(response.data);
                 setError(null);
-            })
-            .catch((err) => {
+            } catch (err) {
                 console.error("Error al hacer fetch:", err);
                 setProduct(null);
                 setError(err.response?.data?.message || "Error al cargar producto");
-            })
-            .finally(() => {
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchProduct();
     }, [productId]);
 
     return { product, loading, error };
