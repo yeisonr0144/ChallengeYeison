@@ -3,21 +3,25 @@ import { getProductById } from "../api/axiosInstance";
 
 export default function useProduct(productId) {
     const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         console.log('🔄 [useProduct] - Hook iniciado:', {
             productId,
             currentProduct: product,
-            isLoading: loading
+            isLoading: loading,
+            timestamp: new Date().toISOString()
         });
 
         if (!productId) {
-            console.warn('⚠️ [useProduct] - productId es:', productId);
+            console.warn('⚠️ [useProduct] - ID no válido:', productId);
             setLoading(false);
+            setError('ID de producto no válido');
             return;
         }
+
+        let isSubscribed = true;
 
         const fetchProduct = async () => {
             console.log('📡 [useProduct] - Iniciando petición:', {
@@ -27,40 +31,61 @@ export default function useProduct(productId) {
 
             try {
                 setLoading(true);
+                setError(null);
                 console.log('⌛ [useProduct] - Loading activado');
 
                 const data = await getProductById(productId);
+                
+                if (!isSubscribed) {
+                    console.log('🚫 [useProduct] - Petición cancelada (componente desmontado)');
+                    return;
+                }
+
                 console.log('✅ [useProduct] - Respuesta exitosa:', {
-                    data,
+                    hasData: !!data,
+                    dataType: typeof data,
                     timestamp: new Date().toISOString()
                 });
+
+                if (!data) {
+                    throw new Error('No se recibieron datos del producto');
+                }
 
                 setProduct(data);
                 setError(null);
             } catch (err) {
+                if (!isSubscribed) return;
+
                 console.error('❌ [useProduct] - Error en petición:', {
                     error: err.message,
                     status: err.response?.status,
                     statusText: err.response?.statusText,
-                    responseData: err.response?.data,
                     timestamp: new Date().toISOString()
                 });
+
                 setProduct(null);
                 setError(err.response?.data?.message || "Error al cargar producto");
             } finally {
-                console.log('🏁 [useProduct] - Petición finalizada:', {
-                    hasProduct: !!product,
-                    hasError: !!error,
-                    timestamp: new Date().toISOString()
-                });
-                setLoading(false);
+                if (isSubscribed) {
+                    console.log('🏁 [useProduct] - Petición finalizada:', {
+                        hasProduct: !!product,
+                        hasError: !!error,
+                        isLoading: false,
+                        timestamp: new Date().toISOString()
+                    });
+                    setLoading(false);
+                }
             }
         };
 
         fetchProduct();
+
+        return () => {
+            console.log('🧹 [useProduct] - Limpieza del efecto');
+            isSubscribed = false;
+        };
     }, [productId]);
 
-    // Log de cambios de estado
     useEffect(() => {
         console.log('📊 [useProduct] - Estado actualizado:', {
             productId,
@@ -75,7 +100,6 @@ export default function useProduct(productId) {
     return { product, loading, error };
 }
 
-// Hook para obtener todos los productos
 export function useProducts() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -100,11 +124,9 @@ export function useProducts() {
         fetchProducts();
     }, []);
 
-    // Función para limpiar el caché
     const clearCache = async () => {
         try {
             await productApi.clearCache();
-            // Recargar los productos después de limpiar el caché
             const data = await productApi.getAll();
             setProducts(data);
             return { success: true };
