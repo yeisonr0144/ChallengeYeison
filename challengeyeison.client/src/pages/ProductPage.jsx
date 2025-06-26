@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import useProduct from '../hooks/useProduct';
+import { useProduct } from '../hooks/useProduct';
 import BodyLayout from '../components/common/BodyLayout';
 import ProductLayout from '../components/productDetail/ProductLayout';
 
