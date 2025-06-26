@@ -55,9 +55,11 @@ export const BodyLayout = ({ product, loading, error }) => {
     };
 
     return (
-        <main className="min-h-screen bg-[#ededed] py-6 w-full">
-            {renderContent()}
-        </main>
+        <div className="min-h-screen bg-gray-100">
+            <div className="w-full">
+                {renderContent()}
+            </div>
+        </div>
     );
 };
 

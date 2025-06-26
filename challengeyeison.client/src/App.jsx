@@ -1,21 +1,17 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Header from "./components/common/Header";
+import { BrowserRouter as Router } from 'react-router-dom';
+import Header from './components/common/Header';
 import ProductPage from './pages/ProductPage';
 import './App.css';
 
-export default function App() {
+function App() {
     return (
-        <BrowserRouter>
+        <Router>
             <div className="min-h-screen bg-gray-100">
                 <Header />
-                <Routes>
-                    {/* Redirigir la ruta raíz a un producto por defecto */}
-                    <Route path="/" element={<Navigate to="/producto/MLB3025054960" replace />} />
-                    <Route path="/producto/:id" element={<ProductPage />} />
-                    {/* Ruta de fallback para IDs no válidos */}
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
+                <ProductPage />
             </div>
-        </BrowserRouter>
+        </Router>
     );
 }
+
+export default App;

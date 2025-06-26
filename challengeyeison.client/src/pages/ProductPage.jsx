@@ -1,25 +1,22 @@
-import { useParams } from "react-router-dom";
-import { useProduct } from "../hooks/useProduct";
-import { BodyLayout } from "../components/common/BodyLayout";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import useProduct from '../hooks/useProduct';
+import BodyLayout from '../components/common/BodyLayout';
+import ProductLayout from '../components/productDetail/ProductLayout';
 
-export default function ProductPage() {
+const ProductPage = () => {
     const { id } = useParams();
-    console.log('🎯 ProductPage - ID from params:', id);
-
-    const { product, loading, error } = useProduct(id);
-    console.log('📱 ProductPage - Estado actual:', {
-        hasProduct: !!product,
-        productData: product,
-        loading,
-        error,
-        id
-    });
+    const { product, isLoading, error } = useProduct(id);
 
     return (
-        <BodyLayout 
-            product={product}
-            loading={loading}
-            error={error}
-        />
+        <BodyLayout isLoading={isLoading} error={error}>
+            <div className="bg-gray-100">
+                <div className="max-w-[1200px] mx-auto">
+                    <ProductLayout product={product} />
+                </div>
+            </div>
+        </BodyLayout>
     );
-}
+};
+
+export default ProductPage;
