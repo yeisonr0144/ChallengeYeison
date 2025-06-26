@@ -17,7 +17,7 @@ export const BodyLayout = ({ product, loading, error }) => {
         if (loading) {
             console.log('⌛ BodyLayout - Mostrando loader');
             return (
-                <div className="w-full max-w-[1200px] mx-auto px-4">
+                <div className="w-full px-4">
                     <div className="mb-4">
                         <div className="h-4 bg-gray-200 rounded w-24"></div>
                     </div>
@@ -40,7 +40,7 @@ export const BodyLayout = ({ product, loading, error }) => {
         if (error || !product) {
             console.log('⚠️ BodyLayout - Error o sin producto:', { error, product });
             return (
-                <div className="w-full max-w-[1200px] mx-auto px-4">
+                <div className="w-full px-4">
                     <div className="bg-white p-4 rounded-lg shadow-sm">
                         <p className="text-red-500 text-lg">
                             {error || "Producto no encontrado"}
