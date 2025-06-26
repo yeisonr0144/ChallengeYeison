@@ -3,10 +3,8 @@ import PropTypes from "prop-types";
 import "../../styles/meli.css";
 import ImageGallery from "./ImageGallery";
 import ProductDetail from "./ProductDetail";
-import PriceInfo from "./PriceInfo";
 import PaymentOptions from "./PaymentOptions";
 import SellerInfo from "./SellerInfo";
-import SellerCard from "./SellerCard";
 
 // Componente de presentación puro
 const ProductLayout = ({ product }) => {
@@ -40,15 +38,9 @@ const ProductLayout = ({ product }) => {
                     {/* Sección de precios y compra */}
                     <div className="bg-white rounded-lg shadow-sm p-4">
                         <div className="space-y-4">
-                            <PriceInfo product={product} />
-                            <PaymentOptions payment={product.payment} />
+                            <PaymentOptions options={product.payment} />
                             <SellerInfo seller={product.seller} />
                         </div>
-                    </div>
-
-                    {/* Tarjeta del vendedor */}
-                    <div className="bg-white rounded-lg shadow-sm p-4">
-                        <SellerCard seller={product.seller} />
                     </div>
                 </div>
             </div>
@@ -57,11 +49,7 @@ const ProductLayout = ({ product }) => {
 };
 
 ProductLayout.propTypes = {
-    product: PropTypes.shape({
-        images: PropTypes.array,
-        payment: PropTypes.array,
-        seller: PropTypes.object
-    }).isRequired
+    product: PropTypes.object.isRequired
 };
 
 export default ProductLayout; 
