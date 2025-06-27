@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "../../styles/meli.css";
 import ImageGallery from "./ImageGallery";
 import ProductDetail from "./ProductDetail";
 import PaymentOptions from "./PaymentOptions";
@@ -8,6 +7,7 @@ import SellerInfo from "./SellerInfo";
 import PriceInfo from "./PriceInfo";
 import SellerCard from "./SellerCard";
 import ProductQuestions from "../ProductQuestions";
+import ProductReviews from "../ProductReviews";
 
 // Componente de presentación puro
 const ProductLayout = ({ product }) => {
@@ -38,7 +38,7 @@ const ProductLayout = ({ product }) => {
                         </div>
                     </div>
                 </div>
-
+               
                 {/* Columna derecha independiente */}
                 <div className="md:col-span-3">
                     <div className="p-4 space-y-4">
@@ -56,6 +56,7 @@ const ProductLayout = ({ product }) => {
                 <div className="md:col-span-9">
                     <div className="px-6 pb-6">
                         <ProductQuestions />
+                        <ProductReviews />
                     </div>
                 </div>
             </div>
