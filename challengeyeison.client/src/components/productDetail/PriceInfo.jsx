@@ -1,4 +1,7 @@
-﻿export default function PriceInfo({ title, price, stock }) {
+﻿import QuantitySelect from "../QuantitySelect";
+
+
+export default function PriceInfo({ title, price, stock }) {
     return (
         <div className="bg-white border border-gray-200 rounded-lg p-4 text-sm w-full font-sans">
             {/* Envío */}
@@ -18,22 +21,15 @@
             <div className="my-4">
                 <p className="text-base font-semibold text-gray-900 text-left mb-1">Stock disponible</p>
 
-                <div className="flex items-center text-sm text-gray-700 gap-2">
+                <div className="flex items-center text-sm text-gray-800 gap-1 flex-wrap">
                     <span className="text-gray-800">Cantidad:</span>
 
-                    {/* Desplegable de cantidad */}
-                    <select
-                        className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        defaultValue="1"
-                    >
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
+                    {/* Componente con unidad y flecha */}
+                    <div className="flex items-center">
+                        <QuantitySelect stock={stock} />
+                    </div>
 
-                    {/* Unidades disponibles */}
-                    <span className="text-xs text-gray-500 ml-1">({stock} disponibles)</span>
+                    <span className="text-xs text-gray-500">({stock} disponibles)</span>
                 </div>
             </div>
 
@@ -54,7 +50,7 @@
             </div>
 
             {/* Vendedor */}
-            <div className="text-xs text-gray-800 mb-4 leading-snug">
+            <div className="text-xs text-gray-800 mb-4 leading-snug text-left">
                 Vendido por{" "}
                 <span className="text-blue-600 hover:underline cursor-pointer font-medium">
                     NEW TECNOLOGIES
@@ -64,7 +60,7 @@
             </div>
 
             {/* Beneficios */}
-            <ul className="space-y-3 text-xs text-gray-800">
+            <ul className="space-y-3 text-xs text-gray-800 text-left">
                 <li className="flex items-start gap-2 leading-tight">
                     <span className="text-gray-600 mt-0.5">↩️</span>
                     <span>
@@ -75,7 +71,7 @@
                 </li>
                 <li className="flex items-start gap-2 leading-tight">
                     <span className="text-gray-600 mt-0.5">🔒</span>
-                    <span>
+                    <span className="text-gray-600">
                         <span className="text-blue-600 hover:underline cursor-pointer">
                             Compra Protegida
                         </span>, recibe el producto que esperabas o te devolvemos tu dinero.
