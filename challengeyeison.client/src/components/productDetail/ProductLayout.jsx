@@ -46,7 +46,7 @@ const ProductLayout = ({ product }) => {
                 {/* Columna derecha independiente */}
                 <div className="md:col-span-3">
                     <div className="p-4 space-y-4">
-                        <PriceInfo product={product} />
+                        <PriceInfo stock={product.stock} sellerName={product.seller.name} />
                         <SellerCard seller={product.seller} />
                         <PaymentOptions options={product.payment} />
                         {/* <SellerInfo seller={product.seller} /> */}
