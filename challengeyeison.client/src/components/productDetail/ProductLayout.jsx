@@ -5,11 +5,14 @@ import ImageGallery from "./ImageGallery";
 import ProductDetail from "./ProductDetail";
 import PaymentOptions from "./PaymentOptions";
 import SellerInfo from "./SellerInfo";
+import PriceInfo from "./PriceInfo";
+import SellerCard from "./SellerCard";
+
 
 // Componente de presentación puro
 const ProductLayout = ({ product }) => {
     return (
-        <div className="w-full max-w-[1200px] mx-auto px-4">
+        <div className="w-full max-w-[1100px] mx-auto px-4">
             {/* Breadcrumb */}
             <div className="mb-4">
                 <span className="text-sm text-gray-500 hover:text-blue-500 cursor-pointer">
@@ -17,34 +20,38 @@ const ProductLayout = ({ product }) => {
                 </span>
             </div>
 
-            {/* Grid principal */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-                {/* Columna izquierda - Galería (6 columnas) */}
-                <div className="md:col-span-6">
-                    <div className="bg-white rounded-lg shadow-sm p-4 h-full">
-                        <ImageGallery images={product.images} />
-                    </div>
-                </div>
+            {/* Grid principal compacto */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-0 bg-white rounded-lg shadow-sm">
+                {/* Columna combinada: Galería + Detalles producto */}
+                <div className="md:col-span-9 border-r border-gray-200">
+                    <div className="p-4 flex md:flex-row flex-col gap-4">
+                        {/* Galería (65%) */}
+                        <div className="w-full md:w-[65%] pr-2">
+                            <div className="sticky top-24 self-start">
+                                <ImageGallery images={product.images} />
+                            </div>
+                        </div>
 
-                {/* Columna central - Información del producto (3 columnas) */}
-                <div className="md:col-span-3">
-                    <div className="bg-white rounded-lg shadow-sm p-4 h-full">
-                        <ProductDetail product={product} />
-                    </div>
-                </div>
-
-                {/* Columna derecha - Información de compra y vendedor (3 columnas) */}
-                <div className="md:col-span-3 space-y-4">
-                    {/* Sección de precios y compra */}
-                    <div className="bg-white rounded-lg shadow-sm p-4">
-                        <div className="space-y-4">
-                            <PaymentOptions options={product.payment} />
-                            <SellerInfo seller={product.seller} />
+                        {/* Detalles del producto (35%) */}
+                        <div className="w-full md:w-[35%] pl-2">
+                            <ProductDetail product={product} />
                         </div>
                     </div>
                 </div>
+
+                {/* Columna derecha independiente */}
+                <div className="md:col-span-3">
+                    <div className="p-4 space-y-4">
+                        <PriceInfo product={product} />
+                        <PaymentOptions options={product.payment} />
+                        <SellerCard seller={product.seller} />
+                        <SellerInfo seller={product.seller} />
+                    </div>
+                </div>
             </div>
+
         </div>
+
     );
 };
 

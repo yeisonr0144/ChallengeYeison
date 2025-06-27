@@ -10,7 +10,7 @@ export default function App() {
                 <Header />
                 <Routes>
                     {/* Redirigir la ruta raíz a un producto por defecto */}
-                    <Route path="/" element={<Navigate to="/producto/MLB3025054960" replace />} />
+                    <Route path="/" element={<Navigate to="/producto/MLA12345" replace />} />
                     <Route path="/producto/:id" element={<ProductPage />} />
                     {/* Ruta de fallback para IDs no válidos */}
                     <Route path="*" element={<Navigate to="/" replace />} />
