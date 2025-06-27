@@ -9,7 +9,6 @@ import PriceInfo from "./PriceInfo";
 import SellerCard from "./SellerCard";
 import ProductQuestions from "../ProductQuestions";
 
-
 // Componente de presentación puro
 const ProductLayout = ({ product }) => {
     return (
@@ -46,17 +45,21 @@ const ProductLayout = ({ product }) => {
                         <PriceInfo product={product} />
                         <SellerCard seller={product.seller} />
                         <PaymentOptions options={product.payment} />
-                        {/*<SellerInfo seller={product.seller} />*/}
-                        
+                        {/* <SellerInfo seller={product.seller} /> */}
+                    </div>
+                </div>
+
+                {/* Línea divisoria que ocupa todo el ancho */}
+                <div className="col-span-12 border-t border-gray-200" />
+
+                {/* Sección de preguntas alineada a la izquierda como la columna principal */}
+                <div className="md:col-span-9">
+                    <div className="px-6 pb-6">
+                        <ProductQuestions />
                     </div>
                 </div>
             </div>
-            {/* SECCIÓN DE PREGUNTAS */}
-            <div className="mt-8 bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                <ProductQuestions />
-            </div>
         </div>
-
     );
 };
 
@@ -64,4 +67,4 @@ ProductLayout.propTypes = {
     product: PropTypes.object.isRequired
 };
 
-export default ProductLayout; 
+export default ProductLayout;
