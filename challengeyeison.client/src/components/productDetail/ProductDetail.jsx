@@ -1,7 +1,37 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+
+
 
 const ProductDetail = ({ product }) => {
+    const [showAllFeatures, setShowAllFeatures] = useState(false);
+
+    const productFeatures = product.features || [
+        "Unidades por pack: 1.",
+        "Es bloqueador.",
+        "Es resistente al agua.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es hipoalergénico.",
+        "Es libre de parabenos.",
+        // Puedes añadir más para probar el truncamiento
+    ];
+
+    const maxVisible = 5;
+    const visibleFeatures = showAllFeatures ? productFeatures : productFeatures.slice(0, maxVisible);
+
+
     if (!product) {
         return (
             <div className="animate-pulse space-y-6">
@@ -142,6 +172,25 @@ const ProductDetail = ({ product }) => {
                         }
                     </div>
                 )}
+                {/* Características destacadas */}
+                <div className="space-y-2">
+                    <h3 className="text-sm font-medium text-gray-900">Lo que tienes que saber de este producto</h3>
+                    <ul className="list-disc pl-5 text-sm text-gray-700">
+                        {visibleFeatures.map((feature, index) => (
+                            <li key={index}>{feature}</li>
+                        ))}
+                    </ul>
+
+                    {productFeatures.length > maxVisible && (
+                        <button
+                            onClick={() => setShowAllFeatures(!showAllFeatures)}
+                            className="text-blue-500 text-sm hover:underline mt-1"
+                        >
+                            {showAllFeatures ? "Ver menos" : "Ver características"}
+                        </button>
+                    )}
+                </div>
+
             </div>
         </div>
     );
