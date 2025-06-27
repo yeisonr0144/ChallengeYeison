@@ -19,18 +19,20 @@ html, body {
     max-width: 1210px;
     margin: 0 auto;
     display: flex;
-    align-items: flex-start;
+    align-items: center; /* 👈 cambia esto a center */
     justify-content: space-between;
     flex-wrap: wrap;
     height: auto;
+    padding: 0 16px; /* ⬅️ mejora separación */
 }
 
 .header__left {
-    flex: 0 0 15%;
+    flex: 0 0 auto;
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 4px;
+    flex-direction: column; /* ⬅️ permite mostrar ubicación debajo */
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
 }
 
 .header__logo {
@@ -39,18 +41,19 @@ html, body {
 }
 
 .header__center {
-    flex: 0 0 50%;
+    flex: 1; /* ⬅️ ocupa espacio restante */
     display: flex;
     flex-direction: column;
-    align-items: start;
-    justify-content: flex-start;
-    gap: 8px;
+    align-items: center; /* ⬅️ centrado exacto */
+    justify-content: center;
+    gap: 4px;
 }
+
 
 .header__search-wrapper {
     position: relative;
     width: 100%;
-    max-width: 600px;
+    max-width: 580px;
 }
 
 .header__search {
@@ -85,26 +88,38 @@ html, body {
         font-size: 14px;
     }
 
+.header__location {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #333;
+    gap: 4px;
+}
+
+    .header__location i {
+        font-size: 16px;
+    }
 .header__right {
-    flex: 0 0 35%;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: space-between;
-    height: 100%;
+    justify-content: center;
+    gap: 4px;
 }
 
 .header__banner {
-    max-height: 40px;
+    height: 36px; /* más exacto */
     width: auto;
+    object-fit: contain;
 }
 
 .header__right-buttons {
-    margin-top: auto;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-end;
-    gap: 8px;
+    align-items: center; /* ⬅️ importante para alinear verticalmente */
+    gap: 12px;
 }
 
 .header__nav {
