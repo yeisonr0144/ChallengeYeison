@@ -13,6 +13,8 @@ export default function ImageGallery({ images = [] }) {
         );
     }
 
+    const currentImage = hoveredImage !== null ? hoveredImage : selectedImage;
+
     return (
         <div className="flex gap-4 bg-white p-4">
             {/* Grid de miniaturas */}
@@ -21,10 +23,10 @@ export default function ImageGallery({ images = [] }) {
                     <div
                         key={index}
                         className={`
-                            relative cursor-pointer border-2 rounded
-                            ${(hoveredImage === index || selectedImage === index) 
-                              ? 'border-blue-500' 
-                              : 'border-transparent'}
+                            relative cursor-pointer border-2 rounded overflow-hidden
+                            ${(hoveredImage === index || selectedImage === index)
+                                ? 'border-yellow-500'
+                                : 'border-transparent'}
                         `}
                         onMouseEnter={() => setHoveredImage(index)}
                         onMouseLeave={() => setHoveredImage(null)}
@@ -33,18 +35,18 @@ export default function ImageGallery({ images = [] }) {
                         <img
                             src={image}
                             alt={`Miniatura ${index + 1}`}
-                            className="w-full h-full object-cover rounded"
+                            className="w-full h-full object-contain"
                         />
                     </div>
                 ))}
             </div>
 
             {/* Imagen principal */}
-            <div className="flex-1">
+            <div className="flex-1 flex items-center justify-center">
                 <img
-                    src={images[hoveredImage !== null ? hoveredImage : selectedImage]}
+                    src={images[currentImage]}
                     alt="Imagen principal del producto"
-                    className="w-full h-auto object-contain rounded"
+                    className="max-w-full max-h-[500px] object-contain rounded"
                 />
             </div>
         </div>
