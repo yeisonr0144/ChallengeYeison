@@ -8,26 +8,24 @@ const ProductDetail = ({ product }) => {
     const [showAllFeatures, setShowAllFeatures] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
 
-    const productFeatures = product.features || [
-        "Unidades por pack: 1.",
-        "Es bloqueador.",
-        "Es resistente al agua.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es hipoalergénico.",
-        "Es libre de parabenos.",
-        // Puedes añadir más para probar el truncamiento
-    ];
+    const getProductFeatures = (product) => {
+        if (!product?.characteristics) return [];
+        
+        const mainFeatures = Object.entries(product.characteristics.mainFeatures)
+            .map(([_, value]) => value)
+            .filter(value => value && value !== "");
+
+        const otherFeatures = Object.entries(product.characteristics.otherFeatures)
+            .map(([_, value]) => value)
+            .filter(value => value && value !== "");
+
+        const allFeatures = [...mainFeatures, ...otherFeatures];
+        const limitCount = Math.ceil(allFeatures.length * 0.60);
+        
+        return allFeatures.slice(0, limitCount);
+    };
+
+    const productFeatures = product ? getProductFeatures(product) : [];
 
     const maxVisible = 5;
     const visibleFeatures = showAllFeatures ? productFeatures : productFeatures.slice(0, maxVisible);
