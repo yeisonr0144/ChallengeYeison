@@ -14,7 +14,7 @@ export default function Header() {
     return (
         <header className="header">
             <div className="header__container">
-                <div className="header__left">
+                <div className="header__left" >
                     <img
                         src="/MeliLogo.svg"
                         alt="Logo Mercado Libre"
