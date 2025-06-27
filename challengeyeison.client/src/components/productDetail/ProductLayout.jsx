@@ -7,6 +7,7 @@ import PriceInfo from "./PriceInfo";
 import SellerCard from "./SellerCard";
 import ProductQuestions from "../ProductQuestions";
 import ProductReviews from "../ProductReviews";
+import ProductCharacteristics from './ProductCharacteristics';
 
 const ProductLayout = ({ product }) => {
     return (
@@ -37,9 +38,7 @@ const ProductLayout = ({ product }) => {
                     </div>
 
                     <div className="p-4 flex md:flex-row flex-col gap-4">
-                        <div className="w-full">
-                            <ProductCharacteristics />
-                        </div>
+                        <ProductCharacteristics characteristics={product.characteristics} />
                     </div>
                 </div>
                

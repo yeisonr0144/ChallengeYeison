@@ -11,6 +11,28 @@
       "https://th.bing.com/th/id/OIP.W0OzkuyC6YCyUx56_jU1VAHaIO?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
       "https://th.bing.com/th/id/OIP.W0OzkuyC6YCyUx56_jU1VAHaIO?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3"
     ],
+    "characteristics": {
+      "mainFeatures": {
+        "brand": "Inter Miami",
+        "model": "2024",
+        "gender": "Unisex",
+        "age": "Adultos",
+        "garmentType": "Camiseta deportiva",
+        "mainMaterial": "Poliéster",
+        "fabricDesign": "Estampa localizada",
+        "printDesign": "Logo del equipo"
+      },
+      "otherFeatures": {
+        "isSportsWear": "yes",
+        "recommendedUses": "Deportivo",
+        "fabricType": "Dri-FIT",
+        "mainMaterial": "100% Poliéster",
+        "sleeveType": "Corta",
+        "neckType": "Redondo",
+        "hemType": "Recto",
+        "hasRecycledMaterials": "Sí"
+      }
+    },
     "payment": [
       {
         "method": "Tarjeta de crédito",

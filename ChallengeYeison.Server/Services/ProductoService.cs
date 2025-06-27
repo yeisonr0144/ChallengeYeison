@@ -27,7 +27,8 @@ namespace ChallengeYeison.Server.Services
                 var json = File.ReadAllText(_jsonPath);
                 _cachedProducts = JsonSerializer.Deserialize<List<Producto>>(json, new JsonSerializerOptions 
                 { 
-                    PropertyNameCaseInsensitive = true 
+                    PropertyNameCaseInsensitive = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 }) ?? new List<Producto>();
 
                 _lastCacheUpdate = DateTime.Now;
