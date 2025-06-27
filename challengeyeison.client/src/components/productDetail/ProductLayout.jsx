@@ -12,7 +12,7 @@ import SellerCard from "./SellerCard";
 // Componente de presentación puro
 const ProductLayout = ({ product }) => {
     return (
-        <div className="w-full max-w-[1100px] mx-auto px-4">
+        <div className="w-full max-w-[1210px] mx-auto px-4">
             {/* Breadcrumb */}
             <div className="mb-4">
                 <span className="text-sm text-gray-500 hover:text-blue-500 cursor-pointer">
@@ -23,7 +23,7 @@ const ProductLayout = ({ product }) => {
             {/* Grid principal compacto */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-0 bg-white rounded-lg shadow-sm">
                 {/* Columna combinada: Galería + Detalles producto */}
-                <div className="md:col-span-9 border-r border-gray-200">
+                <div className="md:col-span-9">
                     <div className="p-4 flex md:flex-row flex-col gap-4">
                         {/* Galería (65%) */}
                         <div className="w-full md:w-[65%] pr-2">
@@ -43,9 +43,10 @@ const ProductLayout = ({ product }) => {
                 <div className="md:col-span-3">
                     <div className="p-4 space-y-4">
                         <PriceInfo product={product} />
-                        <PaymentOptions options={product.payment} />
                         <SellerCard seller={product.seller} />
-                        <SellerInfo seller={product.seller} />
+                        <PaymentOptions options={product.payment} />
+                        {/*<SellerInfo seller={product.seller} />*/}
+                        
                     </div>
                 </div>
             </div>

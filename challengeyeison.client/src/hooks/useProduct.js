@@ -52,7 +52,7 @@ export const useProduct = (productId) => {
                 }
 
                 // Agregamos un delay artificial de 2 segundos
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 1200));
 
                 setProduct(data);
                 setError(null);
