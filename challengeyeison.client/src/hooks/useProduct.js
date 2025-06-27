@@ -3,7 +3,7 @@ import { getProductById } from "../api/axiosInstance";
 
 export const useProduct = (productId) => {
     const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -50,6 +50,9 @@ export const useProduct = (productId) => {
                 if (!data) {
                     throw new Error('No se recibieron datos del producto');
                 }
+
+                // Agregamos un delay artificial de 2 segundos
+                await new Promise(resolve => setTimeout(resolve, 2000));
 
                 setProduct(data);
                 setError(null);
