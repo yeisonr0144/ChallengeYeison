@@ -1,4 +1,6 @@
-﻿namespace ChallengeYeison.Server.Models
+﻿using System.Text.Json.Serialization;
+
+namespace ChallengeYeison.Server.Models
 {
     public class Producto
     {
@@ -21,7 +23,40 @@
         public bool HasFreeShipping { get; set; }
         public bool HasWarranty { get; set; }
         public int WarrantyMonths { get; set; }
+        
+        public Characteristics Characteristics { get; set; } = new Characteristics();
     }
+
+    public class Characteristics
+    {
+        public MainFeatures MainFeatures { get; set; } = new MainFeatures();
+        public OtherFeatures OtherFeatures { get; set; } = new OtherFeatures();
+    }
+
+    public class MainFeatures
+    {
+        public string Brand { get; set; } = string.Empty;
+        public string Model { get; set; } = string.Empty;
+        public string Gender { get; set; } = string.Empty;
+        public string Age { get; set; } = string.Empty;
+        public string GarmentType { get; set; } = string.Empty;
+        public string MainMaterial { get; set; } = string.Empty;
+        public string FabricDesign { get; set; } = string.Empty;
+        public string PrintDesign { get; set; } = string.Empty;
+    }
+
+    public class OtherFeatures
+    {
+        public string IsSportsWear { get; set; } = string.Empty;
+        public string RecommendedUses { get; set; } = string.Empty;
+        public string FabricType { get; set; } = string.Empty;
+        public string MainMaterial { get; set; } = string.Empty;
+        public string SleeveType { get; set; } = string.Empty;
+        public string NeckType { get; set; } = string.Empty;
+        public string HemType { get; set; } = string.Empty;
+        public string HasRecycledMaterials { get; set; } = string.Empty;
+    }
+
     public class PaymentOption
     {
         public string Method { get; set; } = string.Empty;
