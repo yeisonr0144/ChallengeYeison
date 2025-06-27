@@ -6,14 +6,13 @@ import path from 'path'
 export default defineConfig({
     plugins: [react()],
 
-
     // Alias opcionales
     resolve: {
         alias: {
-            '@': path.resolve('C:\\Users\\zebas\\OneDrive\\Documentos\\Meli\\ChallengeYeison\\challengeyeison.client\\src', './src'),
+            '@': path.resolve(__dirname, './src'),
         },
     },
-    // Configuraci�n para desarrollo
+    // Configuración para desarrollo
     server: {
         port: 5173,
         proxy: {
@@ -22,6 +21,20 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: false,
             },
+        },
+    },
+    // Configuración para testing
+    test: {
+        globals: true,
+        environment: 'jsdom',
+        setupFiles: ['./src/setupTests.js'],
+        css: true,
+        coverage: {
+            reporter: ['text', 'json', 'html'],
+            exclude: [
+                'node_modules/',
+                'src/setupTests.js',
+            ],
         },
     },
 })
