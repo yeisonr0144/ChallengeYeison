@@ -13,7 +13,6 @@ const ProductDetail = ({ product }) => {
         );
     }
 
-    // Renderizar estrellas basado en el rating
     const renderStars = (rating) => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
@@ -27,162 +26,122 @@ const ProductDetail = ({ product }) => {
     };
 
     return (
-        <div className="space-y-6">
-            {/* Título y calificaciones */}
-            <div className="product-header">
-                <div className="flex items-center gap-2 text-sm text-blue-500 mb-1">
-                    <span>{product.condition || 'Nuevo'}</span>
-                    <span>|</span>
-                    <span>+{product.soldQuantity || 0} vendidos</span>
+        <div className="relative">
+            {/* Icono de corazón */}
+            <button className="absolute top-0 right-0 text-gray-500 hover:text-red-500 transition-colors">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21.752 7.86c0 4.745-6.752 8.486-9.752 11.14-3-2.654-9.752-6.395-9.752-11.14A5.252 5.252 0 0112 5.248a5.252 5.252 0 019.752 2.612z"
+                    />
+                </svg>
+            </button>
+            <div className="space-y-6 text-left">
+                {/* Etiquetas superiores */}
+                <div className="flex items-center gap-2 text-sm mb-1">
+                    <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded">MÁS VENDIDO</span>
+                    <span className="text-blue-600 underline text-xs cursor-pointer">17º en Portátiles Lenovo</span>
                 </div>
-                <h1 className="text-2xl text-gray-800 mb-2">
-                    {product.title}
-                </h1>
-                {product.rating && (
-                    <div className="flex items-center gap-3">
-                        <div className="flex text-lg">
-                            {renderStars(product.rating.average)}
+
+                {/* Título y calificaciones */}
+                <div>
+                    <div className="text-sm text-gray-500">
+                        {product.condition || 'Nuevo'} | +{product.soldQuantity || 0} vendidos
+                    </div>
+                    <h1 className="text-2xl font-semibold text-gray-900 leading-tight">
+                        {product.title}
+                    </h1>
+                    {product.rating && (
+                        <div className="flex items-center gap-2 text-sm mt-1">
+                            <div className="flex text-lg">
+                                {renderStars(product.rating.average)}
+                            </div>
+                            <span className="text-gray-600">({product.rating.totalReviews} opiniones)</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                            <span className="text-lg font-semibold">{product.rating.average}</span>
-                            <span className="text-gray-500">({product.rating.totalReviews} calificaciones)</span>
+                    )}
+                </div>
+
+                {/* Oferta del día */}
+                <div className="space-y-2">
+                    <span className="bg-blue-100 text-blue-600 text-xs font-semibold px-2 py-1 rounded">OFERTA DEL DÍA</span>
+
+                    {/* Precio original y descuento */}
+                    {product.originalPrice && product.discountPercentage > 0 && (
+                        <div className="flex items-center text-sm text-gray-500">
+                            <span className="line-through">$ {product.originalPrice.toLocaleString()}</span>
+                            <span className="ml-2 text-green-600 font-semibold text-sm">{product.discountPercentage}% OFF</span>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
 
-            {/* Precios y descuentos */}
-            <div className="product-price space-y-2">
-                {product.discountPercentage > 0 && product.originalPrice && (
-                    <div className="flex items-center gap-2">
-                        <span className="line-through text-gray-400">$ {product.originalPrice.toLocaleString()}</span>
-                        <span className="text-base text-gray-500">{product.discountPercentage}% OFF</span>
+                    {/* Precio actual */}
+                    <div className="text-4xl font-semibold text-gray-800">
+                        $ {product.price.toLocaleString()}
                     </div>
-                )}
-                <div className="flex items-center gap-3">
-                    <span className="text-4xl font-medium">$ {product.price.toLocaleString()}</span>
-                </div>
-                {product.payment && product.payment.length > 0 && (
-                    <div className="text-green-600">
-                        en {product.payment[0].installments} cuotas de $ {(product.payment[0].amount).toLocaleString()} con 0% interés
+
+                    {/* Cuotas */}
+                    {product.payment && product.payment.length > 0 && (
+                        <div className="text-sm text-gray-800">
+                            en <span className="text-green-600">{product.payment[0].installments} cuotas de $ {(product.payment[0].amount).toLocaleString()} con 0% interés</span>
+                        </div>
+                    )}
+                    <div className="text-blue-600 text-sm hover:underline cursor-pointer">
+                        Ver los medios de pago
                     </div>
-                )}
-                <div className="text-blue-500 text-sm hover:text-blue-700 cursor-pointer">
-                    Ver los medios de pago
                 </div>
-            </div>
 
-            {/* Cupón de descuento */}
-            <div className="bg-blue-50 p-3 rounded-lg inline-block">
-                <div className="flex items-center gap-2">
-                    <span className="text-blue-600 font-medium">$ 80.000 OFF</span>
-                    <span className="text-gray-600">con el cupón</span>
-                    <span className="bg-blue-600 text-white px-2 py-1 rounded text-sm font-medium">COMPRAMELI</span>
+                {/* Cupón */}
+                <div className="flex items-center gap-2 text-sm">
+                    <button className="bg-blue-600 text-white px-2 py-1 text-xs rounded font-semibold">Cupón</button>
+                    <span className="text-gray-700 text-xs">$ 80.000 OFF. Compra mínima $1.299.900</span>
                 </div>
-                <div className="text-xs text-gray-500 mt-1">
-                    Compra mínima $1.299.900
-                </div>
-            </div>
 
-            {/* Variantes del producto */}
-            {product.variants && product.variants.length > 0 && (
-                <div className="product-options space-y-6">
-                    {product.variants
-                        .reduce((groups, variant) => {
-                            const group = groups.find(g => g.type === variant.type);
-                            if (group) {
-                                group.items.push(variant);
-                            } else {
-                                groups.push({ type: variant.type, items: [variant] });
-                            }
-                            return groups;
-                        }, [])
-                        .map(group => (
-                            <div key={group.type}>
-                                <h3 className="text-gray-700 mb-3 capitalize">{group.type}:</h3>
-                                <div className="flex gap-4">
-                                    {group.items.map(variant => (
-                                        <button
-                                            key={variant.value}
-                                            className={`flex flex-col items-center gap-2 ${
-                                                variant.isSelected ? 'opacity-100' : 'opacity-60'
-                                            }`}
-                                        >
-                                            {variant.imageUrl && (
-                                                <div 
-                                                    className={`w-12 h-12 rounded-lg border-2 ${
-                                                        variant.isSelected ? 'border-blue-500' : 'border-gray-200'
+                {/* Variantes del producto */}
+                {product.variants && product.variants.length > 0 && (
+                    <div className="product-options space-y-6">
+                        {product.variants
+                            .reduce((groups, variant) => {
+                                const group = groups.find(g => g.type === variant.type);
+                                if (group) {
+                                    group.items.push(variant);
+                                } else {
+                                    groups.push({ type: variant.type, items: [variant] });
+                                }
+                                return groups;
+                            }, [])
+                            .map(group => (
+                                <div key={group.type}>
+                                    <h3 className="text-gray-700 mb-2 capitalize text-sm">{group.type}:</h3>
+                                    <div className="flex gap-3">
+                                        {group.items.map(variant => (
+                                            <button
+                                                key={variant.value}
+                                                className={`flex flex-col items-center gap-1 border px-2 py-2 rounded text-xs ${variant.isSelected ? 'border-blue-500' : 'border-gray-300'
                                                     }`}
-                                                    style={variant.type === 'color' ? {
-                                                        backgroundColor: variant.value,
-                                                    } : {
-                                                        backgroundImage: `url(${variant.imageUrl})`,
-                                                        backgroundSize: 'cover'
-                                                    }}
-                                                />
-                                            )}
-                                            <span className="text-sm">{variant.name}</span>
-                                        </button>
-                                    ))}
+                                            >
+                                                {variant.imageUrl && (
+                                                    <img
+                                                        src={variant.imageUrl}
+                                                        alt={variant.name}
+                                                        className="w-10 h-10 object-cover rounded"
+                                                    />
+                                                )}
+                                                <span className="text-gray-700">{variant.name}</span>
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
-                    }
-                </div>
-            )}
-
-            {/* Especificaciones técnicas */}
-            <div className="product-specs mt-8">
-                <h3 className="text-xl text-gray-800 mb-4">Características principales</h3>
-                <div className="grid grid-cols-1 gap-4">
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="grid grid-cols-2 gap-4">
-                            {/* Especificaciones principales */}
-                            {product.specifications && Object.entries(product.specifications)
-                                .filter(([key]) => key !== 'additionalSpecs' && Boolean(key))
-                                .map(([key, value]) => value && (
-                                    <div key={key}>
-                                        <h4 className="text-gray-500 capitalize">{key}</h4>
-                                        <p className="text-gray-700">{value}</p>
-                                    </div>
-                                ))
-                            }
-                            
-                            {/* Especificaciones adicionales */}
-                            {product.specifications?.additionalSpecs && 
-                                Object.entries(product.specifications.additionalSpecs)
-                                    .map(([key, value]) => (
-                                        <div key={key}>
-                                            <h4 className="text-gray-500 capitalize">{key}</h4>
-                                            <p className="text-gray-700">{value}</p>
-                                        </div>
-                                    ))
-                            }
-
-                            {/* Información del vendedor */}
-                            {product.seller && (
-                                <>
-                                    <div>
-                                        <h4 className="text-gray-500">Vendedor</h4>
-                                        <p className="text-gray-700">{product.seller.name}</p>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-gray-500">Ubicación</h4>
-                                        <p className="text-gray-700">{product.seller.location}</p>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-gray-500">Reputación</h4>
-                                        <p className="text-gray-700">{product.seller.reputation}</p>
-                                    </div>
-                                </>
-                            )}
-                            <div>
-                                <h4 className="text-gray-500">Stock disponible</h4>
-                                <p className="text-gray-700">{product.stock || 0} unidades</p>
-                            </div>
-                        </div>
+                            ))
+                        }
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

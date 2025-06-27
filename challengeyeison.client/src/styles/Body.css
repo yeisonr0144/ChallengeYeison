@@ -1,0 +1,13 @@
+/* src/styles/Body.css */
+.payment-box {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+}
+
+    .payment-box img {
+        object-fit: contain;
+    }
+.product-box {
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}

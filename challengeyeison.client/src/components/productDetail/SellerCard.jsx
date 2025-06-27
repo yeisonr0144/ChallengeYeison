@@ -2,67 +2,62 @@ import React from 'react';
 
 const SellerCard = ({ seller }) => {
     return (
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            {/* Cabecera del vendedor */}
-            <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-                    <span className="text-blue-600 font-semibold">NT</span>
+        <div className="bg-white border border-gray-200 rounded-lg p-4 text-sm w-full">
+            {/* Cabecera: Logo + Nombre + Seguir */}
+            <div className="flex justify-between items-start mb-3">
+                <div className="flex items-center gap-3">
+                    <img
+                        src={seller.logo || "https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/6.6.9/mercadolibre/logo__large_plus.png"}
+                        alt="Logo vendedor"
+                        className="w-12 h-12 rounded-md object-contain"
+                    />
+                    <div>
+                        <p className="font-semibold text-gray-900 leading-none">{seller.name}</p>
+                        <p className="text-xs text-gray-600 mt-0.5">
+                            +{seller.followers} Seguidores · +{seller.products} Productos
+                        </p>
+                    </div>
+                </div>
+                <button className="text-xs text-blue-600 bg-blue-50 px-3 py-1 rounded hover:bg-blue-100 font-medium">
+                    Seguir
+                </button>
+            </div>
+
+            {/* Nivel MercadoLíder */}
+            <div className="text-green-600 text-sm font-medium mb-1">🏅 MercadoLíder Platinum</div>
+            <p className="text-xs text-gray-600 mb-3">¡Uno de los mejores del sitio!</p>
+
+            {/* Barra de reputación */}
+            <div className="flex h-2 overflow-hidden rounded mb-3">
+                <div className="w-1/5 bg-red-400"></div>
+                <div className="w-1/5 bg-orange-400"></div>
+                <div className="w-1/5 bg-yellow-400"></div>
+                <div className="w-1/5 bg-lime-400"></div>
+                <div className="w-1/5 bg-green-500"></div>
+            </div>
+
+            {/* Métricas */}
+            <div className="grid grid-cols-3 text-center text-xs text-gray-700 mb-4">
+                <div>
+                    <div className="font-semibold text-sm">+5mil</div>
+                    <p className="text-[11px] text-gray-500 mt-1">Ventas concretadas</p>
                 </div>
                 <div>
-                    <h3 className="font-medium">NEW TECHNOLOGIES</h3>
-                    <div className="flex items-center gap-1">
-                        <span className="text-sm text-blue-600">MercadoLíder Platinum</span>
-                        <span className="text-xs bg-blue-100 text-blue-600 px-1 rounded">Seguir</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Estadísticas del vendedor */}
-            <div className="grid grid-cols-3 gap-2 mb-4 text-center">
-                <div className="border-r">
-                    <div className="text-sm text-gray-600">+5mil</div>
-                    <div className="text-xs text-gray-500">Ventas concretadas</div>
-                </div>
-                <div className="border-r">
-                    <div className="text-sm text-gray-600">
-                        <span className="text-green-500">97%</span>
-                    </div>
-                    <div className="text-xs text-gray-500">Brinda buena atención</div>
+                    <div className="text-green-600 text-base">👍</div>
+                    <p className="text-[11px] text-gray-500 mt-1">Brinda buena atención</p>
                 </div>
                 <div>
-                    <div className="text-sm text-gray-600">
-                        <span className="text-green-500">98%</span>
-                    </div>
-                    <div className="text-xs text-gray-500">Entrega sus productos a tiempo</div>
+                    <div className="text-green-600 text-base">⏱️</div>
+                    <p className="text-[11px] text-gray-500 mt-1">Entrega sus productos a tiempo</p>
                 </div>
             </div>
 
-            {/* Ubicación */}
-            <div className="text-sm text-gray-600 mb-3">
-                <span className="font-medium">Ubicación</span>
-                <p>{seller.location}</p>
-            </div>
-
-            {/* Reputación */}
-            <div className="mb-4">
-                <div className="flex h-2 mb-1">
-                    <div className="w-1/5 bg-red-400"></div>
-                    <div className="w-1/5 bg-orange-400"></div>
-                    <div className="w-1/5 bg-yellow-400"></div>
-                    <div className="w-1/5 bg-lime-400"></div>
-                    <div className="w-1/5 bg-green-400"></div>
-                </div>
-                <div className="text-xs text-gray-500 text-center">
-                    {seller.reputation}
-                </div>
-            </div>
-
-            {/* Botón de ver más */}
-            <button className="w-full text-blue-600 text-sm py-2 hover:bg-blue-50 rounded-lg transition-colors">
+            {/* Botón */}
+            <button className="w-full bg-blue-50 text-blue-600 text-sm font-medium py-2 rounded hover:bg-blue-100 transition">
                 Ir a la página del vendedor
             </button>
         </div>
     );
 };
 
-export default SellerCard; 
+export default SellerCard;
