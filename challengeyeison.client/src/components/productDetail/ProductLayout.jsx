@@ -7,6 +7,7 @@ import PaymentOptions from "./PaymentOptions";
 import SellerInfo from "./SellerInfo";
 import PriceInfo from "./PriceInfo";
 import SellerCard from "./SellerCard";
+import ProductQuestions from "../ProductQuestions";
 
 
 // Componente de presentación puro
@@ -50,7 +51,10 @@ const ProductLayout = ({ product }) => {
                     </div>
                 </div>
             </div>
-
+            {/* SECCIÓN DE PREGUNTAS */}
+            <div className="mt-8 bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                <ProductQuestions />
+            </div>
         </div>
 
     );
