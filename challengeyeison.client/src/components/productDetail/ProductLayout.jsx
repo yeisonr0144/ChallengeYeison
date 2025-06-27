@@ -1,15 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import "../../styles/meli.css";
-import ImageGallery from "./ImageGallery";
-import ProductDetail from "./ProductDetail";
-import PaymentOptions from "./PaymentOptions";
-import SellerInfo from "./SellerInfo";
-import PriceInfo from "./PriceInfo";
-import SellerCard from "./SellerCard";
-import ProductQuestions from "../ProductQuestions";
+import ImageGallery from './ImageGallery';
+import PriceInfo from './PriceInfo';
+import SellerCard from './SellerCard';
+import PaymentOptions from './PaymentOptions';
+import ProductDetail from './ProductDetail';
+import ProductQuestions from '../ProductQuestions';
+import ProductCharacteristics from './ProductCharacteristics';
 
-// Componente de presentación puro
 const ProductLayout = ({ product }) => {
     return (
         <div className="w-full max-w-[1210px] mx-auto px-4">
@@ -31,10 +30,16 @@ const ProductLayout = ({ product }) => {
                                 <ImageGallery images={product.images} />
                             </div>
                         </div>
-
+                        
                         {/* Detalles del producto (35%) */}
                         <div className="w-full md:w-[35%] pl-2">
                             <ProductDetail product={product} />
+                        </div>
+                    </div>
+
+                    <div className="p-4 flex md:flex-row flex-col gap-4">
+                        <div className="w-full">
+                            <ProductCharacteristics />
                         </div>
                     </div>
                 </div>
@@ -64,7 +69,7 @@ const ProductLayout = ({ product }) => {
 };
 
 ProductLayout.propTypes = {
-    product: PropTypes.object.isRequired
+    product: PropTypes.object.isRequired,
 };
 
 export default ProductLayout;
