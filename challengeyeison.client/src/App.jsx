@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from "./components/common/Header";
+import Footer from "./components/common/Footer";
 import ProductPage from './pages/ProductPage';
 import './App.css';
 
@@ -15,6 +16,7 @@ export default function App() {
                     {/* Ruta de fallback para IDs no válidos */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
+                <Footer />
             </div>
         </BrowserRouter>
     );

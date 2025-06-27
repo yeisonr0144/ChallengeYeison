@@ -3,10 +3,10 @@
         <div className="bg-white border border-gray-200 rounded-lg p-4 text-sm w-full font-sans">
             {/* Envío */}
             <div className="mb-2 leading-tight">
-                <p className="text-green-600 font-medium text-sm">
+                <p className="text-green-600 font-medium text-sm text-left">
                     Envío gratis <span className="text-gray-800">a todo el país</span>
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 text-left">
                     Conoce los tiempos y las formas de envío.{" "}
                     <span className="text-blue-500 hover:underline cursor-pointer text-xs">
                         Calcular cuándo llega
@@ -14,9 +14,27 @@
                 </p>
             </div>
 
-            {/* Stock */}
+            {/* Stock + Cantidad */}
             <div className="my-4">
-                <p className="text-base font-semibold text-gray-900">¡Última disponible!</p>
+                <p className="text-base font-semibold text-gray-900 text-left mb-1">Stock disponible</p>
+
+                <div className="flex items-center text-sm text-gray-700 gap-2">
+                    <span className="text-gray-800">Cantidad:</span>
+
+                    {/* Desplegable de cantidad */}
+                    <select
+                        className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        defaultValue="1"
+                    >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+
+                    {/* Unidades disponibles */}
+                    <span className="text-xs text-gray-500 ml-1">({stock} disponibles)</span>
+                </div>
             </div>
 
             {/* Botones */}

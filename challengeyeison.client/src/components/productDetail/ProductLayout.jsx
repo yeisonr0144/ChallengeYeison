@@ -32,7 +32,7 @@ const ProductLayout = ({ product }) => {
                         </div>
                         
                         {/* Detalles del producto (35%) */}
-                        <div className="w-full md:w-[35%] pl-2">
+                        <div className="w-full md:w-[35%] pt-6">
                             <ProductDetail product={product} />
                         </div>
                     </div>
