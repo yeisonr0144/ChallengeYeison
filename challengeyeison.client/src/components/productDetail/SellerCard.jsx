@@ -1,4 +1,43 @@
 import React from 'react';
+import {
+    ChatBubbleLeftRightIcon,
+    ClockIcon,
+    CheckCircleIcon
+} from "@heroicons/react/24/solid";
+
+const MedalIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        {/* Cinta superior */}
+        <path d="M8 2H16L14 8H10L8 2Z" fill="#fff" stroke="#00a650" strokeWidth="2" />
+
+        {/* Círculo medalla */}
+        <circle cx="12" cy="14" r="5" fill="#fff" stroke="#00a650" strokeWidth="2" />
+
+        {/* Estrella dentro de la medalla (opcional) */}
+        <path
+            d="M12 11.5L13.09 13.63L15.45 13.91L13.72 15.42L14.18 17.77L12 16.6L9.82 17.77L10.28 15.42L8.55 13.91L10.91 13.63L12 11.5Z"
+            fill="#00a650"
+        />
+    </svg>
+);
+
+const BubbleCheckIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" className="mx-auto mb-1">
+        <path d="M4 4H20V14H7L4 17V4Z" stroke="#666" strokeWidth="2" fill="#fff" />
+        <circle cx="17" cy="7" r="3" fill="#00a650" />
+        <path d="M16 7L17 8L19 6" stroke="#fff" strokeWidth="2" />
+    </svg>
+);
+const ClockCheckIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" className="mx-auto mb-1">
+        <circle cx="12" cy="12" r="8" stroke="#666" strokeWidth="2" fill="#fff" />
+        <path d="M12 8V12H15" stroke="#666" strokeWidth="2" />
+        <circle cx="17" cy="17" r="3" fill="#00a650" />
+        <path d="M16 17L17 18L19 16" stroke="#fff" strokeWidth="2" />
+    </svg>
+);
+
+
 
 const SellerCard = ({ seller }) => {
     return (
@@ -31,34 +70,40 @@ const SellerCard = ({ seller }) => {
             </div>
 
             {/* Nivel MercadoLíder */}
-            <div className="text-green-600 text-sm font-medium mb-1 text-left">🏅 MercadoLíder</div>
-            <p className="text-xs text-gray-600 mb-3 text-left">¡Uno de los mejores del sitio!</p>
+            <div className="mb-2 text-left flex items-center text-green-600 font-semibold text-sm">
+                <MedalIcon />
+                MercadoLíder
+            </div>
+            <p className="text-xs text-gray-500 mb-3">¡Uno de los mejores del sitio!</p>
+
 
             {/* Barra de reputación */}
-            <div className="flex w-full h-1 gap-x-1 overflow-hidden">
-                <div className="flex-1 bg-[#f23d4f] rounded-l-full"></div>     
+            <div className="flex w-full h-1 gap-x-1 overflow-hidden mb-4">
+                <div className="flex-1 bg-[#f23d4f] rounded-l-full"></div>
                 <div className="flex-1 bg-[#ff7733]"></div>
                 <div className="flex-1 bg-[#ffe600]"></div>
                 <div className="flex-1 bg-[#aadb1e]"></div>
                 <div className="flex-1 bg-[#00a650] rounded-r-full"></div>
             </div>
 
-
             {/* Métricas */}
-            <div className="grid grid-cols-3 text-center text-xs text-gray-700 mb-4">
+            <div className="grid grid-cols-3 gap-2 text-center text-xs text-gray-700 mb-4">
                 <div>
-                    <div className="font-semibold text-sm">+5mil</div>
+                    <div className="font-semibold text-sm">+1000</div>
                     <p className="text-[11px] text-gray-500 mt-1">Ventas concretadas</p>
                 </div>
-                <div>
-                    <div className="text-green-600 text-base">💬</div>
+
+                <div className="flex flex-col items-center">
+                    <BubbleCheckIcon />
                     <p className="text-[11px] text-gray-500 mt-1">Brinda buena atención</p>
                 </div>
-                <div>
-                    <div className="text-green-600 text-base">⏱️</div>
+
+                <div className="flex flex-col items-center">
+                    <ClockCheckIcon />
                     <p className="text-[11px] text-gray-500 mt-1">Entrega sus productos a tiempo</p>
                 </div>
             </div>
+
 
             {/* Botón */}
             <button className="w-full bg-blue-50 text-blue-600 text-sm font-medium py-2 rounded hover:bg-blue-100 transition">

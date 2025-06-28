@@ -61,23 +61,23 @@ export default function PriceInfo({ title, price, stock }) {
 
             {/* Beneficios */}
             <ul className="space-y-3 text-xs text-gray-800 text-left">
-                <li className="flex items-start gap-2 leading-tight">
+                <li className="flex items-start gap-2 leading-tight text-gray-500">
                     <span className="text-gray-600 mt-0.5">↩️</span>
                     <span>
                         <span className="text-blue-600 hover:underline cursor-pointer">
                             Devolución gratis
-                        </span>. Tienes 30 días desde que lo recibes.
+                        </span >. Tienes 30 días desde que lo recibes.
                     </span>
                 </li>
-                <li className="flex items-start gap-2 leading-tight">
+                <li className="flex items-start gap-2 leading-tight text-gray-600">
                     <span className="text-gray-600 mt-0.5">🔒</span>
-                    <span className="text-gray-600">
+                    <span>
                         <span className="text-blue-600 hover:underline cursor-pointer">
                             Compra Protegida
                         </span>, recibe el producto que esperabas o te devolvemos tu dinero.
                     </span>
                 </li>
-                <li className="flex items-start gap-2 leading-tight">
+                <li className="flex items-start gap-2 leading-tight text-gray-500">
                     <span className="text-gray-600 mt-0.5">🛠️</span>
                     <span>12 meses de garantía de fábrica.</span>
                 </li>
