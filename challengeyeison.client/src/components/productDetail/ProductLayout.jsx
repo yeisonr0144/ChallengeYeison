@@ -1,15 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import ImageGallery from "./ImageGallery";
 import ProductDetail from "./ProductDetail";
 import PaymentOptions from "./PaymentOptions";
 import PriceInfo from "./PriceInfo";
 import SellerCard from "./SellerCard";
-import ProductQuestions from "../ProductQuestions";
-import ProductReviews from "../ProductReviews";
+import ProductQuestions from "./ProductQuestions";
+import ProductReviews from "./ProductReviews";
 import ProductCharacteristics from './ProductCharacteristics';
 
 const ProductLayout = ({ product, seller }) => {
+    const firstColor = product.variants.find(v => v.type === "color")?.value;
+    const [selectedColor, setSelectedColor] = useState(firstColor || null);
+
+    // Obtener imágenes según color
+    const selectedVariantImages =
+        product.variants.find((v) => v.type === "color" && v.value === selectedColor)?.images || product.images;
+
+
     return (
         <div className="w-full max-w-[1210px] mx-auto px-4">
             {/* Breadcrumb */}
@@ -27,13 +36,14 @@ const ProductLayout = ({ product, seller }) => {
                         {/* Galería (65%) */}
                         <div className="w-full md:w-[65%] pr-2">
                             <div className="sticky top-24 self-start">
-                                <ImageGallery images={product.images} />
+                                <ImageGallery images={selectedVariantImages} />
+                                {/*<ImageGallery images={product.images} />*/}
                             </div>
                         </div>
                         
                         {/* Detalles del producto (35%) */}
                         <div className="w-full md:w-[35%] pt-6">
-                            <ProductDetail product={product} seller={seller} />
+                            <ProductDetail product={product} seller={seller} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
                         </div>
                     </div>
 

@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { TicketIcon } from "@heroicons/react/24/outline";
 
-const ProductDetail = ({ product, seller }) => {
+const ProductDetail = ({ product, seller, selectedColor, setSelectedColor }) => {
     const [showAllFeatures, setShowAllFeatures] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
-    const [selectedColor, setSelectedColor] = useState('');
+    //const [selectedColor, setSelectedColor] = useState('');
     const [hoveredColor, setHoveredColor] = useState('');
 
     const getProductFeatures = (product) => {
@@ -158,8 +159,13 @@ const ProductDetail = ({ product, seller }) => {
 
                 {/* Cupón */}
                 <div className="flex items-center gap-2 text-sm">
-                    <button className="bg-blue-600 text-white px-2 py-1 text-xs rounded font-semibold">Cupón</button>
-                    <span className="text-gray-700 text-xs">$ 80.000 OFF. Compra mínima $1.299.900</span>
+                    <div className="flex items-center bg-blue-100 text-[#3483fa] px-2 py-1 rounded text-xs font-medium">
+                        <TicketIcon className="w-4 h-4 mr-1" />
+                        Cupón
+                    </div>
+                    <span className="text-gray-700 text-xs">
+                        $ 80.000 OFF. Compra mínima $1.299.900
+                    </span>
                 </div>
 
                 {/* Variantes del producto */}
@@ -186,7 +192,7 @@ const ProductDetail = ({ product, seller }) => {
                                                 key={variant.value}
                                                 className={`flex flex-col items-center gap-1 border p-1 rounded text-xs 
                                                     ${variant.type === 'color' ? 'w-12 h-12' : 'px-2 py-2'}
-                                                    ${(variant.isSelected || variant.value === selectedColor) ? 'border-blue-500' : 'border-gray-300'}
+                                                    ${(variant.value === selectedColor) ? 'border-blue-500' : 'border-gray-300'}
                                                     hover:border-blue-500 transition-all duration-200`}
                                                 onClick={() => {
                                                     if (variant.type === 'color') {

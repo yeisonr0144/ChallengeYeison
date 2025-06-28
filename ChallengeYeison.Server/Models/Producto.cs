@@ -88,6 +88,7 @@ namespace ChallengeYeison.Server.Models
         public string ImageUrl { get; set; } = string.Empty;
         public decimal PriceModifier { get; set; } // Modificador de precio para esta variante
         public int Stock { get; set; } // Stock específico de esta variante
+        public List<string> Images { get; set; } = new List<string>();
     }
 
     public class Rating
