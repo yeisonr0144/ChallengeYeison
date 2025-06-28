@@ -5,6 +5,8 @@ import codensa from "../../assets/payments/codensa.svg";
 import effecty from "../../assets/payments/effecty.svg";
 import debitVisa from "../../assets/payments/visa_debit.svg";
 import debitMaster from "../../assets/payments/mastercard_debit.svg";
+import { CreditCardIcon } from "@heroicons/react/24/outline";
+
 
 export default function PaymentOptions() {
     return (
@@ -13,12 +15,11 @@ export default function PaymentOptions() {
             <h3 className="text-lg text-gray-900 mb-4 text-left">Medios de pago</h3>
 
             {/* Alerta */}
-            <div className="bg-[#00a650] text-white rounded-md px-3 py-2 text-xs font-medium mb-5 flex items-center gap-2">
-                {/* Ícono (puedes reemplazar por uno mejor si usas RemixIcon o Heroicons) */}
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                ¡Paga en hasta 12 cuotas con 0% interés!
+            <div className="bg-[#00a650] text-white rounded-md px-4 py-3 text-sm font-medium mb-5 flex items-center gap-3 text-left">
+                <CreditCardIcon className="h-5 w-5 text-white flex-shrink-0" />
+                <p className="leading-snug">
+                    ¡Paga en hasta <span className="font-semibold">12 cuotas</span> con <span className="font-semibold">0% interés</span>!
+                </p>
             </div>
 
             {/* Crédito */}

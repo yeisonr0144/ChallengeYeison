@@ -38,7 +38,8 @@ const ProductLayout = ({ product }) => {
                     </div>
 
                     <div className="p-4 flex md:flex-row flex-col gap-4">
-                        <ProductCharacteristics characteristics={product.characteristics} />
+                        {/*<ProductCharacteristics characteristics={product.characteristics} />*/}
+                        <ProductCharacteristics />
                     </div>
                 </div>
                

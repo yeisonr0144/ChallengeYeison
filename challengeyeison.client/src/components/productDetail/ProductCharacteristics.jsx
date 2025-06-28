@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {
+    TagIcon,
+    CalendarIcon,
+    CubeIcon,
+    UserIcon,
+} from "@heroicons/react/24/outline";
 
 const hardcodedCharacteristics = {
     mainFeatures: {
@@ -24,60 +30,64 @@ const hardcodedCharacteristics = {
     },
     highlights: [
         {
-            icon: "🔖",
+            icon: <TagIcon />,
             label: "Marca",
-            value: "Inter Miami"
+            value: "Inter Miami",
         },
         {
-            icon: "👕",
+            icon: <CubeIcon />,
             label: "Material principal",
-            value: "Poliéster"
+            value: "Poliéster",
         },
         {
-            icon: "📅",
+            icon: <CalendarIcon />,
             label: "Modelo",
-            value: "2024"
+            value: "2024",
         },
         {
-            icon: "📌",
+            icon: <UserIcon />,
             label: "Tipo de prenda",
-            value: "Camiseta deportiva"
-        }
+            value: "Camiseta deportiva",
+        },
     ]
 };
 
 const ProductCharacteristics = ({ characteristics = hardcodedCharacteristics }) => {
     const { mainFeatures = {}, otherFeatures = {}, highlights = [] } = characteristics;
+    const [expanded, setExpanded] = useState(false);
+
+    // Mostrar solo primeros 5 si no está expandido
+    const maxVisible = 5;
+    const visibleMain = expanded ? Object.entries(mainFeatures) : Object.entries(mainFeatures).slice(0, maxVisible);
+    const visibleOther = expanded ? Object.entries(otherFeatures) : Object.entries(otherFeatures).slice(0, maxVisible);
 
     return (
-        <div className="mt-10 text-gray-800 font-sans w-full max-w-[1440px] mx-auto px-8">
+        <div className="mt-10 text-gray-800 font-sans w-full max-w-[1440px] mx-auto px-8 text-left">
             <h2 className="text-2xl font-semibold mb-6">Características del producto</h2>
 
             {/* Características destacadas */}
-            {highlights.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
-                    {highlights.map((item, idx) => (
-                        <div key={idx} className="flex items-start gap-3 text-lg text-gray-700">
-                            <div className="text-2xl leading-none">
-                                {item.icon}
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="font-medium leading-tight">{item.label}</span>
-                                <span className="text-gray-800 leading-tight">{item.value}</span>
-                            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 mb-8">
+                {highlights.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 text-sm text-gray-800">
+                        <div className="flex items-center justify-center w-9 h-9 bg-gray-100 rounded-full">
+                            {React.cloneElement(item.icon, { className: "w-5 h-5 text-gray-700" })}
                         </div>
-                    ))}
-                </div>
-            )}
+                        <p className="leading-tight">
+                            {item.label}: <span className="font-semibold">{item.value}</span>
+                        </p>
+                    </div>
+                ))}
+            </div>
 
+            {/* Tablas de características */}
             <div className="grid md:grid-cols-2 gap-12">
-                {/* Características principales */}
+                {/* Principales */}
                 <div>
                     <h3 className="text-base font-semibold text-left mb-2">Características principales</h3>
                     <div className="overflow-hidden rounded-lg border border-gray-200">
                         <table className="w-full text-xs text-left">
                             <tbody>
-                                {Object.entries(mainFeatures).map(([key, value], i) => (
+                                {visibleMain.map(([key, value], i) => (
                                     <tr key={key} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#ebebeb" }}>
                                         <td className="w-1/2 px-4 py-4 font-medium">{key}</td>
                                         <td className="w-1/2 px-4 py-4">{value}</td>
@@ -94,7 +104,7 @@ const ProductCharacteristics = ({ characteristics = hardcodedCharacteristics }) 
                     <div className="overflow-hidden rounded-lg border border-gray-200">
                         <table className="w-full text-xs text-left">
                             <tbody>
-                                {Object.entries(otherFeatures).map(([key, value], i) => (
+                                {visibleOther.map(([key, value], i) => (
                                     <tr key={key} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#ebebeb" }}>
                                         <td className="w-1/2 px-4 py-4 font-medium">{key}</td>
                                         <td className="w-1/2 px-4 py-4">{value}</td>
@@ -105,6 +115,27 @@ const ProductCharacteristics = ({ characteristics = hardcodedCharacteristics }) 
                     </div>
                 </div>
             </div>
+
+            {/* Botón Ver más / Ver menos */}
+            <div className="mt-4">
+                <button
+                    onClick={() => setExpanded(!expanded)}
+                    className="text-[#3483fa] text-sm font-normal hover:underline flex items-center gap-1"
+                >
+                    {expanded ? "Ver menos características" : "Ver todas las características"}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="#3483fa"
+                        strokeWidth={2}
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+            </div>
+
         </div>
     );
 };
