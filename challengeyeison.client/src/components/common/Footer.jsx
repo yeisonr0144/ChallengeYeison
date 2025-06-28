@@ -132,13 +132,20 @@ export default function Footer() {
                     <div className="max-w-[800px] mx-auto text-left">
                         {/* Enlaces legales en una sola línea */}
                         <div className="flex flex-wrap justify-start gap-x-1 mb-3">
-                            <a href="#" className="hover:underline">Trabaja con nosotros</a><span>|</span>
-                            <a href="#" className="hover:underline">Términos y condiciones</a><span>|</span>
-                            <a href="#" className="hover:underline">Promociones</a><span>|</span>
-                            <a href="#" className="hover:underline">Cómo cuidamos tu privacidad</a><span>|</span>
-                            <a href="#" className="hover:underline">Accesibilidad</a><span>|</span>
-                            <a href="#" className="hover:underline">Ayuda / PQR</a><span>|</span>
-                            <a href="#" className="hover:underline">Navidad</a><span>|</span>
+                            <a href="#" className="hover:underline">Trabaja con nosotros</a>
+                            <span className="text-gray-400">|</span>
+                            <a href="#" className="hover:underline">Términos y condiciones</a>
+                            <span className="text-gray-400">|</span>
+                            <a href="#" className="hover:underline">Promociones</a>
+                            <span className="text-gray-400">|</span>
+                            <a href="#" className="hover:underline">Cómo cuidamos tu privacidad</a>
+                            <span className="text-gray-400">|</span>
+                            <a href="#" className="hover:underline">Accesibilidad</a>
+                            <span className="text-gray-400">|</span>
+                            <a href="#" className="hover:underline">Ayuda / PQR</a>
+                            <span className="text-gray-400">|</span>
+                            <a href="#" className="hover:underline">Navidad</a>
+                            <span className="text-gray-400">|</span>
                             <a href="#" className="hover:underline">www.sic.gov.co</a>
                         </div>
 

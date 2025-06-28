@@ -21,9 +21,9 @@
         ],
         "reviews": [
             {
-                "rating": 5,
-                "text": "Excelente calidad de la camiseta, el material es muy bueno y la talla es perfecta. Los detalles del diseño son idénticos a los originales.",
-                "votes": 5,
+                "rating": 1,
+                "text": "Comentario traido de la API !!",
+                "votes": 100,
                 "date": "01 dic. 2024"
             },
             {

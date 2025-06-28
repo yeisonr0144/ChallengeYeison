@@ -10,7 +10,7 @@ import ProductQuestions from "./ProductQuestions";
 import ProductReviews from "./ProductReviews";
 import ProductCharacteristics from './ProductCharacteristics';
 
-const ProductLayout = ({ product, seller }) => {
+const ProductLayout = ({ product, seller, reviews }) => {
     const firstColor = product.variants.find(v => v.type === "color")?.value;
     const [selectedColor, setSelectedColor] = useState(firstColor || null);
 
@@ -69,7 +69,7 @@ const ProductLayout = ({ product, seller }) => {
                 <div className="md:col-span-9">
                     <div className="px-6 pb-6">
                         <ProductQuestions />
-                        <ProductReviews />
+                        <ProductReviews reviews={reviews} />
                     </div>
                 </div>
             </div>
@@ -80,6 +80,7 @@ const ProductLayout = ({ product, seller }) => {
 ProductLayout.propTypes = {
     product: PropTypes.object.isRequired,
     seller: PropTypes.object,
+    reviews: PropTypes.object,
 };
 
 export default ProductLayout;

@@ -1,57 +1,14 @@
 import React, { useState } from "react";
 import StarIcon from "../common/StarIcon";
 
-const ratingDetails = [
-    { stars: 5, percent: 80 },
-    { stars: 4, percent: 15 },
-    { stars: 3, percent: 3 },
-    { stars: 2, percent: 1 },
-    { stars: 1, percent: 1 },
-];
-
-const characteristics = [
-    { name: "Relación precio-calidad", stars: 5 },
-    { name: "Durabilidad", stars: 5 },
-    { name: "Calidad de la imagen", stars: 5 },
-    { name: "Velocidad al usarlo", stars: 5 },
-    { name: "Duración de la batería", stars: 5 },
-];
-
-const reviews = [
-    {
-        rating: 5,
-        text: "Es un portátil muy rápido y adecuado para diseñar, producir y jugar. Destaca por su buena relación calidad/precio y su diseño estético atractivo.",
-        votes: 5,
-        date: "01 dic. 2024"
-    },
-    {
-        rating: 4,
-        text: "Excelente producto. !!! Viene tal cual como ellos lo indican. Recomendado 100%%%%.",
-        votes: 4,
-        date: "04 dic. 2024"
-    },
-    {
-        rating: 5,
-        text: "Un producto multitarea, no lo uso para jugar, pero sí uso 2 pantallas y abro muchas pestañas de chrome, frameworks, etc. Revise el equipo y la batería y todo bien.",
-        votes: 3,
-        date: "04 ene. 2025"
-    },
-    {
-        rating: 5,
-        text: "Me ha funcionado muy bien para trabajo remoto. La batería dura bastante.",
-        votes: 2,
-        date: "08 dic. 2024"
-    },
-    {
-        rating: 5,
-        text: "Diseño elegante y excelente rendimiento. Lo recomiendo.",
-        votes: 6,
-        date: "10 mar. 2025"
-    },
-];
-
-export default function ProductReviews() {
+export default function ProductReviews({ reviews: reviewData }) {
     const [showAll, setShowAll] = useState(false);
+
+    if (!reviewData) {
+        return null;
+    }
+
+    const { rating, ratingDetails, characteristics, reviews } = reviewData;
     const visibleReviews = showAll ? reviews : reviews.slice(0, 3);
 
     return (
@@ -63,25 +20,23 @@ export default function ProductReviews() {
                 <div className="md:col-span-4 space-y-6">
                     <div className="flex items-start gap-4">
                         {/* Calificación numérica */}
-                        <div className="text-4xl font-medium text-[#3483fa]">4.9</div>
+                        <div className="text-4xl font-medium text-[#3483fa]">{rating.average}</div>
 
                         {/* Estrellas + texto debajo */}
                         <div className="flex flex-col items-start">
                             <div className="flex gap-0.5">
-                                {Array(5)
-                                    .fill(0)
-                                    .map((_, i) => (
-                                        <StarIcon key={i} className="w-4 h-4 text-blue-600 fill-[#3483fa]" />
-                                    ))}
+                                {[...Array(5)].map((_, i) => (
+                                    <StarIcon key={`rating-star-${i}`} className="w-4 h-4 text-blue-600 fill-[#3483fa]" />
+                                ))}
                             </div>
-                            <p className="text-gray-600 text-sm mt-1">32 calificaciones</p>
+                            <p className="text-gray-600 text-sm mt-1">{rating.totalReviews} calificaciones</p>
                         </div>
                     </div>
 
                     {/* Barras de estrellas */}
                     <div className="space-y-2">
                         {ratingDetails.map((item, i) => (
-                            <div key={i} className="flex items-center gap-3">
+                            <div key={`rating-detail-${i}`} className="flex items-center gap-3">
                                 <div className="flex-1 h-2 bg-gray-200 rounded overflow-hidden">
                                     <div
                                         className="h-full bg-[#999999]"
@@ -103,23 +58,17 @@ export default function ProductReviews() {
                         </h3>
                         <div className="space-y-4">
                             {characteristics.map((char, i) => (
-                                <div key={i} className="flex flex-col items-start">
+                                <div key={`characteristic-${i}`} className="flex flex-col items-start">
                                     <span className="text-gray-700 text-sm">{char.name}</span>
                                     <div className="flex gap-0.5 mt-1 text-blue-600 fill-[#3483fa]">
-                                        {Array(char.stars)
-                                            .fill(0)
-                                            .map((_, i) => (
-                                                <StarIcon key={i} className="text-blue-600 w-4 h-4" />
-                                            ))}
+                                        {[...Array(char.stars)].map((_, j) => (
+                                            <StarIcon key={`char-star-${i}-${j}`} className="text-blue-600 w-4 h-4" />
+                                        ))}
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
-
-
-
-
                 </div>
 
                 {/* Columna derecha: comentarios */}
@@ -139,16 +88,14 @@ export default function ProductReviews() {
                         <h3 className="text-gray-800 font-medium text-sm mb-2">
                             Opiniones destacadas
                         </h3>
-                        <p className="text-gray-500 text-xs mb-4">10 comentarios</p>
+                        <p className="text-gray-500 text-xs mb-4">{reviews.length} comentarios</p>
                         <div className="space-y-8">
                             {visibleReviews.map((review, i) => (
-                                <div key={i} className="space-y-3">
+                                <div key={`review-${i}`} className="space-y-3">
                                     <div className="flex gap-0.5 text-base">
-                                        {Array(review.rating)
-                                            .fill(0)
-                                            .map((_, i) => (
-                                                <StarIcon key={i} />
-                                            ))}
+                                        {[...Array(review.rating)].map((_, j) => (
+                                            <StarIcon key={`review-star-${i}-${j}`} />
+                                        ))}
                                     </div>
                                     <p className="text-gray-800 leading-relaxed text-sm">{review.text}</p>
                                     <div className="flex items-center gap-2">

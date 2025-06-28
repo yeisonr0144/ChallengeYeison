@@ -75,4 +75,38 @@ export const getSellerById = async (id) => {
     }
 };
 
+export const getReviewsByProductId = async (productId) => {
+    const fullUrl = `${axiosInstance.defaults.baseURL}Review/${productId}`;
+    console.log('🌐 [API] - Iniciando petición reviews:', {
+        productId,
+        fullUrl,
+        method: 'GET',
+        timestamp: new Date().toISOString()
+    });
+
+    try {
+        const response = await axiosInstance.get(`Review/${productId}`);
+        console.log('✅ [API] - Respuesta exitosa reviews:', {
+            status: response.status,
+            statusText: response.statusText,
+            hasData: !!response.data,
+            dataType: typeof response.data,
+            data: JSON.stringify(response.data, null, 2),
+            timestamp: new Date().toISOString()
+        });
+        return response.data;
+    } catch (error) {
+        console.error('❌ [API] - Error en petición reviews:', {
+            message: error.message,
+            code: error.code,
+            status: error.response?.status,
+            statusText: error.response?.statusText,
+            responseData: error.response?.data ? JSON.stringify(error.response.data, null, 2) : null,
+            url: fullUrl,
+            timestamp: new Date().toISOString()
+        });
+        throw error;
+    }
+};
+
 export default axiosInstance;
