@@ -1,0 +1,55 @@
+[
+    {
+        "productId": "MLA12345",
+        "rating": {
+            "average": 4.9,
+            "totalReviews": 32
+        },
+        "ratingDetails": [
+            { "stars": 5, "percent": 80 },
+            { "stars": 4, "percent": 15 },
+            { "stars": 3, "percent": 3 },
+            { "stars": 2, "percent": 1 },
+            { "stars": 1, "percent": 1 }
+        ],
+        "characteristics": [
+            { "name": "Calidad de la tela", "stars": 5 },
+            { "name": "Ajuste al cuerpo", "stars": 5 },
+            { "name": "Diseño y estilo", "stars": 5 },
+            { "name": "Durabilidad", "stars": 5 },
+            { "name": "Relación precio-calidad", "stars": 5 }
+        ],
+        "reviews": [
+            {
+                "rating": 5,
+                "text": "Excelente calidad de la camiseta, el material es muy bueno y la talla es perfecta. Los detalles del diseño son idénticos a los originales.",
+                "votes": 5,
+                "date": "01 dic. 2024"
+            },
+            {
+                "rating": 4,
+                "text": "Muy buena camiseta, el material es fresco y cómodo. El diseño es exactamente como se muestra en las fotos.",
+                "votes": 4,
+                "date": "04 dic. 2024"
+            },
+            {
+                "rating": 5,
+                "text": "La calidad es excelente, los acabados son perfectos y el material es muy transpirable. Ideal para usar en clima cálido.",
+                "votes": 3,
+                "date": "04 ene. 2025"
+            },
+            {
+                "rating": 5,
+                "text": "Me encanta cómo queda la camiseta, el tejido es de primera calidad y mantiene su forma después de varios lavados.",
+                "votes": 2,
+                "date": "08 dic. 2024"
+            },
+            {
+                "rating": 5,
+                "text": "Los colores son vibrantes y la calidad de impresión es perfecta. Vale cada peso invertido.",
+                "votes": 6,
+                "date": "10 mar. 2025"
+            }
+        ]
+    }
+] 
