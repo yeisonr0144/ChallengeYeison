@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StarIcon from "../components/StarIcon";
+import StarIcon from "../common/StarIcon";
 
 const ratingDetails = [
     { stars: 5, percent: 80 },

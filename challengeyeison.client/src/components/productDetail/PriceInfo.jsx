@@ -1,4 +1,4 @@
-﻿import QuantitySelect from "../QuantitySelect";
+﻿import QuantitySelect from "./QuantitySelect";
 
 export default function PriceInfo({ stock, sellerName }) {
     console.log('🔵 PriceInfo props:', { stock, sellerName });

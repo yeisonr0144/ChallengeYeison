@@ -66,7 +66,12 @@
         "isSelected": true,
         "imageUrl": "https://footsoccerpro.co/wp-content/uploads/2022/03/MAILLOT-Inter-Miami-CF-Noir-2023-1.jpg",
         "priceModifier": 0,
-        "stock": 8
+        "stock": 8,
+        "images": [
+          "https://footsoccerpro.co/wp-content/uploads/2022/03/MAILLOT-Inter-Miami-CF-Noir-2023-1.jpg",
+          "https://th.bing.com/th/id/OIP.8TzY5D7Kd_bY1CmrLB10VgHaHa?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3"
+          
+        ]
       },
       {
         "type": "color",
@@ -75,7 +80,12 @@
         "isSelected": false,
         "imageUrl": "https://th.bing.com/th/id/OIP.W0OzkuyC6YCyUx56_jU1VAHaIO?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
         "priceModifier": 0,
-        "stock": 7
+        "stock": 7,
+        "images": [
+          "https://th.bing.com/th/id/OIP.W0OzkuyC6YCyUx56_jU1VAHaIO?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+          "https://th.bing.com/th/id/OIP.W0OzkuyC6YCyUx56_jU1VAHaIO?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+          "https://th.bing.com/th/id/OIP.W0OzkuyC6YCyUx56_jU1VAHaIO?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3"
+        ]
       },
       {
         "type": "size",
