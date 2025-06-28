@@ -6,10 +6,12 @@ export default function ProductPage() {
     const { id } = useParams();
     console.log('🎯 ProductPage - ID from params:', id);
 
-    const { product, loading, error } = useProduct(id);
+    const { product, seller, loading, error } = useProduct(id);
     console.log('📱 ProductPage - Estado actual:', {
         hasProduct: !!product,
+        hasSeller: !!seller,
         productData: product,
+        sellerData: seller,
         loading,
         error,
         id
@@ -18,6 +20,7 @@ export default function ProductPage() {
     return (
         <BodyLayout 
             product={product}
+            seller={seller}
             loading={loading}
             error={error}
         />

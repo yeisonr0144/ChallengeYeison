@@ -3,15 +3,17 @@ import PropTypes from "prop-types";
 import ProductLayout from "../productDetail/ProductLayout";
 import Loader from "./Loader";
 
-export const BodyLayout = ({ product, loading, error }) => {
+export const BodyLayout = ({ product, seller, loading, error }) => {
     useEffect(() => {
         console.log('🎨 BodyLayout - Props recibidas:', {
             hasProduct: !!product,
+            hasSeller: !!seller,
             productData: product,
+            sellerData: seller,
             loading,
             error
         });
-    }, [product, loading, error]);
+    }, [product, seller, loading, error]);
 
     const renderContent = () => {
         if (loading) {
@@ -50,8 +52,8 @@ export const BodyLayout = ({ product, loading, error }) => {
             );
         }
 
-        console.log('✅ BodyLayout - Renderizando producto:', product);
-        return <ProductLayout product={product} />;
+        console.log('✅ BodyLayout - Renderizando producto:', { product, seller });
+        return <ProductLayout product={product} seller={seller} />;
     };
 
     return (
@@ -63,6 +65,7 @@ export const BodyLayout = ({ product, loading, error }) => {
 
 BodyLayout.propTypes = {
     product: PropTypes.object,
+    seller: PropTypes.object,
     loading: PropTypes.bool.isRequired,
     error: PropTypes.any
 };

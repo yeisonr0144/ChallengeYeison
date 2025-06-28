@@ -41,6 +41,7 @@
       }
     ],
     "seller": {
+      "id": "SELLER001",
       "name": "JPLTECNOLOGIASASJPLTECNOLOG",
       "location": "Medellín",
       "reputation": "Muy buena"

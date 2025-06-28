@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-
-
-const ProductDetail = ({ product }) => {
+const ProductDetail = ({ product, seller }) => {
     const [showAllFeatures, setShowAllFeatures] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
 
@@ -104,8 +102,16 @@ const ProductDetail = ({ product }) => {
             <div className="space-y-6 text-left">
                 {/* Etiquetas superiores */}
                 <div className="flex items-center gap-2 text-sm mb-1">
-                    <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded">MÁS VENDIDO</span>
-                    <span className="text-blue-600 underline text-xs cursor-pointer">17º en Portátiles Lenovo</span>
+                    {seller?.level && (
+                        <span className="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                            {seller.level}
+                        </span>
+                    )}
+                    {seller?.badges?.map((badge, index) => (
+                        <span key={index} className="text-gray-600 text-xs">
+                            {badge.icon} {badge.text}
+                        </span>
+                    ))}
                 </div>
 
                 {/* Título y calificaciones */}
@@ -154,6 +160,48 @@ const ProductDetail = ({ product }) => {
                     </div>
                 </div>
 
+                {/* Información del vendedor */}
+                {seller && (
+                    <div className="border-t border-gray-200 pt-4 mt-4">
+                        <h3 className="text-lg font-semibold mb-2">Información del vendedor</h3>
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                                <span className="text-gray-600">{seller.name}</span>
+                                <span className="text-blue-600 text-sm">{seller.levelDescription}</span>
+                            </div>
+                            {seller.metrics && (
+                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <div className="text-gray-600">Ventas completadas</div>
+                                        <div className="font-semibold">{seller.metrics.completedSales}</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-gray-600">Atención al cliente</div>
+                                        <div className="font-semibold">{seller.metrics.customerServiceRating}%</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-gray-600">Entregas a tiempo</div>
+                                        <div className="font-semibold">{seller.metrics.onTimeDeliveryRating}%</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-gray-600">Tasa de reclamos</div>
+                                        <div className="font-semibold">{seller.metrics.claimRate}%</div>
+                                    </div>
+                                </div>
+                            )}
+                            {seller.metrics?.badges && (
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                    {seller.metrics.badges.map((badge, index) => (
+                                        <span key={index} className="inline-flex items-center gap-1 text-sm text-gray-600">
+                                            {badge.icon} {badge.text}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
                 {/* Cupón */}
                 <div className="flex items-center gap-2 text-sm">
                     <button className="bg-blue-600 text-white px-2 py-1 text-xs rounded font-semibold">Cupón</button>
@@ -199,6 +247,7 @@ const ProductDetail = ({ product }) => {
                         }
                     </div>
                 )}
+
                 {/* Características destacadas */}
                 <div className="space-y-2">
                     <h3 className="text-sm font-medium text-gray-900">Lo que tienes que saber de este producto</h3>
@@ -217,7 +266,6 @@ const ProductDetail = ({ product }) => {
                         </button>
                     )}
                 </div>
-
             </div>
         </div>
     );
@@ -250,16 +298,38 @@ ProductDetail.propTypes = {
                 imageUrl: PropTypes.string,
             })
         ),
-        specifications: PropTypes.shape({
-            additionalSpecs: PropTypes.object,
+        characteristics: PropTypes.shape({
+            mainFeatures: PropTypes.object,
+            otherFeatures: PropTypes.object,
         }),
-        seller: PropTypes.shape({
-            name: PropTypes.string,
-            location: PropTypes.string,
-            reputation: PropTypes.string,
+    }),
+    seller: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+        level: PropTypes.string,
+        levelDescription: PropTypes.string,
+        badges: PropTypes.arrayOf(
+            PropTypes.shape({
+                type: PropTypes.string,
+                text: PropTypes.string,
+                icon: PropTypes.string,
+            })
+        ),
+        metrics: PropTypes.shape({
+            completedSales: PropTypes.number,
+            customerServiceRating: PropTypes.number,
+            onTimeDeliveryRating: PropTypes.number,
+            cancellationRate: PropTypes.number,
+            claimRate: PropTypes.number,
+            badges: PropTypes.arrayOf(
+                PropTypes.shape({
+                    type: PropTypes.string,
+                    text: PropTypes.string,
+                    icon: PropTypes.string,
+                })
+            ),
         }),
-        stock: PropTypes.number,
-    })
+    }),
 };
 
 export default ProductDetail;

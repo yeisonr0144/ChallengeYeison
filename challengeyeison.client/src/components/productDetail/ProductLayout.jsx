@@ -9,7 +9,7 @@ import ProductQuestions from "../ProductQuestions";
 import ProductReviews from "../ProductReviews";
 import ProductCharacteristics from './ProductCharacteristics';
 
-const ProductLayout = ({ product }) => {
+const ProductLayout = ({ product, seller }) => {
     return (
         <div className="w-full max-w-[1210px] mx-auto px-4">
             {/* Breadcrumb */}
@@ -33,7 +33,7 @@ const ProductLayout = ({ product }) => {
                         
                         {/* Detalles del producto (35%) */}
                         <div className="w-full md:w-[35%] pt-6">
-                            <ProductDetail product={product} />
+                            <ProductDetail product={product} seller={seller} />
                         </div>
                     </div>
 
@@ -46,10 +46,9 @@ const ProductLayout = ({ product }) => {
                 {/* Columna derecha independiente */}
                 <div className="md:col-span-3">
                     <div className="p-4 space-y-4">
-                        <PriceInfo stock={product.stock} sellerName={product.seller.name} />
-                        <SellerCard seller={product.seller} />
+                        <PriceInfo stock={product.stock} sellerName={seller?.name || product.seller.name} />
+                        <SellerCard seller={seller || product.seller} />
                         <PaymentOptions options={product.payment} />
-                        {/* <SellerInfo seller={product.seller} /> */}
                     </div>
                 </div>
 
@@ -70,6 +69,7 @@ const ProductLayout = ({ product }) => {
 
 ProductLayout.propTypes = {
     product: PropTypes.object.isRequired,
+    seller: PropTypes.object,
 };
 
 export default ProductLayout;
