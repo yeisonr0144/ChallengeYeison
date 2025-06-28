@@ -3,17 +3,18 @@ import PropTypes from "prop-types";
 import ProductLayout from "../productDetail/ProductLayout";
 import Loader from "./Loader";
 
-export const BodyLayout = ({ product, seller, loading, error }) => {
+export const BodyLayout = ({ product, seller, reviews, loading, error }) => {
     useEffect(() => {
         console.log('🎨 BodyLayout - Props recibidas:', {
             hasProduct: !!product,
             hasSeller: !!seller,
+            hasReviews: !!reviews,
             productData: product,
             sellerData: seller,
             loading,
             error
         });
-    }, [product, seller, loading, error]);
+    }, [product, seller, reviews, loading, error]);
 
     const renderContent = () => {
         if (loading) {
@@ -53,7 +54,7 @@ export const BodyLayout = ({ product, seller, loading, error }) => {
         }
 
         console.log('✅ BodyLayout - Renderizando producto:', { product, seller });
-        return <ProductLayout product={product} seller={seller} />;
+        return <ProductLayout product={product} seller={seller} reviews={reviews} />;
     };
 
     return (
@@ -66,6 +67,7 @@ export const BodyLayout = ({ product, seller, loading, error }) => {
 BodyLayout.propTypes = {
     product: PropTypes.object,
     seller: PropTypes.object,
+    reviews: PropTypes.object,
     loading: PropTypes.bool.isRequired,
     error: PropTypes.any
 };

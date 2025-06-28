@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { getProductById, getSellerById } from "../api/axiosInstance";
+import { getProductById, getSellerById, getReviewsByProductId } from "../api/axiosInstance";
 
 export const useProduct = (productId) => {
     const [product, setProduct] = useState(null);
     const [seller, setSeller] = useState(null);
+    const [reviews, setReviews] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -24,7 +25,7 @@ export const useProduct = (productId) => {
 
         let isSubscribed = true;
 
-        const fetchProductAndSeller = async () => {
+        const fetchProductAndDetails = async () => {
             console.log('📡 [useProduct] - Iniciando petición:', {
                 productId,
                 timestamp: new Date().toISOString()
@@ -57,6 +58,36 @@ export const useProduct = (productId) => {
                 // Agregamos un delay artificial de 1.2 segundos para el producto
                 await new Promise(resolve => setTimeout(resolve, 1200));
                 setProduct(productData);
+
+                // Obtener reviews
+                try {
+                    console.log('🔍 [useProduct] - Intentando obtener reviews:', {
+                        productId,
+                        timestamp: new Date().toISOString()
+                    });
+
+                    const reviewsData = await getReviewsByProductId(productId);
+                    if (!isSubscribed) return;
+
+                    console.log('🟠 [useProduct] - Datos del servicio de reviews:', {
+                        rating: reviewsData.rating,
+                        totalCharacteristics: reviewsData.characteristics?.length,
+                        totalReviews: reviewsData.reviews?.length,
+                        ratingDetails: reviewsData.ratingDetails,
+                        rawData: JSON.stringify(reviewsData, null, 2),
+                        timestamp: new Date().toISOString()
+                    });
+
+                    setReviews(reviewsData);
+                } catch (reviewsError) {
+                    console.error('❌ [useProduct] - Error al obtener reviews:', {
+                        error: reviewsError.message,
+                        status: reviewsError.response?.status,
+                        statusText: reviewsError.response?.statusText,
+                        responseData: reviewsError.response?.data ? JSON.stringify(reviewsError.response.data, null, 2) : null,
+                        timestamp: new Date().toISOString()
+                    });
+                }
 
                 // Si el producto tiene un ID de vendedor, lo obtenemos
                 if (productData.seller?.id) {
@@ -107,14 +138,17 @@ export const useProduct = (productId) => {
 
                 setProduct(null);
                 setSeller(null);
+                setReviews(null);
                 setError(err.response?.data?.message || "Error al cargar producto");
             } finally {
                 if (isSubscribed) {
                     console.log('🏁 [useProduct] - Petición finalizada:', {
                         hasProduct: !!product,
                         hasSeller: !!seller,
+                        hasReviews: !!reviews,
                         productFinal: product ? JSON.stringify(product, null, 2) : null,
                         sellerFinal: seller ? JSON.stringify(seller, null, 2) : null,
+                        reviewsFinal: reviews ? JSON.stringify(reviews, null, 2) : null,
                         hasError: !!error,
                         isLoading: false,
                         timestamp: new Date().toISOString()
@@ -124,7 +158,7 @@ export const useProduct = (productId) => {
             }
         };
 
-        fetchProductAndSeller();
+        fetchProductAndDetails();
 
         return () => {
             console.log('🧹 [useProduct] - Limpieza del efecto');
@@ -138,15 +172,17 @@ export const useProduct = (productId) => {
             loading,
             hasProduct: !!product,
             hasSeller: !!seller,
+            hasReviews: !!reviews,
             productData: product ? JSON.stringify(product, null, 2) : null,
             sellerData: seller ? JSON.stringify(seller, null, 2) : null,
+            reviewsData: reviews ? JSON.stringify(reviews, null, 2) : null,
             hasError: !!error,
             errorMessage: error,
             timestamp: new Date().toISOString()
         });
-    }, [productId, product, seller, loading, error]);
+    }, [productId, product, seller, reviews, loading, error]);
 
-    return { product, seller, loading, error };
+    return { product, seller, reviews, loading, error };
 };
 
 export function useProducts() {
