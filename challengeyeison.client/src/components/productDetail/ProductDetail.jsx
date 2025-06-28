@@ -5,6 +5,8 @@ import { useState } from 'react';
 const ProductDetail = ({ product, seller }) => {
     const [showAllFeatures, setShowAllFeatures] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [selectedColor, setSelectedColor] = useState('');
+    const [hoveredColor, setHoveredColor] = useState('');
 
     const getProductFeatures = (product) => {
         if (!product?.characteristics) return [];
@@ -102,16 +104,8 @@ const ProductDetail = ({ product, seller }) => {
             <div className="space-y-6 text-left">
                 {/* Etiquetas superiores */}
                 <div className="flex items-center gap-2 text-sm mb-1">
-                    {seller?.level && (
-                        <span className="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded">
-                            {seller.level}
-                        </span>
-                    )}
-                    {seller?.badges?.map((badge, index) => (
-                        <span key={index} className="text-gray-600 text-xs">
-                            {badge.icon} {badge.text}
-                        </span>
-                    ))}
+                    <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded">MÁS VENDIDO</span>
+                    <span className="text-blue-600 underline text-xs cursor-pointer">17º en Portátiles Lenovo</span>
                 </div>
 
                 {/* Título y calificaciones */}
@@ -160,47 +154,7 @@ const ProductDetail = ({ product, seller }) => {
                     </div>
                 </div>
 
-                {/* Información del vendedor */}
-                {seller && (
-                    <div className="border-t border-gray-200 pt-4 mt-4">
-                        <h3 className="text-lg font-semibold mb-2">Información del vendedor</h3>
-                        <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                                <span className="text-gray-600">{seller.name}</span>
-                                <span className="text-blue-600 text-sm">{seller.levelDescription}</span>
-                            </div>
-                            {seller.metrics && (
-                                <div className="grid grid-cols-2 gap-4 text-sm">
-                                    <div>
-                                        <div className="text-gray-600">Ventas completadas</div>
-                                        <div className="font-semibold">{seller.metrics.completedSales}</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-gray-600">Atención al cliente</div>
-                                        <div className="font-semibold">{seller.metrics.customerServiceRating}%</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-gray-600">Entregas a tiempo</div>
-                                        <div className="font-semibold">{seller.metrics.onTimeDeliveryRating}%</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-gray-600">Tasa de reclamos</div>
-                                        <div className="font-semibold">{seller.metrics.claimRate}%</div>
-                                    </div>
-                                </div>
-                            )}
-                            {seller.metrics?.badges && (
-                                <div className="flex flex-wrap gap-2 mt-2">
-                                    {seller.metrics.badges.map((badge, index) => (
-                                        <span key={index} className="inline-flex items-center gap-1 text-sm text-gray-600">
-                                            {badge.icon} {badge.text}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                )}
+               
 
                 {/* Cupón */}
                 <div className="flex items-center gap-2 text-sm">
@@ -223,19 +177,38 @@ const ProductDetail = ({ product, seller }) => {
                             }, [])
                             .map(group => (
                                 <div key={group.type}>
-                                    <h3 className="text-gray-700 mb-2 capitalize text-sm">{group.type}:</h3>
+                                    <h3 className="text-gray-700 mb-2 capitalize text-sm">
+                                        {group.type === 'color' ? (hoveredColor || selectedColor || 'Color') : group.type}:
+                                    </h3>
                                     <div className="flex gap-3">
                                         {group.items.map(variant => (
                                             <button
                                                 key={variant.value}
-                                                className={`flex flex-col items-center gap-1 border px-2 py-2 rounded text-xs ${variant.isSelected ? 'border-blue-500' : 'border-gray-300'
-                                                    }`}
+                                                className={`flex flex-col items-center gap-1 border p-1 rounded text-xs 
+                                                    ${variant.type === 'color' ? 'w-12 h-12' : 'px-2 py-2'}
+                                                    ${(variant.isSelected || variant.value === selectedColor) ? 'border-blue-500' : 'border-gray-300'}
+                                                    hover:border-blue-500 transition-all duration-200`}
+                                                onClick={() => {
+                                                    if (variant.type === 'color') {
+                                                        setSelectedColor(variant.value);
+                                                    }
+                                                }}
+                                                onMouseEnter={() => {
+                                                    if (variant.type === 'color') {
+                                                        setHoveredColor(variant.name);
+                                                    }
+                                                }}
+                                                onMouseLeave={() => {
+                                                    if (variant.type === 'color') {
+                                                        setHoveredColor('');
+                                                    }
+                                                }}
                                             >
                                                 {variant.imageUrl && (
                                                     <img
                                                         src={variant.imageUrl}
                                                         alt={variant.name}
-                                                        className="w-10 h-10 object-cover rounded"
+                                                        className={`object-cover rounded ${variant.type === 'color' ? 'w-10 h-10' : 'w-10 h-10'}`}
                                                     />
                                                 )}
                                                 <span className="text-gray-700">{variant.name}</span>

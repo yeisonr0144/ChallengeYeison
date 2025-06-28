@@ -75,7 +75,7 @@ const SellerCard = ({ seller }) => {
                 <>
                     <div className="mb-2 text-left flex items-center text-green-600 font-semibold text-sm">
                     <MedalIcon />
-                         {seller.level}
+                    {seller.level}
                     </div>
                     <p className="text-xs text-gray-500 mb-3">{seller.levelDescription}</p>
                 </>
@@ -101,19 +101,18 @@ const SellerCard = ({ seller }) => {
                     <div className="flex flex-col items-center">
                         <BubbleCheckIcon />
                         <p className="text-[11px] text-gray-500 mt-1">
-                            {seller.metrics?.badges?.find(badge => badge.type === 'customerService')?.text || 'Brinda buena atención'}
+                            {seller.metrics.badges?.find(b => b.type === 'good_service')?.text || 'Brinda buena atención'}
                         </p>
                     </div>
 
                     <div className="flex flex-col items-center">
                         <ClockCheckIcon />
                         <p className="text-[11px] text-gray-500 mt-1">
-                            {seller.metrics?.badges?.find(badge => badge.type === 'delivery')?.text || 'Entrega sus productos a tiempo'}
+                            {seller.metrics.badges?.find(b => b.type === 'fast_delivery')?.text || 'Entrega sus productos a tiempo'}
                         </p>
                     </div>
                 </div>
             )}
-
 
             {/* Botón */}
             <button className="w-full bg-blue-50 text-blue-600 text-sm font-medium py-2 rounded hover:bg-blue-100 transition">

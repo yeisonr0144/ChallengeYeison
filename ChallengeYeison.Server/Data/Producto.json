@@ -37,7 +37,9 @@
       {
         "method": "Tarjeta de crédito",
         "installments": 6,
-        "amount": 25000
+        "amount": 25000,
+        "hasInterest": false,
+        "cardType": "credit"
       }
     ],
     "seller": {
@@ -45,6 +47,123 @@
       "name": "JPLTECNOLOGIASASJPLTECNOLOG",
       "location": "Medellín",
       "reputation": "Muy buena"
-    }
+    },
+    "originalPrice": 200000,
+    "discountPercentage": 10,
+    "specifications": {
+      "additionalSpecs": {
+        "Tipo": "Camiseta oficial",
+        "Temporada": "2024",
+        "Equipo": "Inter Miami",
+        "Liga": "MLS"
+      }
+    },
+    "variants": [
+      {
+        "type": "color",
+        "name": "Negro - Visitante",
+        "value": "black",
+        "isSelected": true,
+        "imageUrl": "https://footsoccerpro.co/wp-content/uploads/2022/03/MAILLOT-Inter-Miami-CF-Noir-2023-1.jpg",
+        "priceModifier": 0,
+        "stock": 8
+      },
+      {
+        "type": "color",
+        "name": "Blanco/Rosa - Local",
+        "value": "white-pink",
+        "isSelected": false,
+        "imageUrl": "https://th.bing.com/th/id/OIP.W0OzkuyC6YCyUx56_jU1VAHaIO?r=0&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+        "priceModifier": 0,
+        "stock": 7
+      },
+      {
+        "type": "size",
+        "name": "Talla S",
+        "value": "S",
+        "isSelected": false,
+        "imageUrl": "",
+        "priceModifier": 0,
+        "stock": 4
+      },
+      {
+        "type": "size",
+        "name": "Talla M",
+        "value": "M",
+        "isSelected": true,
+        "imageUrl": "",
+        "priceModifier": 0,
+        "stock": 3
+      },
+      {
+        "type": "size",
+        "name": "Talla L",
+        "value": "L",
+        "isSelected": false,
+        "imageUrl": "",
+        "priceModifier": 0,
+        "stock": 5
+      }
+    ],
+    "condition": "Nuevo",
+    "soldQuantity": 150,
+    "rating": {
+      "average": 4.5,
+      "totalReviews": 85,
+      "breakdown": [
+        {
+          "stars": 5,
+          "count": 50,
+          "percentage": 58.8
+        },
+        {
+          "stars": 4,
+          "count": 25,
+          "percentage": 29.4
+        },
+        {
+          "stars": 3,
+          "count": 7,
+          "percentage": 8.2
+        },
+        {
+          "stars": 2,
+          "count": 2,
+          "percentage": 2.4
+        },
+        {
+          "stars": 1,
+          "count": 1,
+          "percentage": 1.2
+        }
+      ],
+      "topReviews": [
+        {
+          "userName": "Juan P.",
+          "rating": 5,
+          "comment": "Excelente calidad, talla perfecta y envío rápido",
+          "date": "2024-02-15T10:30:00",
+          "isVerifiedPurchase": true,
+          "likesCount": 12
+        },
+        {
+          "userName": "María R.",
+          "rating": 4,
+          "comment": "Buen producto, pero el envío tardó un poco más de lo esperado",
+          "date": "2024-02-10T15:45:00",
+          "isVerifiedPurchase": true,
+          "likesCount": 8
+        }
+      ]
+    },
+    "benefits": [
+      "Envío gratis",
+      "Garantía de 30 días",
+      "Devolución gratis"
+    ],
+    "deliveryTime": "Entrega estimada: 2-3 días hábiles",
+    "hasFreeShipping": true,
+    "hasWarranty": true,
+    "warrantyMonths": 1
   }
 ]
