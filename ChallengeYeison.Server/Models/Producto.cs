@@ -10,7 +10,7 @@ namespace ChallengeYeison.Server.Models
         public int Stock { get; set; }
         public List<string> Images { get; set; } = new List<string>();
         public List<PaymentOption> Payment { get; set; } = new List<PaymentOption>();
-        public Seller Seller { get; set; } = new Seller();
+        public SellerDetail Seller { get; set; } = new SellerDetail();
         public decimal OriginalPrice { get; set; }  // Precio antes del descuento
         public int DiscountPercentage { get; set; } // Porcentaje de descuento
         public ProductSpecs Specifications { get; set; } = new ProductSpecs();
@@ -64,37 +64,6 @@ namespace ChallengeYeison.Server.Models
         public decimal Amount { get; set; }
         public bool HasInterest { get; set; }
         public string CardType { get; set; } = string.Empty; // "credit", "debit"
-    }
-
-    public class Seller
-    {
-        public string Id { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public string Location { get; set; } = string.Empty;
-        public string Reputation { get; set; } = string.Empty;
-        public string Level { get; set; } = string.Empty; // "MercadoLíder Platinum", etc.
-        public string Logo { get; set; } = string.Empty;
-        public SellerMetrics Metrics { get; set; } = new SellerMetrics();
-        public bool IsOfficial { get; set; }
-        public int YearsSellingOnPlatform { get; set; }
-        public int TotalSales { get; set; }
-    }
-
-    public class SellerMetrics
-    {
-        public int CompletedSales { get; set; }
-        public decimal CustomerServiceRating { get; set; } // Porcentaje
-        public decimal OnTimeDeliveryRating { get; set; } // Porcentaje
-        public decimal CancellationRate { get; set; }
-        public decimal ClaimRate { get; set; }
-        public List<SellerBadge> Badges { get; set; } = new List<SellerBadge>();
-    }
-
-    public class SellerBadge
-    {
-        public string Type { get; set; } = string.Empty; // "fast_shipping", "good_service", etc.
-        public string Text { get; set; } = string.Empty;
-        public string Icon { get; set; } = string.Empty;
     }
 
     public class ProductSpecs

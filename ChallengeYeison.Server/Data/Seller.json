@@ -1,0 +1,71 @@
+[
+  {
+    "id": "SELLER001",
+    "name": "JPLTECNOLOGIAS",
+    "level": "MercadoLíder",
+    "levelDescription": "¡Uno de los mejores del sitio!",
+    "badges": [
+      {
+        "type": "mercadolider",
+        "text": "MercadoLíder",
+        "icon": "🏅"
+      }
+    ],
+    "metrics": {
+      "completedSales": 5000,
+      "customerServiceRating": 95.5,
+      "onTimeDeliveryRating": 98.2,
+      "cancellationRate": 0.5,
+      "claimRate": 0.2,
+      "badges": [
+        {
+          "type": "good_service",
+          "text": "Brinda buena atención",
+          "icon": "💬"
+        },
+        {
+          "type": "fast_delivery",
+          "text": "Entrega sus productos a tiempo",
+          "icon": "⏱️"
+        }
+      ]
+    }
+  },
+  {
+    "id": "SELLER002",
+    "name": "SportStyle Colombia",
+    "level": "MercadoLíder Platinum",
+    "levelDescription": "¡Es uno de los mejores del sitio!",
+    "badges": [
+      {
+        "type": "mercadolider_platinum",
+        "text": "MercadoLíder Platinum",
+        "icon": "🏆"
+      },
+      {
+        "type": "verified_seller",
+        "text": "Vendedor Verificado",
+        "icon": "✓"
+      }
+    ],
+    "metrics": {
+      "completedSales": 12000,
+      "customerServiceRating": 98.0,
+      "onTimeDeliveryRating": 99.5,
+      "cancellationRate": 0.2,
+      "claimRate": 0.1,
+      "badges": [
+        {
+          "type": "excellent_service",
+          "text": "Excelente atención",
+          "icon": "⭐"
+        },
+        {
+          "type": "fast_delivery",
+          "text": "Entrega express garantizada",
+          "icon": "🚀"
+        }
+      ]
+    }
+  }
+] 

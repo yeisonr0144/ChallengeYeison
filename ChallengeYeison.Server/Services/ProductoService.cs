@@ -10,7 +10,7 @@ namespace ChallengeYeison.Server.Services
         private DateTime _lastCacheUpdate = DateTime.MinValue;
         private readonly TimeSpan _cacheExpiration = TimeSpan.FromMinutes(5);
 
-        public List<Producto> GetAll()
+        private List<Producto> LoadProducts()
         {
             if (_cachedProducts != null && DateTime.Now - _lastCacheUpdate < _cacheExpiration)
             {
@@ -53,7 +53,7 @@ namespace ChallengeYeison.Server.Services
 
             try
             {
-                return GetAll().FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+                return LoadProducts().FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
             }
             catch (Exception ex)
             {

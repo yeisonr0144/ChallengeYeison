@@ -18,21 +18,6 @@ namespace ChallengeYeison.Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public ActionResult GetAll()
-        {
-            try
-            {
-                var products = _service.GetAll();
-                return Ok(products);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al obtener todos los productos");
-                return StatusCode(500, new { message = "Error interno del servidor al obtener los productos" });
-            }
-        }
-
         [HttpGet("{id}")]
         public ActionResult GetById(string id)
         {

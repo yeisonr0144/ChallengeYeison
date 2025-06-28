@@ -38,6 +38,7 @@ const ClockCheckIcon = () => (
 );
 
 
+import PropTypes from 'prop-types';
 
 const SellerCard = ({ seller }) => {
     return (
@@ -58,7 +59,7 @@ const SellerCard = ({ seller }) => {
                             {seller.name}
                         </p>
                         <p className="text-xs text-gray-600 mt-0.5">
-                            +{5} Seguidores · +{15} Productos
+                            {seller.metrics && `+${seller.metrics.completedSales} ventas concretadas`}
                         </p>
                     </div>
                 </div>
@@ -70,12 +71,15 @@ const SellerCard = ({ seller }) => {
             </div>
 
             {/* Nivel MercadoLíder */}
-            <div className="mb-2 text-left flex items-center text-green-600 font-semibold text-sm">
-                <MedalIcon />
-                MercadoLíder
-            </div>
-            <p className="text-xs text-gray-500 mb-3">¡Uno de los mejores del sitio!</p>
-
+            {seller.level && (
+                <>
+                    <div className="mb-2 text-left flex items-center text-green-600 font-semibold text-sm">
+                    <MedalIcon />
+                         {seller.level}
+                    </div>
+                    <p className="text-xs text-gray-500 mb-3">{seller.levelDescription}</p>
+                </>
+            )}
 
             {/* Barra de reputación */}
             <div className="flex w-full h-1 gap-x-1 overflow-hidden mb-4">
@@ -87,22 +91,28 @@ const SellerCard = ({ seller }) => {
             </div>
 
             {/* Métricas */}
-            <div className="grid grid-cols-3 gap-2 text-center text-xs text-gray-700 mb-4">
-                <div>
-                    <div className="font-semibold text-sm">+1000</div>
-                    <p className="text-[11px] text-gray-500 mt-1">Ventas concretadas</p>
-                </div>
+            {seller.metrics && (
+                <div className="grid grid-cols-3 gap-2 text-center text-xs text-gray-700 mb-4">
+                    <div>
+                        <div className="font-semibold text-sm">{seller.metrics.completedSales.toLocaleString()}</div>
+                        <p className="text-[11px] text-gray-500 mt-1">Ventas concretadas</p>
+                    </div>
 
-                <div className="flex flex-col items-center">
-                    <BubbleCheckIcon />
-                    <p className="text-[11px] text-gray-500 mt-1">Brinda buena atención</p>
-                </div>
+                    <div className="flex flex-col items-center">
+                        <BubbleCheckIcon />
+                        <p className="text-[11px] text-gray-500 mt-1">
+                            {seller.metrics?.badges?.find(badge => badge.type === 'customerService')?.text || 'Brinda buena atención'}
+                        </p>
+                    </div>
 
-                <div className="flex flex-col items-center">
-                    <ClockCheckIcon />
-                    <p className="text-[11px] text-gray-500 mt-1">Entrega sus productos a tiempo</p>
+                    <div className="flex flex-col items-center">
+                        <ClockCheckIcon />
+                        <p className="text-[11px] text-gray-500 mt-1">
+                            {seller.metrics?.badges?.find(badge => badge.type === 'delivery')?.text || 'Entrega sus productos a tiempo'}
+                        </p>
+                    </div>
                 </div>
-            </div>
+            )}
 
 
             {/* Botón */}
@@ -111,6 +121,37 @@ const SellerCard = ({ seller }) => {
             </button>
         </div>
     );
+};
+
+SellerCard.propTypes = {
+    seller: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string.isRequired,
+        logo: PropTypes.string,
+        level: PropTypes.string,
+        levelDescription: PropTypes.string,
+        badges: PropTypes.arrayOf(
+            PropTypes.shape({
+                type: PropTypes.string,
+                text: PropTypes.string,
+                icon: PropTypes.string,
+            })
+        ),
+        metrics: PropTypes.shape({
+            completedSales: PropTypes.number,
+            customerServiceRating: PropTypes.number,
+            onTimeDeliveryRating: PropTypes.number,
+            cancellationRate: PropTypes.number,
+            claimRate: PropTypes.number,
+            badges: PropTypes.arrayOf(
+                PropTypes.shape({
+                    type: PropTypes.string,
+                    text: PropTypes.string,
+                    icon: PropTypes.string,
+                })
+            ),
+        }),
+    }).isRequired,
 };
 
 export default SellerCard;
