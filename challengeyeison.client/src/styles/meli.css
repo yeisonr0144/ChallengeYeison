@@ -145,6 +145,27 @@ html, body {
     font-size: 20px;
 }
 
+.header__cart-container {
+    position: relative;
+    display: inline-block;
+}
+
+.header__cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ff4949;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
 @media (max-width: 768px) {
     .header__right {
         display: none;

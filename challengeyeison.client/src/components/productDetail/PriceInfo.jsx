@@ -1,7 +1,9 @@
 ﻿import QuantitySelect from "./QuantitySelect";
+import { useCart } from "../../context/CartContext";
 
 export default function PriceInfo({ stock, sellerName }) {
     console.log('🔵 PriceInfo props:', { stock, sellerName });
+    const { addToCart } = useCart();
     
     return (
         <div className="bg-white border border-gray-200 rounded-lg p-4 text-sm w-full font-sans">
@@ -43,8 +45,9 @@ export default function PriceInfo({ stock, sellerName }) {
                     Comprar ahora
                 </button>
                 <button
-                    className="w-full px-4 py-2 bg-blue-100 text-blue-500 text-sm font-semibold rounded cursor-not-allowed"
-                    disabled
+                    className="w-full px-4 py-2 bg-blue-100 text-blue-500 text-sm font-semibold rounded hover:bg-blue-200 transition"
+                    onClick={addToCart}
+                    disabled={stock === 0}
                 >
                     Agregar al carrito
                 </button>
