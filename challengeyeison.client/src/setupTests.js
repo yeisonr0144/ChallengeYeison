@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom'
+import { vi } from 'vitest'
 
 // Configuración global para todas las pruebas
 beforeAll(() => {
@@ -9,8 +10,13 @@ afterAll(() => {
     // Limpieza global después de todas las pruebas
 })
 
-// Configuración de mock para fetch global si es necesario
+// Mock global fetch
 global.fetch = vi.fn()
+
+// Limpiar todos los mocks después de cada test
+afterEach(() => {
+  vi.clearAllMocks()
+})
 
 // Silenciar warnings específicos de testing-library si es necesario
 const originalError = console.error
