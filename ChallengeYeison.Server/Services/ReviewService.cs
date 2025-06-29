@@ -44,7 +44,7 @@ namespace ChallengeYeison.Server.Services
             }
         }
 
-        public ProductReview? GetByProductId(string productId)
+        public virtual ProductReview? GetByProductId(string productId)
         {
             if (string.IsNullOrWhiteSpace(productId))
             {
@@ -61,7 +61,7 @@ namespace ChallengeYeison.Server.Services
             }
         }
 
-        public void ClearCache()
+        public virtual void ClearCache()
         {
             _cachedReviews = null;
             _lastCacheUpdate = DateTime.MinValue;

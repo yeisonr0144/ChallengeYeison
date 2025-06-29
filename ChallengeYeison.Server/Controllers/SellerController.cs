@@ -19,7 +19,7 @@ namespace ChallengeYeison.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<SellerDetail> GetById(string id)
+        public ActionResult GetById(string id)
         {
             try
             {
@@ -27,20 +27,23 @@ namespace ChallengeYeison.Server.Controllers
                 if (seller == null)
                 {
                     _logger.LogWarning("Vendedor no encontrado: {Id}", id);
-                    return NotFound(new { message = $"Vendedor con ID {id} no encontrado" });
+                    return NotFound(new ErrorResponse { Message = $"Vendedor con ID {id} no encontrado" });
                 }
-                return seller;
+                return Ok(seller);
             }
             catch (ArgumentException ex)
             {
                 _logger.LogWarning(ex, "Solicitud inválida para ID: {Id}", id);
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new ErrorResponse { Message = ex.Message });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al obtener el vendedor: {Id}", id);
-                return StatusCode(500, new { message = "Error interno del servidor al obtener el vendedor" });
+                return StatusCode(500, new ErrorResponse { Message = "Error interno del servidor al obtener el vendedor" });
             }
         }
+
+
     }
-} 
+}
+
