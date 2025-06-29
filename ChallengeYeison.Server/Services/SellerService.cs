@@ -51,7 +51,7 @@ namespace ChallengeYeison.Server.Services
             }
         }
 
-        public SellerDetail? GetSellerById(string id)
+        public virtual SellerDetail? GetSellerById(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
