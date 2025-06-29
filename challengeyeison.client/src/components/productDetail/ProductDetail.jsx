@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { TicketIcon } from "@heroicons/react/24/outline";
+import { useFavorites } from "../../context/FavoritesContext";
 
 const ProductDetail = ({ product, seller, selectedColor, setSelectedColor }) => {
     const [showAllFeatures, setShowAllFeatures] = useState(false);
-    const [isFavorite, setIsFavorite] = useState(false);
-    //const [selectedColor, setSelectedColor] = useState('');
     const [hoveredColor, setHoveredColor] = useState('');
+    const { toggleFavorite, isFavorite } = useFavorites();
 
     const getProductFeatures = (product) => {
         if (!product?.characteristics) return [];
@@ -30,10 +30,6 @@ const ProductDetail = ({ product, seller, selectedColor, setSelectedColor }) => 
 
     const maxVisible = 5;
     const visibleFeatures = showAllFeatures ? productFeatures : productFeatures.slice(0, maxVisible);
-
-    const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
-    };
 
     if (!product) {
         return (
@@ -58,13 +54,15 @@ const ProductDetail = ({ product, seller, selectedColor, setSelectedColor }) => 
         return stars;
     };
 
+    const isProductFavorite = isFavorite(product.id);
+
     return (
         <div className="relative">
             {/* Icono de corazón */}
             <button
-                onClick={toggleFavorite}
-                className={`absolute top-0 right-0 transition-colors ${isFavorite ? "text-[#3483FA]" : "text-gray-500 hover:text-[#3483FA]"}`}>
-                {isFavorite ? (
+                onClick={() => toggleFavorite(product.id)}
+                className={`absolute top-0 right-0 transition-colors ${isProductFavorite ? "text-[#3483FA]" : "text-gray-500 hover:text-[#3483FA]"}`}>
+                {isProductFavorite ? (
                     // ❤️ Corazón relleno
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -309,6 +307,8 @@ ProductDetail.propTypes = {
             ),
         }),
     }),
+    selectedColor: PropTypes.string,
+    setSelectedColor: PropTypes.func
 };
 
 export default ProductDetail;
