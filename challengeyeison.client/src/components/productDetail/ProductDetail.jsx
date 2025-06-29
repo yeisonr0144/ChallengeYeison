@@ -82,22 +82,22 @@ const ProductDetail = ({ product, seller, selectedColor, setSelectedColor }) => 
                     </svg>
                 ) : (
                     // 🤍 Corazón contorno
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                             d="M21.752 7.86c0 4.745-6.752 8.486-9.752 
                         11.14-3-2.654-9.752-6.395-9.752-11.14A5.252 
                         5.252 0 0112 5.248a5.252 5.252 0 019.752 2.612z"
-                        />
-                    </svg>
+                    />
+                </svg>
                 )}
             </button>
             <div className="space-y-6 text-left">
@@ -279,10 +279,10 @@ ProductDetail.propTypes = {
             mainFeatures: PropTypes.object,
             otherFeatures: PropTypes.object,
         }),
-    }),
-    seller: PropTypes.shape({
+        }),
+        seller: PropTypes.shape({
         id: PropTypes.string,
-        name: PropTypes.string,
+            name: PropTypes.string,
         level: PropTypes.string,
         levelDescription: PropTypes.string,
         badges: PropTypes.arrayOf(
