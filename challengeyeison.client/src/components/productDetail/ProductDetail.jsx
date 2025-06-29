@@ -168,7 +168,7 @@ const ProductDetail = ({ product, seller, selectedColor, setSelectedColor }) => 
 
                 {/* Variantes del producto */}
                 {product.variants && product.variants.length > 0 && (
-                    <div className="product-options space-y-6">
+                    <div className="product-options space-y-8">
                         {product.variants
                             .reduce((groups, variant) => {
                                 const group = groups.find(g => g.type === variant.type);

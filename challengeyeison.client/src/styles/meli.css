@@ -1,210 +1,169 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-}
-
+/* Estructura principal del header */
 .header {
     background-color: #ffe600;
-    padding: 8px 0;
-    width: 100%;
+    font-family: Arial, sans-serif;
+}
+/* Contenedor centrado del header */
+.header__container-wrapper {
+    max-width: 1210px;
+    margin: 0 auto;
+    overflow-x: hidden; /* Evita scroll horizontal si algo se sale */
+    box-sizing: border-box;
+    padding: 0 12px; /* opcional: evita que el contenido pegue contra los bordes */
 }
 
 .header__container {
-    max-width: 1210px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center; /* 👈 cambia esto a center */
-    justify-content: space-between;
-    flex-wrap: wrap;
-    height: auto;
-    padding: 0 16px; /* ⬅️ mejora separación */
-}
-
-.header__left {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column; /* ⬅️ permite mostrar ubicación debajo */
-    align-items: flex-start;
-    justify-content: center;
-    gap: 4px;
-}
-
-.header__logo {
-    height: 40px;
-    width: auto;
-}
-
-.header__center {
-    flex: 1; /* ⬅️ ocupa espacio restante */
     display: flex;
     flex-direction: column;
-    align-items: center; /* ⬅️ centrado exacto */
-    justify-content: center;
-    gap: 4px;
+    padding: 0 1rem 0.5rem 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* Fila superior: logo, buscador, banner */
+.header__top {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15% 50% 32%;
+    align-items: center;
+    gap: 1rem;
+    min-height: 60px;
+}
+
+    .header__top > div:last-child {
+        overflow: hidden;
+    }
+
+.header__logo {
+    max-width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
 
 .header__search-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 580px;
+    display: flex;
+    align-items: center;
 }
 
 .header__search {
     width: 100%;
-    padding: 10px 40px 10px 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 16px;
+    padding: 10px 40px 10px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
 }
 
 .header__search-icon {
     position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 12px;
     font-size: 18px;
-    color: #888;
-    pointer-events: none;
+    color: #555;
 }
 
+/* Imagen de banner */
+.header__banner {
+    max-width: 100%;
+    /*   width: 100%;*/
+    height: auto;
+    max-height: 60px;
+    object-fit: contain;
+    display: block;
+}
+
+/* Espacio entre filas */
+.header__spacer {
+    height: 8px;
+}
+
+/* Fila inferior: ubicación, links, acciones */
+.header__bottom {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15% 50% 31%;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Ubicación */
+.header__location {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+    .header__location .w-4 {
+        width: 24px;
+        height: 24px;
+    }
+
+    .header__location .leading-tight {
+        line-height: 1;
+    }
+
+/* Enlaces bajo el buscador */
 .header__under-search-links {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 4px;
+    gap: 1rem;
+    font-size: 14px;
+    justify-content: flex-start;
 }
 
     .header__under-search-links a {
         text-decoration: none;
-        color: black;
-        font-size: 14px;
+        color: #333;
     }
 
-.header__location {
-    display: flex;
-    align-items: center;
-    font-size: 13px;
-    color: #333;
-    gap: 4px;
-}
-
-    .header__location i {
-        font-size: 16px;
+    .header__under-search-links .super-new {
+        color: #3483fa;
+        font-weight: bold;
     }
-.header__right {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 4px;
-}
 
-.header__banner {
-    height: 36px; /* más exacto */
-    width: auto;
-    object-fit: contain;
-}
-
+/* Botones de usuario a la derecha */
 .header__right-buttons {
     display: flex;
-    flex-wrap: nowrap;
     justify-content: flex-end;
-    align-items: center; /* ⬅️ importante para alinear verticalmente */
-    gap: 12px;
-}
-
-.header__nav {
-    display: none;
-}
-
-.header__mobile-menu {
-    display: flex;
-    justify-content: space-around;
-    background-color: #ffe600;
-    padding: 8px;
-    flex-wrap: wrap;
-}
-
-.header__mobile-link {
-    text-decoration: none;
-    color: black;
+    align-items: center;
+    gap: 1rem;
     font-size: 14px;
-    padding: 4px 8px;
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow: hidden;
 }
+
+    .header__right-buttons a {
+        text-decoration: none;
+        color: #333;
+        white-space: nowrap;
+    }
 
 .header__cart-icon {
-    font-size: 20px;
+    color: #333;
 }
 
-.header__cart-container {
-    position: relative;
-    display: inline-block;
-}
-
-.header__cart-count {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background-color: #ff4949;
-    color: white;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
+/* Responsive para móvil */
 @media (max-width: 768px) {
-    .header__right {
-        display: none;
+    .header__top,
+    .header__bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
     }
 
-    .header__center {
-        padding: 8px;
+    .header__under-search-links,
+    .header__right-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
-    .header__under-search-links {
-        display: none;
+    .header__location {
+        justify-content: center;
     }
-}
 
-
-
-/* Fondo general del body */
-.body-wrapper {
-    background-color: #ededed;
-    padding: 24px 0;
-}
-
-/* Contenedor blanco centrado */
-.body-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: white;
-    display: flex;
-    gap: 24px;
-    padding: 24px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Columna principal (65%) */
-.body-main {
-    flex: 0 0 65%;
-}
-
-/* Columna lateral (35%) */
-.body-sidebar {
-    flex: 0 0 35%;
+    .header__logo {
+        height: 40px;
+    }
 }
