@@ -1,15 +1,33 @@
 ﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 import "../../styles/meli.css";
 
 export default function Header() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const { cartCount } = useCart();
+
+    useEffect(() => {
+        console.log('🛒 [Header] - Estado del carrito:', {
+            cartCount,
+            timestamp: new Date().toISOString()
+        });
+    }, [cartCount]);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    const CartIcon = () => (
+        <Link to="#" className="header__mobile-link header__cart-container">
+            <i className="header__cart-icon">🛒</i>
+            {cartCount > 0 && (
+                <span className="header__cart-count">{cartCount}</span>
+            )}
+        </Link>
+    );
 
     return (
         <header className="header">
@@ -56,9 +74,7 @@ export default function Header() {
                             <Link to="#" className="header__mobile-link">Crea tu cuenta</Link>
                             <Link to="#" className="header__mobile-link">Ingresa</Link>
                             <Link to="#" className="header__mobile-link">Mis compras</Link>
-                            <Link to="#" className="header__mobile-link">
-                                <i className="header__cart-icon">🛒</i>
-                            </Link>
+                            <CartIcon />
                         </div>
                     </div>
                 )}
@@ -69,9 +85,7 @@ export default function Header() {
                     <Link to="#" className="header__mobile-link">Crea tu cuenta</Link>
                     <Link to="#" className="header__mobile-link">Ingresa</Link>
                     <Link to="#" className="header__mobile-link">Mis compras</Link>
-                    <Link to="#" className="header__mobile-link">
-                        <i className="header__cart-icon">🛒</i>
-                    </Link>
+                    <CartIcon />
                 </div>
             )}
         </header>
