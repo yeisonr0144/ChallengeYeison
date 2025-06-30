@@ -52,7 +52,7 @@ const SellerCard = ({ seller }) => {
                             "https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/6.6.9/mercadolibre/logo__large_plus.png"
                         }
                         alt="Logo vendedor"
-                        className="w-12 h-12 rounded-md object-contain"
+                        className="w-8 h-8 rounded-full object-contain"
                     />
                     <div>
                         <p className="font-semibold text-sm text-gray-900 leading-none truncate max-w-[110px]">
@@ -92,7 +92,7 @@ const SellerCard = ({ seller }) => {
 
             {/* Métricas */}
             {seller.metrics && (
-                <div className="grid grid-cols-3 gap-2 text-center text-xs text-gray-700 mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-2 text-center text-xs text-gray-700 mb-4">
                     <div>
                         <div className="font-semibold text-sm">{seller.metrics.completedSales.toLocaleString()}</div>
                         <p className="text-[11px] text-gray-500 mt-1">Ventas concretadas</p>
