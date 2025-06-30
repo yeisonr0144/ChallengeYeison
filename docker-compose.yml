@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: ./challengeyeison.client
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./ChallengeYeison.Server
+      dockerfile: Dockerfile
+    ports:
+      - "5065:5065"
+
+  frontend-test:
+      build:
+        context: ./challengeyeison.client
+        dockerfile: Dockerfile
+        target: test
+      command: ["npm", "run", "test", "--", "--coverage"]
