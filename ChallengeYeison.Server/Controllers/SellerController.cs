@@ -9,10 +9,10 @@ namespace ChallengeYeison.Server.Controllers
     [Route("api/[controller]")]
     public class SellerController : ControllerBase
     {
-        private readonly SellerService _sellerService;
+        private readonly ISellerService _sellerService;
         private readonly ILogger<SellerController> _logger;
 
-        public SellerController(SellerService sellerService, ILogger<SellerController> logger)
+        public SellerController(ISellerService sellerService, ILogger<SellerController> logger)
         {
             _sellerService = sellerService;
             _logger = logger;

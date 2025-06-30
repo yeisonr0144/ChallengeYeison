@@ -12,6 +12,7 @@ namespace ChallengeYeison.Server.Services
 
         private List<Producto> LoadProducts()
         {
+            // Validar si el caché es válido (debe cumplir ambas condiciones)
             if (_cachedProducts != null && DateTime.Now - _lastCacheUpdate < _cacheExpiration)
             {
                 return _cachedProducts;
@@ -19,19 +20,29 @@ namespace ChallengeYeison.Server.Services
 
             try
             {
+                // Verificar si el archivo existe
                 if (!File.Exists(_jsonPath))
                 {
                     throw new FileNotFoundException($"El archivo de productos no existe en la ruta: {_jsonPath}");
                 }
 
+                // Leer y deserializar el archivo JSON
                 var json = File.ReadAllText(_jsonPath);
-                _cachedProducts = JsonSerializer.Deserialize<List<Producto>>(json, new JsonSerializerOptions 
-                { 
-                    PropertyNameCaseInsensitive = true,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                }) ?? new List<Producto>();
+                var deserializedProducts = JsonSerializer.Deserialize<List<Producto>>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true // Permitir coincidencia de nombres de propiedades sin importar mayúsculas/minúsculas
+                });
 
+                // Validar que los datos deserializados no sean nulos
+                if (deserializedProducts == null)
+                {
+                    throw new InvalidOperationException("El archivo de productos está vacío o tiene un formato incorrecto.");
+                }
+
+                // Actualizar el caché
+                _cachedProducts = deserializedProducts;
                 _lastCacheUpdate = DateTime.Now;
+
                 return _cachedProducts;
             }
             catch (JsonException ex)
@@ -44,6 +55,7 @@ namespace ChallengeYeison.Server.Services
             }
         }
 
+
         public virtual Producto? GetById(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -53,13 +65,19 @@ namespace ChallengeYeison.Server.Services
 
             try
             {
-                return LoadProducts().FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+                LoadProducts();
+                return _cachedProducts?.FirstOrDefault(p => p.Id == id);
+            }
+            catch (FileNotFoundException ex)
+            {
+                throw new InvalidOperationException("Error al leer el archivo de productos", ex);
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"Error al obtener el producto con ID {id}", ex);
             }
         }
+
 
         public virtual void ClearCache()
         {

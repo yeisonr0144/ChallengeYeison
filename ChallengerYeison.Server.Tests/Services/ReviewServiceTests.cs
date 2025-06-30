@@ -13,7 +13,7 @@ namespace ChallengerYeison.Server.Tests.Services
         private readonly string _testJsonPath = "TestData/Review.json";
 
         [Fact]
-        public void LoadReviews_ThrowsFileNotFoundException_WhenFileDoesNotExist()
+        public void LoadReviews_ThrowsInvalidOperationException_WhenFileDoesNotExist()
         {
             // Arrange
             var reviewService = new ReviewService();
@@ -21,9 +21,15 @@ namespace ChallengerYeison.Server.Tests.Services
             privateField?.SetValue(reviewService, "InvalidPath/Review.json");
 
             // Act & Assert
-            var exception = Assert.Throws<FileNotFoundException>(() => reviewService.GetByProductId("1"));
-            Assert.Contains("El archivo de reviews no existe", exception.Message);
+            var exception = Assert.Throws<InvalidOperationException>(() => reviewService.GetByProductId("1"));
+            Assert.Contains("Error al leer el archivo de reviews", exception.Message);
+
+            // Verificar la excepción interna
+            var innerException = exception.InnerException as FileNotFoundException;
+            Assert.NotNull(innerException);
+            Assert.Contains("El archivo de reviews no existe en la ruta: InvalidPath/Review.json", innerException.Message);
         }
+
 
         [Fact]
         public void LoadReviews_ThrowsInvalidOperationException_WhenJsonIsInvalid()

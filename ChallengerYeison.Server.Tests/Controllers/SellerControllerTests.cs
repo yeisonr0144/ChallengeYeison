@@ -11,13 +11,13 @@ namespace ChallengerYeison.Server.Tests
 {
     public class SellerControllerTests
     {
-        private readonly Mock<SellerService> _mockSellerService;
+        private readonly Mock<ISellerService> _mockSellerService; // Cambiar a la interfaz
         private readonly Mock<ILogger<SellerController>> _mockLogger;
         private readonly SellerController _controller;
 
         public SellerControllerTests()
         {
-            _mockSellerService = new Mock<SellerService>();
+            _mockSellerService = new Mock<ISellerService>(); // Crear el mock de la interfaz
             _mockLogger = new Mock<ILogger<SellerController>>();
             _controller = new SellerController(_mockSellerService.Object, _mockLogger.Object);
         }

@@ -14,7 +14,7 @@ namespace ChallengerYeison.Server.Tests.Services
         private readonly string _testJsonPath = "TestData/Producto.json";
 
         [Fact]
-        public void LoadProducts_ThrowsFileNotFoundException_WhenFileDoesNotExist()
+        public void LoadProducts_ThrowsInvalidOperationException_WhenFileDoesNotExist()
         {
             // Arrange
             var productoService = new ProductoService();
@@ -23,9 +23,17 @@ namespace ChallengerYeison.Server.Tests.Services
             privateField?.SetValue(productoService, invalidPath);
 
             // Act & Assert
-            var exception = Assert.Throws<FileNotFoundException>(() => productoService.GetById("1"));
-            Assert.Contains("El archivo de productos no existe", exception.Message);
+            var exception = Assert.Throws<InvalidOperationException>(() => productoService.GetById("1"));
+            Assert.Equal("Error al leer el archivo de productos", exception.Message);
+
+            // Verificar la excepción interna
+            var innerException = exception.InnerException as FileNotFoundException;
+            Assert.NotNull(innerException);
+            Assert.Contains("El archivo de productos no existe", innerException.Message);
         }
+
+
+
 
         [Fact]
         public void LoadProducts_ThrowsInvalidOperationException_WhenJsonIsInvalid()
@@ -33,16 +41,16 @@ namespace ChallengerYeison.Server.Tests.Services
             // Arrange
             var productoService = new ProductoService();
             var privateField = typeof(ProductoService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(productoService, _testJsonPath);
+            privateField?.SetValue(productoService, "InvalidPath/Producto.json");
 
-            File.WriteAllText(_testJsonPath, "Invalid JSON");
+            File.WriteAllText("InvalidPath/Producto.json", "Invalid JSON");
 
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() => productoService.GetById("1"));
             Assert.Contains("Error al deserializar el archivo de productos", exception.Message);
 
             // Cleanup
-            File.Delete(_testJsonPath);
+            File.Delete("InvalidPath/Producto.json");
         }
 
         [Fact]
