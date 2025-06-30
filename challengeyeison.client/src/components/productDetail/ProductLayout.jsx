@@ -18,7 +18,6 @@ const ProductLayout = ({ product, seller, reviews }) => {
     const selectedVariantImages =
         product.variants.find((v) => v.type === "color" && v.value === selectedColor)?.images || product.images;
 
-
     return (
         <div className="w-full max-w-[1210px] mx-auto px-4">
             {/* Breadcrumb */}
@@ -28,49 +27,55 @@ const ProductLayout = ({ product, seller, reviews }) => {
                 </span>
             </div>
 
-            {/* Grid principal compacto */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-0 bg-white rounded-lg shadow-sm">
-                {/* Columna combinada: Galería + Detalles producto */}
-                <div className="md:col-span-9">
-                    <div className="p-4 flex md:flex-row flex-col gap-4">
-                        {/* Galería (65%) */}
-                        <div className="w-full md:w-[65%] pr-2">
-                            <div className="sticky top-24 self-start">
+            {/* Grid principal */}
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 bg-white rounded-lg shadow-sm">
+                {/* Sección Principal (Galería + Detalles) */}
+                <div className="xl:col-span-9 flex flex-col">
+                    {/* Contenedor Galería + Detalles */}
+                    <div className="flex flex-col xl:flex-row gap-4 p-4">
+                        {/* Galería - Se expande a full width < 1280px */}
+                        <div className="w-full xl:w-[65%]">
+                            <div className="sticky top-24">
                                 <ImageGallery images={selectedVariantImages} />
-                                {/*<ImageGallery images={product.images} />*/}
                             </div>
                         </div>
                         
-                        {/* Detalles del producto (35%) */}
-                        <div className="w-full md:w-[35%] pt-6">
-                            <ProductDetail product={product} seller={seller} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
+                        {/* Detalles Producto - Va debajo en < 1280px */}
+                        <div className="w-full xl:w-[35%]">
+                            <ProductDetail 
+                                product={product} 
+                                seller={seller} 
+                                selectedColor={selectedColor} 
+                                setSelectedColor={setSelectedColor} 
+                            />
                         </div>
                     </div>
 
-                    <div className="p-4 flex md:flex-row flex-col gap-4">
-                        {/*<ProductCharacteristics characteristics={product.characteristics} />*/}
+                    {/* Características */}
+                    <div className="p-4">
                         <ProductCharacteristics />
                     </div>
                 </div>
-               
-                {/* Columna derecha independiente */}
-                <div className="md:col-span-3">
+
+                {/* Columna Derecha - Va al final en < 1280px */}
+                <div className="xl:col-span-3">
                     <div className="p-4 space-y-4">
-                        <PriceInfo stock={product.stock} sellerName={seller?.name || product.seller.name} />
+                        <PriceInfo 
+                            stock={product.stock} 
+                            sellerName={seller?.name || product.seller.name} 
+                        />
                         <SellerCard seller={seller || product.seller} />
                         <PaymentOptions options={product.payment} />
                     </div>
                 </div>
 
-                {/* Línea divisoria que ocupa todo el ancho */}
-                <div className="col-span-12 border-t border-gray-200" />
+                {/* Línea divisoria */}
+                <div className="col-span-full border-t border-gray-200" />
 
-                {/* Sección de preguntas alineada a la izquierda como la columna principal */}
-                <div className="md:col-span-9">
-                    <div className="px-6 pb-6">
-                        <ProductQuestions />
-                        <ProductReviews reviews={reviews} />
-                    </div>
+                {/* Preguntas y Reviews */}
+                <div className="xl:col-span-9 px-6 pb-6">
+                    <ProductQuestions />
+                    <ProductReviews reviews={reviews} />
                 </div>
             </div>
         </div>
