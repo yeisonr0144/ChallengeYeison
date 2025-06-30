@@ -2,24 +2,36 @@
 using ChallengeYeison.Server.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ChallengerYeison.Server.Tests.Services
 {
     public class ReviewServiceTests
     {
+        private readonly ITestOutputHelper _output;
+
+        public ReviewServiceTests(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
         [Fact]
         public void LoadReviews_ThrowsInvalidOperationException_WhenJsonIsInvalid()
         {
             // Arrange
             var reviewService = new ReviewService();
-            var privateField = typeof(ReviewService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, "Invalid JSON");
+            var privateField = typeof(ReviewService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            _output.WriteLine($"Campo privado encontrado: {privateField != null}");
+            privateField?.SetValue(reviewService, "Invalid/Path/To/File.json");
 
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() => reviewService.GetByProductId("1"));
-            Assert.Contains("Error al deserializar el archivo de reviews", exception.Message);
+            Assert.Contains("Error al leer el archivo de reviews", exception.Message);
+            Assert.IsType<FileNotFoundException>(exception.InnerException);
+            Assert.Contains("El archivo de reviews no existe", exception.InnerException?.Message);
         }
 
         [Fact]
@@ -38,12 +50,15 @@ namespace ChallengerYeison.Server.Tests.Services
         {
             // Arrange
             var reviewService = new ReviewService();
-            var jsonData = @"[
-                {""ProductId"": ""1""},
-                {""ProductId"": ""2""}
-            ]";
-            var privateField = typeof(ReviewService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, jsonData);
+            var reviews = new List<ProductReview>
+            {
+                new() { ProductId = "1" },
+                new() { ProductId = "2" }
+            };
+            var privateField = typeof(ReviewService).GetField("_cachedReviews", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            _output.WriteLine($"Campo privado encontrado: {privateField != null}");
+            _output.WriteLine($"Reviews: {JsonSerializer.Serialize(reviews)}");
+            privateField?.SetValue(reviewService, reviews);
 
             // Act
             var result = reviewService.GetByProductId("3");
@@ -57,12 +72,17 @@ namespace ChallengerYeison.Server.Tests.Services
         {
             // Arrange
             var reviewService = new ReviewService();
-            var jsonData = @"[
-                {""ProductId"": ""1"", ""Rating"": {""Average"": 4.5}},
-                {""ProductId"": ""2"", ""Rating"": {""Average"": 3.0}}
-            ]";
-            var privateField = typeof(ReviewService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, jsonData);
+            var reviews = new List<ProductReview>
+            {
+                new() { ProductId = "1", Rating = new ProductRating { Average = 4.5 } },
+                new() { ProductId = "2", Rating = new ProductRating { Average = 3.0 } }
+            };
+            var privateField = typeof(ReviewService).GetField("_cachedReviews", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var lastUpdateField = typeof(ReviewService).GetField("_lastCacheUpdate", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            _output.WriteLine($"Campo privado encontrado: {privateField != null}");
+            _output.WriteLine($"Reviews: {JsonSerializer.Serialize(reviews)}");
+            privateField?.SetValue(reviewService, reviews);
+            lastUpdateField?.SetValue(reviewService, DateTime.Now);
 
             // Act
             var result = reviewService.GetByProductId("1");
@@ -78,20 +98,21 @@ namespace ChallengerYeison.Server.Tests.Services
         {
             // Arrange
             var reviewService = new ReviewService();
-            var jsonData = @"[{""ProductId"": ""1""}]";
-            var privateField = typeof(ReviewService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, jsonData);
+            var reviews = new List<ProductReview>
+            {
+                new() { ProductId = "1" }
+            };
+            var privateField = typeof(ReviewService).GetField("_cachedReviews", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            _output.WriteLine($"Campo privado encontrado: {privateField != null}");
+            _output.WriteLine($"Reviews: {JsonSerializer.Serialize(reviews)}");
+            privateField?.SetValue(reviewService, reviews);
 
             // Act
-            var reviewBeforeClear = reviewService.GetByProductId("1");
             reviewService.ClearCache();
-            var reviewAfterClear = reviewService.GetByProductId("1");
 
             // Assert
-            Assert.NotNull(reviewBeforeClear);
-            Assert.NotNull(reviewAfterClear);
-            Assert.Equal("1", reviewBeforeClear.ProductId);
-            Assert.Equal("1", reviewAfterClear.ProductId);
+            var cachedReviews = privateField?.GetValue(reviewService) as List<ProductReview>;
+            Assert.Null(cachedReviews);
         }
     }
 }
