@@ -1,6 +1,5 @@
 ﻿using ChallengeYeison.Server.Models;
 using ChallengeYeison.Server.Services;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,20 +18,20 @@ namespace ChallengerYeison.Server.Tests.Services
             // Arrange
             var productoService = new ProductoService();
             var invalidPath = "InvalidPath/Producto.json";
+
+            // Asegurarse de que el archivo no exista
+            if (File.Exists(invalidPath))
+            {
+                File.Delete(invalidPath);
+            }
+
             var privateField = typeof(ProductoService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             privateField?.SetValue(productoService, invalidPath);
 
             // Act & Assert
-            var exception = Assert.Throws<InvalidOperationException>(() => productoService.GetById("1"));
-            Assert.Equal("Error al leer el archivo de productos", exception.Message);
-
-            // Verificar la excepción interna
-            var innerException = exception.InnerException as FileNotFoundException;
-            Assert.NotNull(innerException);
-            Assert.Contains("El archivo de productos no existe", innerException.Message);
+            var exception = Assert.Throws<FileNotFoundException>(() => productoService.LoadProducts());
+            Assert.Contains("El archivo de productos no existe en la ruta especificada.", exception.Message);
         }
-
-
 
 
         [Fact]
@@ -43,14 +42,16 @@ namespace ChallengerYeison.Server.Tests.Services
             var privateField = typeof(ProductoService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             privateField?.SetValue(productoService, "InvalidPath/Producto.json");
 
+            Directory.CreateDirectory("InvalidPath");
             File.WriteAllText("InvalidPath/Producto.json", "Invalid JSON");
 
             // Act & Assert
-            var exception = Assert.Throws<InvalidOperationException>(() => productoService.GetById("1"));
+            var exception = Assert.Throws<JsonException>(() => productoService.LoadProducts());
             Assert.Contains("Error al deserializar el archivo de productos", exception.Message);
 
             // Cleanup
             File.Delete("InvalidPath/Producto.json");
+            Directory.Delete("InvalidPath");
         }
 
         [Fact]
@@ -63,9 +64,10 @@ namespace ChallengerYeison.Server.Tests.Services
 
             var products = new List<Producto>
             {
-                new Producto { Id = "1", Title = "Producto 1" },
-                new Producto { Id = "2", Title = "Producto 2" }
+                new Producto { Id = "1", Title = "Producto 1", Price = 100, Stock = 10 },
+                new Producto { Id = "2", Title = "Producto 2", Price = 200, Stock = 20 }
             };
+            Directory.CreateDirectory("TestData");
             File.WriteAllText(_testJsonPath, JsonSerializer.Serialize(products));
 
             // Act
@@ -76,6 +78,7 @@ namespace ChallengerYeison.Server.Tests.Services
 
             // Cleanup
             File.Delete(_testJsonPath);
+            Directory.Delete("TestData");
         }
 
         [Fact]
@@ -88,9 +91,10 @@ namespace ChallengerYeison.Server.Tests.Services
 
             var products = new List<Producto>
             {
-                new Producto { Id = "1", Title = "Producto 1" },
-                new Producto { Id = "2", Title = "Producto 2" }
+                new Producto { Id = "1", Title = "Producto 1", Price = 100, Stock = 10 },
+                new Producto { Id = "2", Title = "Producto 2", Price = 200, Stock = 20 }
             };
+            Directory.CreateDirectory("TestData");
             File.WriteAllText(_testJsonPath, JsonSerializer.Serialize(products));
 
             // Act
@@ -100,9 +104,12 @@ namespace ChallengerYeison.Server.Tests.Services
             Assert.NotNull(result);
             Assert.Equal("1", result.Id);
             Assert.Equal("Producto 1", result.Title);
+            Assert.Equal(100, result.Price);
+            Assert.Equal(10, result.Stock);
 
             // Cleanup
             File.Delete(_testJsonPath);
+            Directory.Delete("TestData");
         }
 
         [Fact]
@@ -115,8 +122,9 @@ namespace ChallengerYeison.Server.Tests.Services
 
             var products = new List<Producto>
             {
-                new Producto { Id = "1", Title = "Producto 1" }
+                new Producto { Id = "1", Title = "Producto 1", Price = 100, Stock = 10 }
             };
+            Directory.CreateDirectory("TestData");
             File.WriteAllText(_testJsonPath, JsonSerializer.Serialize(products));
 
             // Act
@@ -132,6 +140,7 @@ namespace ChallengerYeison.Server.Tests.Services
 
             // Cleanup
             File.Delete(_testJsonPath);
+            Directory.Delete("TestData");
         }
     }
 }

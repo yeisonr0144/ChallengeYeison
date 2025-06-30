@@ -1,6 +1,6 @@
 using ChallengeYeison.Server.Controllers;
 using ChallengeYeison.Server.Models;
-using ChallengeYeison.Server.Services;
+using ChallengeYeison.Server.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -11,13 +11,13 @@ namespace ChallengeYeison.Server.Tests
 {
     public class ProductoControllerTests
     {
-        private readonly Mock<ProductoService> _mockService;
+        private readonly Mock<IProductoService> _mockService; // Cambiado a IProductoService
         private readonly Mock<ILogger<ProductoController>> _mockLogger;
         private readonly ProductoController _controller;
 
         public ProductoControllerTests()
         {
-            _mockService = new Mock<ProductoService>();
+            _mockService = new Mock<IProductoService>(); // Cambiado a IProductoService
             _mockLogger = new Mock<ILogger<ProductoController>>();
             _controller = new ProductoController(_mockService.Object, _mockLogger.Object);
         }
@@ -30,8 +30,7 @@ namespace ChallengeYeison.Server.Tests
             var mockProduct = new Producto
             {
                 Id = productId,
-                Title = "Producto Ejemplo",
-                Price = 100
+                Title = "Producto Ejemplo"
             };
             _mockService.Setup(s => s.GetById(productId)).Returns(mockProduct);
 
@@ -51,7 +50,7 @@ namespace ChallengeYeison.Server.Tests
         {
             // Arrange
             var productId = "123";
-            _mockService.Setup(s => s.GetById(productId)).Returns((Producto)null);
+            _mockService.Setup(s => s.GetById(productId)).Returns((Producto?)null);
 
             // Act
             var result = _controller.GetById(productId);

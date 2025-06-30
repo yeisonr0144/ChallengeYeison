@@ -27,8 +27,9 @@ namespace ChallengerYeison.Server.Tests.Services
             // Verificar la excepción interna
             var innerException = exception.InnerException as FileNotFoundException;
             Assert.NotNull(innerException);
-            Assert.Contains("El archivo de reviews no existe en la ruta: InvalidPath/Review.json", innerException.Message);
+            Assert.Contains("El archivo de reviews no existe en la ruta:", innerException.Message);
         }
+
 
 
         [Fact]

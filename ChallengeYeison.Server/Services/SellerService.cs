@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ChallengeYeison.Server.Services
 {
-    public class SellerService
+    public class SellerService : ISellerService
     {
         private readonly string _dataPath;
         private List<SellerDetail>? _sellers;
@@ -16,7 +16,7 @@ namespace ChallengeYeison.Server.Services
             _logger = logger;
         }
 
-        private List<SellerDetail> LoadSellers()
+        public List<SellerDetail> LoadSellers()
         {
             if (!File.Exists(_dataPath))
             {
@@ -57,7 +57,7 @@ namespace ChallengeYeison.Server.Services
                 throw new ArgumentException("El ID del vendedor no puede estar vacío", nameof(id));
             }
 
-            _sellers ??= LoadSellers(); // Carga los vendedores solo si no están inicializados
+            _sellers ??= LoadSellers();
 
             _logger.LogInformation("Buscando vendedor con ID: {Id}", id);
             var seller = _sellers.FirstOrDefault(s => s.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
