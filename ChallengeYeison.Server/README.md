@@ -1,5 +1,94 @@
 # Backend Documentation - ChallengeYeison
 
+# Reporte Técnico del Challenge - Página de Detalles de Producto
+
+## 1. Opciones de Diseño
+
+Durante el desarrollo del frontend de la aplicación, tomé decisiones centradas en la **usabilidad**, la **escalabilidad del código** y la **experiencia del usuario** en diferentes dispositivos. Utilicé como principal referencia el sitio de Mercado Libre Colombia, adaptando su estilo a un enfoque personalizado y modular.
+
+### Estructura del Header
+
+Dividí el header en dos filas principales:
+
+- **Primera fila**: incluye el logo, el buscador y un banner.
+- **Segunda fila**: muestra la ubicación, los enlaces de navegación y accesos rápidos a la cuenta del usuario.
+
+Esta estructura con tres columnas (15% - 50% - 35%) permite una jerarquía visual clara y mejora la navegación.
+
+### Responsive Design
+
+Implementé un diseño responsivo usando **Flexbox**, **Tailwind CSS** y **media queries**. En pantallas pequeñas:
+
+- Se ocultan elementos secundarios.
+- Se muestra un menú hamburguesa alineado a la izquierda, siguiendo el comportamiento del sitio original.
+
+### Componentización
+
+Separé la interfaz en componentes reutilizables como:
+
+- `Header`
+- `ProductDetail`
+- `ImageGallery`
+
+Esto facilita la escalabilidad, el mantenimiento del código y permite realizar pruebas unitarias enfocadas.
+
+### Pruebas y Control de Calidad
+
+Utilicé **Vitest** y **Testing Library** para validar:
+
+- La correcta renderización de los componentes.
+- Diferentes estados del producto.
+- Funcionalidades como "agregar al carrito" o "marcar como favorito".
+
+---
+
+## 2. Desafíos Enfrentados y Cómo los Abordé
+
+### Desalineación en dispositivos móviles
+
+En los primeros intentos, algunos elementos se desbordaban o centraban incorrectamente. Para solucionarlo:
+
+- Ajusté el uso de `flex` y `grid`.
+- Incorporé clases como `hidden`, `flex-col` y utilicé proporciones precisas con Tailwind CSS.
+
+### Sincronización entre componentes
+
+Tuve que mantener la sincronía entre `ProductDetail` e `ImageGallery`, especialmente al cambiar de estilo (variant). Resolví esto pasando props de forma controlada para que el estado del estilo afectara directamente a la galería.
+
+### Pruebas con errores por estados asincrónicos
+
+Durante las pruebas unitarias:
+
+- Algunos errores surgieron por no envolver operaciones en `act(...)`.
+- Otros fallaban por carga incompleta de datos.
+
+Usé `waitFor` y mocks bien estructurados para simular correctamente el comportamiento esperado.
+
+### Problemas con íconos y estilos no cargados
+
+Detecté que algunos íconos no se mostraban debido a:
+
+- Rutas incorrectas
+- Clases faltantes o mal aplicadas
+
+Solucioné esto verificando los imports y añadiendo lógica condicional de renderizado.
+
+---
+
+## 3. Conclusión
+
+Este proyecto fue desarrollado aplicando buenas prácticas modernas de desarrollo frontend:
+
+- **Diseño responsivo**
+- **Componentes reutilizables**
+- **Pruebas automatizadas**
+- **Código limpio y mantenible**
+
+Los desafíos superados permitieron fortalecer la calidad general del proyecto y asegurar una mejor experiencia de usuario.
+
+
+
+
 ## Requisitos del Sistema
 
 ### Versiones Requeridas
@@ -11,7 +100,7 @@
 
 1. Clonar el repositorio:
 ```bash
-git clone [URL_DEL_REPOSITORIO]
+git clone https://github.com/yeisonr0144/ChallengeYeison
 cd ChallengeYeison/ChallengeYeison.Server
 ```
 
@@ -25,7 +114,7 @@ dotnet restore
 dotnet run
 ```
 
-El servidor se iniciará en `https://localhost:7080` y `http://localhost:5080`
+El servidor se iniciará en `https://localhost:5173` y `http://localhost:5065`
 
 ## Servicios Disponibles
 
@@ -179,7 +268,7 @@ dotnet dev-certs https --trust
 ## Troubleshooting Común
 
 ### Problemas de Conexión
-1. Verificar que los puertos 7080 y 5080 estén disponibles
+1. Verificar que los puertos 5173 y 5065 estén disponibles
 2. Asegurar que los certificados HTTPS estén instalados
 3. Revisar la configuración de CORS si se accede desde el frontend
 
@@ -248,12 +337,6 @@ Para contribuir al proyecto:
 - Tracking de requests/responses
 - Alertas configurables
 
-## Testing Detallado
-
-### Tests Unitarios
-```bash
-dotnet test --filter Category=Unit
-```
 
 #### Controllers
 - **ProductoController**
@@ -291,27 +374,8 @@ dotnet test --filter Category=Unit
   - Transformación de datos
   - Validaciones de negocio
 
-### Tests de Integración
-```bash
-dotnet test --filter Category=Integration
-```
 
-- Flujo completo de requests
-- Persistencia de datos
-- Caché funcionando
-- Headers correctos
-- Compresión de respuestas
-
-### Tests de Performance
-```bash
-dotnet test --filter Category=Performance
-```
-
-- Tiempos de respuesta
-- Uso de memoria
-- Comportamiento bajo carga
-- Eficiencia de caché
-- Concurrencia
+## Testing Detallado
 
 ### Coverage
 ```bash
@@ -323,3 +387,184 @@ Genera reportes detallados de:
 - Branches
 - Métodos
 - Líneas 
+
+
+# 🚀 Guía de Despliegue con Docker - Challenge Mercado Libre
+
+Esta guía te permite ejecutar todo el proyecto sin necesidad de instalar Node.js ni .NET. Solo necesitas tener Docker instalado para ver la aplicación en acción.
+
+---
+
+## ✅ 1. Imágenes Docker Disponibles
+
+El proyecto ya cuenta con imágenes Docker publicadas y listas para usarse:
+
+| Servicio       | Imagen Docker                             |
+|----------------|-------------------------------------------|
+| frontend-test  | `yeisonr0144/frontend-test`                 |
+| Frontend       | `yeisonr0144/frontend-v1`                 |
+| Backend        | `yeisonr0144/backend-v1`                  |
+
+Estas imágenes contienen la aplicación ya compilada, lista para producción.
+
+---
+
+## 🛠️ 2. Requisitos
+
+Antes de comenzar, asegúrate de tener:
+
+- ✅ [Docker](https://www.docker.com/) instalado
+- ✅ [Docker Compose](https://docs.docker.com/compose/) instalado
+- ✅ El archivo `docker-compose.prod.yml` descargado
+
+---
+
+
+## 📦 3. Contenido de `docker-compose.prod.yml`
+
+```yaml
+version: "3.8"
+
+services:
+  frontend:
+    image: yeisonr0144/frontend-v1
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    image: yeisonr0144/backend-v1
+    ports:
+      - "5065:5065"
+    networks:
+      - app-network
+
+  frontend-test:
+    image: yeisonr0144/frontend-test
+    command: npm run test -- --coverage
+    volumes:
+      - ./coverage:/app/coverage
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+```
+
+---
+
+## ▶️ 4. Cómo Ejecutar el Proyecto
+
+### Paso 1: Descargar el archivo
+
+Guarda el archivo `docker-compose.prod.yml` en una carpeta vacía.
+
+### Paso 2: Ejecutar los contenedores
+
+Abre una terminal en esa carpeta y ejecuta:
+
+```bash
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+### Paso 3: Acceder a la aplicación
+
+- 🌐 **Frontend**: http://localhost:8080  
+- 🛠️ **Backend (API)**: http://localhost:5065
+
+---
+
+## 🧠 5. ¿Por qué esta configuración?
+
+### ✅ Simplicidad
+- No necesitas instalar Node.js ni .NET
+- Sin configuraciones adicionales ni dependencias
+
+### 🌍 Portabilidad
+- Corre igual en cualquier sistema operativo
+- Solo necesitas Docker
+- Ideal para presentaciones, demos o pruebas en otros equipos
+
+---
+
+## 🔌 6. Red y Comunicación
+
+- Ambos servicios se comunican en la red interna `app-network`
+- El frontend se comunica con el backend directamente sin exponer IPs
+- Se exponen solo los puertos necesarios (`8080`, `5065`) al sistema host
+
+---
+
+## 🧪 7. Ejecutar Pruebas y Cobertura (opcional)
+
+Si deseas ejecutar los tests desde dentro de los contenedores:
+
+### 🔹 Frontend
+
+```bash
+docker exec -it <contenedor_frontend> npm run test -- --coverage
+```
+
+### 🔹 Backend
+
+```bash
+docker exec -it <contenedor_backend> dotnet test /p:CollectCoverage=true
+```
+
+> Puedes ver los IDs de los contenedores con `docker ps`.
+
+---
+
+## 🛠️ 8. Comandos útiles
+
+| Acción                      | Comando                                                                 |
+|-----------------------------|-------------------------------------------------------------------------|
+| Ver logs                    | `docker-compose -f docker-compose.prod.yml logs`                        |
+| Detener contenedores        | `docker-compose -f docker-compose.prod.yml down`                        |
+| Reiniciar contenedores      | `docker-compose -f docker-compose.prod.yml restart`                     |
+| Ver contenedores activos    | `docker ps`                                                             |
+| Inspeccionar contenedor     | `docker exec -it <nombre> /bin/bash`                                    |
+
+---
+
+## 🧯 9. Solución de Problemas
+
+### 🔁 Puertos ocupados
+- Modifica los puertos `8080` o `5065` en `docker-compose.prod.yml`.
+
+### 🛑 Imagen no encontrada en Docker Hub
+- Asegúrate de que las imágenes `yeisonr0144/frontend-v1` y `yeisonr0144/backend-v1` existen en Docker Hub.
+- Si no puedes descargar las imágenes desde Docker Hub, también estarán disponibles como archivos .tar en el repositorio de GitHub
+
+#### 🔄 Pasos para cargar las imágenes manualmente:
+
+1. Descarga los archivos:
+   - `frontend-v1.tar`
+   - `backend-v1.tar`
+
+2. Carga las imágenes en Docker con los siguientes comandos:
+
+```bash
+# Cargar imagen del frontend
+docker load -i frontend-v1.tar
+
+# Cargar imagen del backend
+docker load -i backend-v1.tar
+
+
+
+### 🌐 Problemas de red
+- Verifica tu conexión a internet
+- Usa `docker network ls` y `docker network inspect app-network` para inspeccionar
+
+---
+
+## 📝 10. Notas Finales
+
+- El **frontend** usa Nginx como servidor estático
+- El **backend** corre en modo producción con CORS habilitado
+- Las imágenes están configuradas para reiniciarse automáticamente en caso de fallo (`restart: unless-stopped` si se desea agregar)
