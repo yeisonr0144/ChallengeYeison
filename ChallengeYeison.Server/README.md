@@ -397,15 +397,27 @@ Esta guía te permite ejecutar todo el proyecto sin necesidad de instalar Node.j
 
 ## ✅ 1. Imágenes Docker Disponibles
 
-El proyecto ya cuenta con imágenes Docker publicadas y listas para usarse:
+El proyecto ya cuenta con imágenes Docker publicadas y listas para usarse, alojadas en el siguiente repositorio:
 
-| Servicio       | Imagen Docker                             |
-|----------------|-------------------------------------------|
-| frontend-test  | `yeisonr0144/frontend-test`                 |
-| Frontend       | `yeisonr0144/frontend-v1`                 |
-| Backend        | `yeisonr0144/backend-v1`                  |
+🔗 **Repositorio Docker Hub:**  
+[https://hub.docker.com/repository/docker/yeisonr01/challengeryeison/general]
 
-Estas imágenes contienen la aplicación ya compilada, lista para producción.
+| Servicio       | Imagen Docker                          |
+|----------------|----------------------------------------|
+| Frontend-Test  | `yeisonr0144/frontend-test`            |
+| Frontend       | `yeisonr0144/frontend-v1`              |
+| Backend        | `yeisonr0144/backend-v1`               |
+
+Estas imágenes contienen la aplicación ya compilada, lista para entornos de producción.
+
+---
+
+📁 **Alternativa de descarga (en caso de inconvenientes con Docker Hub):**  
+Se ha habilitado una carpeta compartida con las imágenes exportadas en formato `.tar` para ser importadas localmente:
+
+
+🔗 [Descargar imágenes desde carpeta compartida](https://drive.google.com/drive/folders/1rhHBJyIKfo0klM6IAxVRW2aq_wZFKBtk?usp=drive_link) 
+
 
 ---
 
