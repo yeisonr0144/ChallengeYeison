@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ChallengerYeison.Server.Tests.Services
 {
@@ -15,9 +16,11 @@ namespace ChallengerYeison.Server.Tests.Services
         private readonly Mock<IWebHostEnvironment> _mockWebHostEnvironment;
         private readonly Mock<ILogger<SellerService>> _mockLogger;
         private readonly SellerService _sellerService;
+        private readonly ITestOutputHelper _output;
 
-        public SellerServiceTests()
+        public SellerServiceTests(ITestOutputHelper output)
         {
+            _output = output;
             _mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
             _mockLogger = new Mock<ILogger<SellerService>>();
             _mockWebHostEnvironment.Setup(env => env.ContentRootPath).Returns(string.Empty);
@@ -28,26 +31,30 @@ namespace ChallengerYeison.Server.Tests.Services
         public void LoadSellers_ReturnsEmptyList_WhenJsonIsInvalid()
         {
             // Arrange
-            var privateField = typeof(SellerService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(_sellerService, "Invalid JSON");
+            var privateField = typeof(SellerService).GetField("_dataPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            _output.WriteLine($"Campo privado encontrado: {privateField != null}");
+            privateField?.SetValue(_sellerService, "Invalid/Path/To/File.json");
 
             // Act
-            var sellers = _sellerService.GetSellerById("1");
+            var sellers = _sellerService.LoadSellers();
 
             // Assert
-            Assert.Null(sellers);
+            Assert.Empty(sellers);
         }
 
         [Fact]
         public void GetSellerById_ReturnsNull_WhenSellerDoesNotExist()
         {
             // Arrange
-            var jsonData = @"[
-                {""Id"": ""1"", ""Name"": ""Seller 1""},
-                {""Id"": ""2"", ""Name"": ""Seller 2""}
-            ]";
-            var privateField = typeof(SellerService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(_sellerService, jsonData);
+            var sellers = new List<SellerDetail>
+            {
+                new() { Id = "1", Name = "Seller 1" },
+                new() { Id = "2", Name = "Seller 2" }
+            };
+            var privateField = typeof(SellerService).GetField("_sellers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            _output.WriteLine($"Campo privado encontrado: {privateField != null}");
+            _output.WriteLine($"Sellers: {JsonSerializer.Serialize(sellers)}");
+            privateField?.SetValue(_sellerService, sellers);
 
             // Act
             var result = _sellerService.GetSellerById("3");
@@ -60,12 +67,15 @@ namespace ChallengerYeison.Server.Tests.Services
         public void GetSellerById_ReturnsSeller_WhenSellerExists()
         {
             // Arrange
-            var jsonData = @"[
-                {""Id"": ""1"", ""Name"": ""Seller 1""},
-                {""Id"": ""2"", ""Name"": ""Seller 2""}
-            ]";
-            var privateField = typeof(SellerService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(_sellerService, jsonData);
+            var sellers = new List<SellerDetail>
+            {
+                new() { Id = "1", Name = "Seller 1" },
+                new() { Id = "2", Name = "Seller 2" }
+            };
+            var privateField = typeof(SellerService).GetField("_sellers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            _output.WriteLine($"Campo privado encontrado: {privateField != null}");
+            _output.WriteLine($"Sellers: {JsonSerializer.Serialize(sellers)}");
+            privateField?.SetValue(_sellerService, sellers);
 
             // Act
             var result = _sellerService.GetSellerById("1");
