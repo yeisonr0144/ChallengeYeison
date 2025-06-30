@@ -76,6 +76,11 @@
 .header__spacer {
     height: 8px;
 }
+.header__menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
 /* Fila inferior: ubicación, links, acciones */
 .header__bottom {
@@ -145,25 +150,88 @@
 
 /* Responsive para móvil */
 @media (max-width: 768px) {
+    .header__container-wrapper {
+        padding: 0 8px; /* Reduce el padding en dispositivos pequeños */
+    }
+
     .header__top,
     .header__bottom {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.5rem;
+        width: 100%; /* Asegura que los elementos ocupen todo el ancho */
     }
 
-    .header__under-search-links,
-    .header__right-buttons {
-        justify-content: center;
-        flex-wrap: wrap;
+    .header__top {
+        grid-template-columns: 1fr; /* Cambia a una sola columna */
     }
 
-    .header__location {
-        justify-content: center;
+    .header__bottom {
+        grid-template-columns: 1fr; /* Cambia a una sola columna */
     }
 
     .header__logo {
         height: 40px;
+        max-width: 100%; /* Asegura que el logo no se desborde */
+        object-fit: contain;
     }
+
+    .header__search-wrapper {
+        width: 100%; /* Ajusta el buscador para ocupar todo el ancho */
+    }
+
+    .header__search {
+        width: 100%; /* Asegura que el input sea responsivo */
+        font-size: 12px; /* Reduce el tamaño de la fuente en móviles */
+    }
+
+    .header__search-icon {
+        font-size: 16px; /* Ajusta el tamaño del ícono */
+    }
+
+    .header__banner {
+        max-width: 100%;
+        height: auto; /* Ajusta el banner para que sea responsivo */
+        display: block;
+    }
+
+    .header__location {
+        justify-content: center;
+        width: 100%; /* Centra y ajusta el ancho */
+    }
+
+    .header__under-search-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem; /* Reduce el espacio entre enlaces */
+        font-size: 12px; /* Ajusta el tamaño de la fuente */
+    }
+
+    .header__right-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem; /* Reduce el espacio entre botones */
+        font-size: 12px; /* Ajusta el tamaño de la fuente */
+    }
+
+    .header__cart-icon {
+        font-size: 16px; /* Ajusta el tamaño del ícono del carrito */
+    }
+
+    .header__mobile-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: #ffe600;
+        padding: 1rem;
+        width: 100%;
+    }
+
+        .header__mobile-menu a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
 }
