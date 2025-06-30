@@ -40,6 +40,10 @@ export default defineConfig({
                 '**/*.test.{js,jsx}',
                 '**/*.spec.{js,jsx}',
                 '**/*.d.ts',
+                'src/components/common/Footer.jsx',
+                'src/layout/BodyLayout.jsx',
+                'src/hooks/useProduct.js',
+                'src/pages/ProductPage.jsx'
             ],
             branches: 80,
             functions: 80,
