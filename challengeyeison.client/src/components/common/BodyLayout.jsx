@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ProductLayout from "../productDetail/ProductLayout";
 import Loader from "./Loader";
 
-export const BodyLayout = ({ product, seller, reviews, loading, error }) => {
+const BodyLayout = ({ product, seller, reviews, loading, error }) => {
     useEffect(() => {
         console.log('🎨 BodyLayout - Props recibidas:', {
             hasProduct: !!product,
@@ -71,3 +71,5 @@ BodyLayout.propTypes = {
     loading: PropTypes.bool.isRequired,
     error: PropTypes.any
 };
+
+export default BodyLayout;  

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useProduct } from "../hooks/useProduct";
-import { BodyLayout } from "../components/common/BodyLayout";
+import BodyLayout from "../components/common/BodyLayout";
 
 export default function ProductPage() {
     const { id } = useParams();
