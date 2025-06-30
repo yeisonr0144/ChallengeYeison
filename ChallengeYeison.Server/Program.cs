@@ -20,11 +20,14 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
+        //policy.WithOrigins("http://localhost:8080") // frontend vite
         policy.WithOrigins("http://localhost:5173") // frontend vite
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
+
+builder.WebHost.UseUrls("http://0.0.0.0:5065");
 
 var app = builder.Build();
 
@@ -33,11 +36,10 @@ app.UseStaticFiles();
 app.UseCors();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseRouting();
 

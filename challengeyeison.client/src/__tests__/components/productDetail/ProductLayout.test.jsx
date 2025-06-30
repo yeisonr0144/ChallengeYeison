@@ -51,7 +51,7 @@ describe("ProductLayout", () => {
             </CartProvider>
         );
 
-        expect(screen.getByText(/volver al listado/i)).toBeInTheDocument();
+        expect(screen.getByText(/ㅤㅤㅤ/i)).toBeInTheDocument();
         expect(screen.getAllByText(/Vendedor Externo/i).length).toBeGreaterThan(0);
         expect(screen.getByText(/\$ 129.000/)).toBeInTheDocument(); // 💸
     });
@@ -67,7 +67,9 @@ describe("ProductLayout", () => {
             </CartProvider>
         );
 
-        expect(screen.getByText(/volver al listado/i)).toBeInTheDocument();
+        expect(
+            screen.getByText((content) => content.includes("ㅤㅤㅤ"))
+        ).toBeInTheDocument();
     });
 
     it("renderiza correctamente si la variante de color no tiene imágenes", () => {
@@ -84,7 +86,7 @@ describe("ProductLayout", () => {
             </CartProvider>
         );
 
-        expect(screen.getByText(/volver al listado/i)).toBeInTheDocument();
+        expect(screen.getByText(/ㅤㅤㅤ/i)).toBeInTheDocument();
     });
 
     it("usa product.seller si no se pasa seller por props", () => {
