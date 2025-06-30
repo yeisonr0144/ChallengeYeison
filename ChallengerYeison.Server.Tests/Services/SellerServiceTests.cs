@@ -89,6 +89,7 @@ namespace ChallengeYeison.Server.Tests.Services
             File.Delete(_testJsonPath);
         }
 
+
         [Fact]
         public void GetSellerById_ThrowsArgumentException_WhenIdIsEmpty()
         {

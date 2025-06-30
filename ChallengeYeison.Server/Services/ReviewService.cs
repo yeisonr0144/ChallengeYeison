@@ -44,7 +44,7 @@ namespace ChallengeYeison.Server.Services
             }
         }
 
-        public virtual ProductReview? GetByProductId(string productId)
+        public ProductReview? GetByProductId(string productId)
         {
             if (string.IsNullOrWhiteSpace(productId))
             {
@@ -53,13 +53,19 @@ namespace ChallengeYeison.Server.Services
 
             try
             {
-                return LoadReviews().FirstOrDefault(r => r.ProductId?.Equals(productId, StringComparison.OrdinalIgnoreCase) ?? false);
+                LoadReviews();
+                return _cachedReviews?.FirstOrDefault(r => r.ProductId == productId);
+            }
+            catch (FileNotFoundException ex)
+            {
+                throw new InvalidOperationException("Error al leer el archivo de reviews", ex);
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"Error al obtener las reviews del producto con ID {productId}", ex);
             }
         }
+
 
         public virtual void ClearCache()
         {

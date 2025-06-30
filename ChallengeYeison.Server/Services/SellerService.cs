@@ -7,14 +7,13 @@ namespace ChallengeYeison.Server.Services
     public class SellerService
     {
         private readonly string _dataPath;
-        private List<SellerDetail> _sellers;
+        private List<SellerDetail>? _sellers;
         private readonly ILogger<SellerService> _logger;
 
         public SellerService(IWebHostEnvironment webHostEnvironment, ILogger<SellerService> logger)
         {
             _dataPath = Path.Combine(webHostEnvironment.ContentRootPath, "Data", "Seller.json");
             _logger = logger;
-            _sellers = LoadSellers();
         }
 
         private List<SellerDetail> LoadSellers()
@@ -29,9 +28,9 @@ namespace ChallengeYeison.Server.Services
             {
                 var jsonString = File.ReadAllText(_dataPath);
                 _logger.LogInformation("Contenido del archivo Seller.json: {Json}", jsonString);
-                
-                var sellers = JsonSerializer.Deserialize<List<SellerDetail>>(jsonString, new JsonSerializerOptions 
-                { 
+
+                var sellers = JsonSerializer.Deserialize<List<SellerDetail>>(jsonString, new JsonSerializerOptions
+                {
                     PropertyNameCaseInsensitive = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 }) ?? new List<SellerDetail>();
@@ -58,9 +57,11 @@ namespace ChallengeYeison.Server.Services
                 throw new ArgumentException("El ID del vendedor no puede estar vacío", nameof(id));
             }
 
+            _sellers ??= LoadSellers(); // Carga los vendedores solo si no están inicializados
+
             _logger.LogInformation("Buscando vendedor con ID: {Id}", id);
             var seller = _sellers.FirstOrDefault(s => s.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
-            
+
             if (seller == null)
             {
                 _logger.LogWarning("No se encontró el vendedor con ID: {Id}", id);
@@ -73,4 +74,4 @@ namespace ChallengeYeison.Server.Services
             return seller;
         }
     }
-} 
+}
