@@ -6,6 +6,7 @@ import {
     Bars3Icon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
+import MeliLogo from "../../assets/MeliLogo.svg";
 import "../../styles/meli.css";
 
 export default function Header() {
@@ -32,7 +33,7 @@ export default function Header() {
                         {/* Columna 1: Logo */}
                         <div>
                             <img
-                                src="/src/assets/MeliLogo.svg"
+                                src={MeliLogo}
                                 alt="Logo Mercado Libre"
                                 className="header__logo"
                             />

@@ -20,8 +20,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        //policy.WithOrigins("http://localhost:8080") // frontend vite
-        policy.WithOrigins("http://localhost:5173") // frontend vite
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

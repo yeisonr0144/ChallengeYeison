@@ -9,6 +9,8 @@ services:
       - "8080:80"
     depends_on:
       - backend
+    networks:
+      - app-network
 
   backend:
     build:
@@ -16,10 +18,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5065:5065"
+    networks:
+      - app-network
 
   frontend-test:
-      build:
-        context: ./challengeyeison.client
-        dockerfile: Dockerfile
-        target: test
-      command: ["npm", "run", "test", "--", "--coverage"]
+    build:
+      context: ./challengeyeison.client
+      dockerfile: Dockerfile
+      target: test
+    command: ["npm", "run", "test", "--", "--coverage"]
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
