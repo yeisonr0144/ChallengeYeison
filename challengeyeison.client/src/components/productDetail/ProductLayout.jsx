@@ -23,7 +23,7 @@ const ProductLayout = ({ product, seller, reviews }) => {
             {/* Breadcrumb */}
             <div className="mb-4">
                 <span className="text-sm text-gray-500 hover:text-blue-500 cursor-pointer">
-                    Volver al listado
+                    ㅤㅤㅤ
                 </span>
             </div>
 
