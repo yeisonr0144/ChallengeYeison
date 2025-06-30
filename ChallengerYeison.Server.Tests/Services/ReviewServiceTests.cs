@@ -2,7 +2,6 @@
 using ChallengeYeison.Server.Services;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.Json;
 using Xunit;
 
@@ -10,44 +9,17 @@ namespace ChallengerYeison.Server.Tests.Services
 {
     public class ReviewServiceTests
     {
-        private readonly string _testJsonPath = "TestData/Review.json";
-
-        [Fact]
-        public void LoadReviews_ThrowsInvalidOperationException_WhenFileDoesNotExist()
-        {
-            // Arrange
-            var reviewService = new ReviewService();
-            var privateField = typeof(ReviewService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, "InvalidPath/Review.json");
-
-            // Act & Assert
-            var exception = Assert.Throws<InvalidOperationException>(() => reviewService.GetByProductId("1"));
-            Assert.Contains("Error al leer el archivo de reviews", exception.Message);
-
-            // Verificar la excepción interna
-            var innerException = exception.InnerException as FileNotFoundException;
-            Assert.NotNull(innerException);
-            Assert.Contains("El archivo de reviews no existe en la ruta:", innerException.Message);
-        }
-
-
-
         [Fact]
         public void LoadReviews_ThrowsInvalidOperationException_WhenJsonIsInvalid()
         {
             // Arrange
             var reviewService = new ReviewService();
-            var privateField = typeof(ReviewService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, _testJsonPath);
-
-            File.WriteAllText(_testJsonPath, "Invalid JSON");
+            var privateField = typeof(ReviewService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            privateField?.SetValue(reviewService, "Invalid JSON");
 
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() => reviewService.GetByProductId("1"));
             Assert.Contains("Error al deserializar el archivo de reviews", exception.Message);
-
-            // Cleanup
-            File.Delete(_testJsonPath);
         }
 
         [Fact]
@@ -66,24 +38,18 @@ namespace ChallengerYeison.Server.Tests.Services
         {
             // Arrange
             var reviewService = new ReviewService();
-            var privateField = typeof(ReviewService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, _testJsonPath);
-
-            var reviews = new List<ProductReview>
-            {
-                new ProductReview { ProductId = "1" },
-                new ProductReview { ProductId = "2" }
-            };
-            File.WriteAllText(_testJsonPath, JsonSerializer.Serialize(reviews));
+            var jsonData = @"[
+                {""ProductId"": ""1""},
+                {""ProductId"": ""2""}
+            ]";
+            var privateField = typeof(ReviewService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            privateField?.SetValue(reviewService, jsonData);
 
             // Act
             var result = reviewService.GetByProductId("3");
 
             // Assert
             Assert.Null(result);
-
-            // Cleanup
-            File.Delete(_testJsonPath);
         }
 
         [Fact]
@@ -91,15 +57,12 @@ namespace ChallengerYeison.Server.Tests.Services
         {
             // Arrange
             var reviewService = new ReviewService();
-            var privateField = typeof(ReviewService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, _testJsonPath);
-
-            var reviews = new List<ProductReview>
-            {
-                new ProductReview { ProductId = "1", Rating = new ProductRating { Average = 4.5 } },
-                new ProductReview { ProductId = "2", Rating = new ProductRating { Average = 3.0 } }
-            };
-            File.WriteAllText(_testJsonPath, JsonSerializer.Serialize(reviews));
+            var jsonData = @"[
+                {""ProductId"": ""1"", ""Rating"": {""Average"": 4.5}},
+                {""ProductId"": ""2"", ""Rating"": {""Average"": 3.0}}
+            ]";
+            var privateField = typeof(ReviewService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            privateField?.SetValue(reviewService, jsonData);
 
             // Act
             var result = reviewService.GetByProductId("1");
@@ -108,9 +71,6 @@ namespace ChallengerYeison.Server.Tests.Services
             Assert.NotNull(result);
             Assert.Equal("1", result.ProductId);
             Assert.Equal(4.5, result.Rating?.Average);
-
-            // Cleanup
-            File.Delete(_testJsonPath);
         }
 
         [Fact]
@@ -118,14 +78,9 @@ namespace ChallengerYeison.Server.Tests.Services
         {
             // Arrange
             var reviewService = new ReviewService();
-            var privateField = typeof(ReviewService).GetField("_jsonPath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            privateField?.SetValue(reviewService, _testJsonPath);
-
-            var reviews = new List<ProductReview>
-            {
-                new ProductReview { ProductId = "1" }
-            };
-            File.WriteAllText(_testJsonPath, JsonSerializer.Serialize(reviews));
+            var jsonData = @"[{""ProductId"": ""1""}]";
+            var privateField = typeof(ReviewService).GetField("_jsonData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            privateField?.SetValue(reviewService, jsonData);
 
             // Act
             var reviewBeforeClear = reviewService.GetByProductId("1");
@@ -137,9 +92,6 @@ namespace ChallengerYeison.Server.Tests.Services
             Assert.NotNull(reviewAfterClear);
             Assert.Equal("1", reviewBeforeClear.ProductId);
             Assert.Equal("1", reviewAfterClear.ProductId);
-
-            // Cleanup
-            File.Delete(_testJsonPath);
         }
     }
 }
