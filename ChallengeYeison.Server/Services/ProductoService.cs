@@ -1,72 +1,31 @@
-﻿using ChallengeYeison.Server.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
+using ChallengeYeison.Server.Interface;
+using ChallengeYeison.Server.Models;
 
 namespace ChallengeYeison.Server.Services
 {
-    public class ProductoService
+    public class ProductoService : IProductoService
     {
         private readonly string _jsonPath = "Data/Producto.json";
         private List<Producto>? _cachedProducts;
-        private DateTime _lastCacheUpdate = DateTime.MinValue;
-        private readonly TimeSpan _cacheExpiration = TimeSpan.FromMinutes(5);
 
-        private List<Producto> LoadProducts()
+        public Producto GetById(string id)
         {
-            // Validar si el caché es válido (debe cumplir ambas condiciones)
-            if (_cachedProducts != null && DateTime.Now - _lastCacheUpdate < _cacheExpiration)
-            {
-                return _cachedProducts;
-            }
-
             try
             {
-                // Verificar si el archivo existe
-                if (!File.Exists(_jsonPath))
+                if (_cachedProducts == null)
                 {
-                    throw new FileNotFoundException($"El archivo de productos no existe en la ruta: {_jsonPath}");
+                    LoadProducts();
                 }
 
-                // Leer y deserializar el archivo JSON
-                var json = File.ReadAllText(_jsonPath);
-                var deserializedProducts = JsonSerializer.Deserialize<List<Producto>>(json, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true // Permitir coincidencia de nombres de propiedades sin importar mayúsculas/minúsculas
-                });
+                // Buscar el producto por ID
+                var producto = _cachedProducts?.Find(p => p.Id == id);
 
-                // Validar que los datos deserializados no sean nulos
-                if (deserializedProducts == null)
-                {
-                    throw new InvalidOperationException("El archivo de productos está vacío o tiene un formato incorrecto.");
-                }
-
-                // Actualizar el caché
-                _cachedProducts = deserializedProducts;
-                _lastCacheUpdate = DateTime.Now;
-
-                return _cachedProducts;
-            }
-            catch (JsonException ex)
-            {
-                throw new InvalidOperationException("Error al deserializar el archivo de productos", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException($"Error al leer el archivo de productos: {ex.Message}", ex);
-            }
-        }
-
-
-        public virtual Producto? GetById(string id)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                throw new ArgumentException("El ID del producto no puede estar vacío", nameof(id));
-            }
-
-            try
-            {
-                LoadProducts();
-                return _cachedProducts?.FirstOrDefault(p => p.Id == id);
+                // Si no se encuentra, devolver null
+                return producto;
             }
             catch (FileNotFoundException ex)
             {
@@ -79,10 +38,35 @@ namespace ChallengeYeison.Server.Services
         }
 
 
-        public virtual void ClearCache()
+
+
+        public List<Producto> LoadProducts()
+        {
+            if (!File.Exists(_jsonPath))
+            {
+                throw new FileNotFoundException("El archivo de productos no existe en la ruta especificada.");
+            }
+
+            try
+            {
+                var jsonString = File.ReadAllText(_jsonPath);
+                return _cachedProducts = JsonSerializer.Deserialize<List<Producto>>(jsonString, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                }) ?? new List<Producto>();
+            }
+            catch (JsonException ex)
+            {
+                throw new JsonException($"Error al deserializar el archivo de productos: {ex.Message}");
+            }
+        }
+
+
+        public void ClearCache()
         {
             _cachedProducts = null;
-            _lastCacheUpdate = DateTime.MinValue;
         }
     }
 }
+

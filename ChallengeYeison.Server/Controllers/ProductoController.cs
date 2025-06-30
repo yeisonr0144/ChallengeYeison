@@ -1,4 +1,4 @@
-﻿using ChallengeYeison.Server.Services;
+﻿using ChallengeYeison.Server.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,10 +9,10 @@ namespace ChallengeYeison.Server.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        private readonly ProductoService _service;
+        private readonly IProductoService _service; // Cambiado a IProductoService
         private readonly ILogger<ProductoController> _logger;
 
-        public ProductoController(ProductoService service, ILogger<ProductoController> logger)
+        public ProductoController(IProductoService service, ILogger<ProductoController> logger) // Cambiado a IProductoService
         {
             _service = service;
             _logger = logger;
@@ -23,7 +23,7 @@ namespace ChallengeYeison.Server.Controllers
         {
             try
             {
-                var product = _service.GetById(id);
+                var product = _service.GetById(id); // Usando la interfaz
                 if (product == null)
                 {
                     _logger.LogWarning("Producto no encontrado: {Id}", id);
@@ -49,7 +49,7 @@ namespace ChallengeYeison.Server.Controllers
         {
             try
             {
-                _service.ClearCache();
+                _service.ClearCache(); // Usando la interfaz
                 return Ok(new { message = "Cache limpiado exitosamente" });
             }
             catch (Exception ex)

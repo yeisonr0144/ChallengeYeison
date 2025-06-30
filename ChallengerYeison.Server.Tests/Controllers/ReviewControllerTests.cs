@@ -1,6 +1,6 @@
 ﻿using ChallengeYeison.Server.Controllers;
+using ChallengeYeison.Server.Interface;
 using ChallengeYeison.Server.Models;
-using ChallengeYeison.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -10,13 +10,13 @@ namespace ChallengeYeison.Server.Tests
 {
     public class ReviewControllerTests
     {
-        private readonly Mock<ReviewService> _mockReviewService; // Cambiado a IReviewService para evitar ambigüedad
+        private readonly Mock<IReviewService> _mockReviewService; // Cambiado a IReviewService
         private readonly Mock<ILogger<ReviewController>> _mockLogger;
         private readonly ReviewController _controller;
 
         public ReviewControllerTests()
         {
-            _mockReviewService = new Mock<ReviewService>(); // Cambiado a IReviewService
+            _mockReviewService = new Mock<IReviewService>(); // Cambiado a IReviewService
             _mockLogger = new Mock<ILogger<ReviewController>>();
             _controller = new ReviewController(_mockReviewService.Object, _mockLogger.Object);
         }
@@ -50,7 +50,7 @@ namespace ChallengeYeison.Server.Tests
         {
             // Arrange
             var productId = "123";
-            _mockReviewService.Setup(s => s.GetByProductId(productId)).Returns((ProductReview)null);
+            _mockReviewService.Setup(s => s.GetByProductId(productId)).Returns((ProductReview?)null); // Ajuste para evitar CS8600
 
             // Act
             var result = _controller.GetByProductId(productId);

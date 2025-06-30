@@ -1,7 +1,12 @@
+using ChallengeYeison.Server.Interface;
 using ChallengeYeison.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Registrar servicios
+builder.Services.AddScoped<ISellerService, SellerService>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 // Add services to the container.
 
 builder.Services.AddSingleton<ProductoService>();

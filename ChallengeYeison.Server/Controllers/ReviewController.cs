@@ -1,5 +1,5 @@
 using ChallengeYeison.Server.Models;
-using ChallengeYeison.Server.Services;
+using ChallengeYeison.Server.Interface; // Cambiado para usar la interfaz
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChallengeYeison.Server.Controllers
@@ -8,10 +8,10 @@ namespace ChallengeYeison.Server.Controllers
     [Route("api/[controller]")]
     public class ReviewController : ControllerBase
     {
-        private readonly ReviewService _reviewService;
+        private readonly IReviewService _reviewService; // Cambiado a IReviewService
         private readonly ILogger<ReviewController> _logger;
 
-        public ReviewController(ReviewService reviewService, ILogger<ReviewController> logger)
+        public ReviewController(IReviewService reviewService, ILogger<ReviewController> logger) // Cambiado a IReviewService
         {
             _reviewService = reviewService;
             _logger = logger;
@@ -23,7 +23,7 @@ namespace ChallengeYeison.Server.Controllers
             try
             {
                 _logger.LogInformation($"Obteniendo reviews para el producto: {productId}");
-                var review = _reviewService.GetByProductId(productId);
+                var review = _reviewService.GetByProductId(productId); // Usando la interfaz
 
                 if (review == null)
                 {
@@ -40,4 +40,4 @@ namespace ChallengeYeison.Server.Controllers
             }
         }
     }
-} 
+}

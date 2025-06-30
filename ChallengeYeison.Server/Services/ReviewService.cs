@@ -1,9 +1,11 @@
+using ChallengeYeison.Server.Interface;
 using ChallengeYeison.Server.Models;
+using System.ComponentModel;
 using System.Text.Json;
 
 namespace ChallengeYeison.Server.Services
 {
-    public class ReviewService
+    public class ReviewService : IReviewService
     {
         private readonly string _jsonPath = "Data/Review.json";
         private List<ProductReview>? _cachedReviews;
@@ -25,8 +27,8 @@ namespace ChallengeYeison.Server.Services
                 }
 
                 var json = File.ReadAllText(_jsonPath);
-                _cachedReviews = JsonSerializer.Deserialize<List<ProductReview>>(json, new JsonSerializerOptions 
-                { 
+                _cachedReviews = JsonSerializer.Deserialize<List<ProductReview>>(json, new JsonSerializerOptions
+                {
                     PropertyNameCaseInsensitive = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 }) ?? new List<ProductReview>();
@@ -36,11 +38,7 @@ namespace ChallengeYeison.Server.Services
             }
             catch (JsonException ex)
             {
-                throw new InvalidOperationException("Error al deserializar el archivo de reviews", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException($"Error al leer el archivo de reviews: {ex.Message}", ex);
+                throw new JsonException($"Error al deserializar el archivo de reviews: {ex.Message}", ex);
             }
         }
 
@@ -48,21 +46,22 @@ namespace ChallengeYeison.Server.Services
         {
             if (string.IsNullOrWhiteSpace(productId))
             {
-                throw new ArgumentException("El ID del producto no puede estar vacío", nameof(productId));
+                throw new ArgumentException("El ID del producto no puede estar vacío");
             }
 
             try
             {
                 LoadReviews();
-                return _cachedReviews?.FirstOrDefault(r => r.ProductId == productId);
+
+                return _cachedReviews?.Find(r => r.ProductId == productId);
             }
             catch (FileNotFoundException ex)
             {
                 throw new InvalidOperationException("Error al leer el archivo de reviews", ex);
             }
-            catch (Exception ex)
+            catch (JsonException ex)
             {
-                throw new InvalidOperationException($"Error al obtener las reviews del producto con ID {productId}", ex);
+                throw new InvalidOperationException("Error al deserializar el archivo de reviews", ex);
             }
         }
 
@@ -73,4 +72,4 @@ namespace ChallengeYeison.Server.Services
             _lastCacheUpdate = DateTime.MinValue;
         }
     }
-} 
+}
